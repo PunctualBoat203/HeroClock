@@ -18,6 +18,47 @@ Design contract:
 - If a target mod/version is unknown, leave it alone instead of guessing.
 - Mods/JARs not listed below were intentionally out of scope for this pass.
 
+## Pause / resume state
+
+Current code candidate: `4ccbe50fa0d8e794feac6fd13a766d3911cb0c35`
+
+Test artifact: `HeroClock-2.2.15-dev-4ccbe50.jar`
+
+Artifact SHA-256: `2518c28813cd2983e3e0ecec78d13977b1660c59d42f7a0fdb8444c7cd6e5bee`
+
+Artifact size: `333241` bytes.
+
+GitHub Actions run `35583669480` completed successfully for the exact code candidate above. The run passed:
+
+- Gradle unit tests and reobfuscated build;
+- base Forge GameTests;
+- audited Palladium 4.5.9 dependency preparation;
+- Palladium 4.5.9 Forge GameTests;
+- artifact upload.
+
+GitHub artifact `10631007814` is the CI-produced `HeroClock-2.2.15` archive for this candidate. Its archive digest is `sha256:d0ed12b958047694862182a1e601afc4545a3e83f5d4ef597c5f6f916aba3dc7`.
+
+The user is performing the final real-pack smoke test of this candidate. If that run shows no gameplay/regression issue, development is intentionally paused here and the remaining experimental work is deferred to Astra 6. Do not silently treat the candidate as a final release merely because CI is green; the target-pack smoke test is the remaining validation boundary.
+
+### Active behavior in this candidate
+
+- Persistent HeroClock deadlines/timers and clone persistence.
+- Bounded/coalesced server work queue and temporary-entity lifecycle cleanup.
+- Palladium 4.5.9 unchanged-scalar sync suppression, power-holder view reuse, command-function cache invalidation, and positive property-name lookup caching.
+- The Palladium property cache deliberately does not cache misses; late/dynamic property registration remains visible and is covered by the Palladium GameTest.
+- Verified Satsu Iron Man 3.5.3 `sentinel_kill` redirect: lifecycle-tagged entities are killed through keyed bounded work and the stock global 20 Hz selector is suppressed only for the verified profile. Unknown versions and queue-pressure conditions fail open to stock behavior.
+- Verified Curios 5.14.1+1.20.1 read-only inventory-map view reuse. Item stacks and `findFirstCurio` results are not cached.
+- OmniOptimizer reflection handshake surface is public and regression-tested. The separate OmniOptimizer optional integration-pack registration failure belongs to OmniOptimizer and is intentionally not worked around in HeroClock.
+- Pehkui 3.8.2 receives no extra HeroClock cache because the supplied version already has its own per-entity scale-data fast cache.
+
+### Intentionally deferred to Astra 6
+
+- Universal KubeJS/Rhino optimization. The supplied KubeJS/Rhino versions already cache major event/reflection structures, so HeroClock does not add speculative global engine caches in this pass.
+- Broader Java↔JavaScript callback reduction, universal cross-language caching, callback instrumentation, and allocation reduction.
+- Additional per-addon cadence redirects such as deeper Omni Evo timers or MyPowers repeated-power registration unless behavior is proven equivalent in the target pack.
+- Further Pehkui/Curios result caching beyond the safe view/lookup work already documented.
+- Any optimization for unrelated general-modpack hotspots. HeroClock remains focused on superhero/Palladium/KubeJS/scoreboard/callback-heavy paths.
+
 ## Verified HeroClock release reference
 
 Supplied released artifact:
@@ -121,7 +162,7 @@ Static inspection of the supplied artifacts identified these concrete runtime pa
 - **AlienEvo**: its root `afomni:tick` function is empty in the supplied artifact, but the pack contains many ability scripts, helper entities, scoreboard-driven resources and temporary block/entity mechanics. The existing HeroClock lifecycle/deadline cleanup remains the safest generic layer; deeper cadence changes need Astra 6 gameplay validation.
 - **Infinity**: the supplied `infinity:tick` already throttles maps, stone cleanup and sitting-wolf tagging to once per second, while gauntlet ownership and snap logic remain per tick. Keep its existing targeted HeroClock resources and do not duplicate the already-present throttle.
 - **Infintrix**: no global tick function tag was found. It is primarily a Palladium/data-driven target and should benefit from the generic Palladium layer before any bespoke adapter is considered.
-- **Satsu Iron Man Addon**: the supplied global tick function is exactly `kill @e[tag=sentinel_kill]`. This is a strong candidate for a future verified-profile adapter: tag/lifecycle-triggered removal can replace a global 20 Hz selector. Do not suppress the original tick function until Astra 6 confirms sentinel death/removal semantics and datapack override behavior.
+- **Satsu Iron Man Addon**: the supplied global tick function is exactly `kill @e[tag=sentinel_kill]`. The verified 3.5.3 profile now has an active lifecycle-triggered HeroClock redirect that replaces this global 20 Hz selector while preserving fail-open stock behavior for unsupported versions or queue pressure. The target-pack smoke test still needs to confirm sentinel gameplay semantics.
 - **Omni Evo**: the supplied stock tick function repeatedly creates objectives, writes constants, adds a power and decrements recalibration scoreboards. Released HeroClock 2.2.14 already carries a targeted replacement that removes repeated objective creation while preserving the timer behavior. Further timer migration should be treated as a separate adapter and tested against OmniOptimizer overlap.
 - **IntoTheOmniverse/AEO**: its tick calls `aeo:anvil_transform` every tick. OmniOptimizer 1.8.0 already ships an optional AEO integration module, so HeroClock should coordinate rather than duplicate that work.
 - **CelestialSapien/MyPowers**: its tick function repeatedly runs `superpower add mypowers:dummy @a`. This looks redundant after the power is present, but changing it to join/event-driven behavior needs runtime verification before activation.
@@ -155,7 +196,7 @@ Do not make stock addons depend on HeroClock for correctness. If an adapter is d
 - Do not blindly restore old KubeJS cadence throttles globally. Where historical server patches reduced 20 Hz polling, first determine whether the generic Palladium layer already eliminates the expensive side effect. Add a mod-specific cadence adapter only if runtime testing confirms the behavior remains correct.
 - Preserve the released 2.2.14 artifact as a regression reference while developing newer versions.
 - Revisit the suspicious Satsu animation resource path and the AlienEvo one-shot cleanup spike during target-pack testing; do not rename/delete behavior-sensitive resources without confirming the owning loader.
-- Build/CI results still need an independently observed successful run on the final commit.
+- The exact code candidate `4ccbe50fa0d8e794feac6fd13a766d3911cb0c35` has an independently observed successful GitHub Actions run (`35583669480`) covering build, base Forge GameTests and Palladium 4.5.9 GameTests. Remaining validation is the real target-pack smoke test.
 
 ## 2026-09-21 real-pack validation checkpoint
 
@@ -186,15 +227,15 @@ This checkpoint is the before/after reference for the next adapter build. Keep e
 
 When Astra 6 access is restored:
 
-1. Use the exact supplied stock JAR baselines above first. Do not substitute a newer file silently.
-2. Run once without HeroClock to capture baseline server tick percentiles, helper-entity counts, packet/sync behavior and representative client frame times.
-3. Run the same scenario with the current HeroClock candidate and no server-patched addon copies.
+1. Resume from code candidate `4ccbe50fa0d8e794feac6fd13a766d3911cb0c35` and test artifact SHA-256 `2518c28813cd2983e3e0ecec78d13977b1660c59d42f7a0fdb8444c7cd6e5bee` unless a newer explicitly validated handoff exists.
+2. Use the exact supplied stock JAR baselines above first. Do not substitute a newer file silently.
+3. If a clean comparison is needed, run once without HeroClock to capture baseline server tick percentiles, helper-entity counts, packet/sync behavior and representative client frame times, then run the same scenario with the current HeroClock candidate and no server-patched addon copies.
 4. Exercise timer persistence across save/reload, chunk unload, death/respawn and dimension changes.
-5. Exercise each installed supplied addon’s normal combat/transform/ability paths, especially helper entities, temporary blocks, lightning/ice, beam powers, property-heavy equipment and datapack reload.
-6. Confirm no duplicate Palladium/KubeJS ability registrations or command-function errors.
-7. Confirm OmniOptimizer + HeroClock do not perform duplicate cleanup/integration work.
-8. Capture any hotspot that remains. Prefer implementing it as a narrow version-gated adapter rather than editing the stock addon JAR.
-9. Re-run the same measurement and compare before/after.
-10. Update this handoff with the tested Astra 6 pack state, exact JAR hashes, results and any newly supported adapter profiles.
+5. Specifically verify Satsu sentinel removal/death behavior, Curios equipment changes, Palladium/KubeJS power updates, temporary helper cleanup and datapack reload.
+6. Confirm no duplicate Palladium/KubeJS ability registrations or command-function errors and verify the OmniOptimizer companion handshake no longer logs HeroClock `NoSuchMethodException`.
+7. Confirm OmniOptimizer + HeroClock do not perform duplicate cleanup/integration work. OmniOptimizer's optional integration-pack registration is a separate OmniOptimizer-side follow-up.
+8. If the current candidate remains clean, preserve it as the pause-point baseline before beginning universal KubeJS/Rhino work.
+9. For universal KubeJS/Rhino experiments, add instrumentation first and avoid caching arbitrary script results or suppressing callbacks with possible side effects.
+10. Capture any remaining superhero-stack hotspot, implement changes in isolated commits, re-run the same measurement, and update this handoff with exact JAR hashes/results before moving the baseline.
 
 If development moves beyond 2.2.15, update this file before changing branches or version numbers so the next pass can distinguish verified runtime behavior from design intent.
