@@ -78,6 +78,24 @@ The current Palladium 4.5.9 mixins are intentionally generic and therefore benef
 
 The timer/work/cleanup systems also provide the internal mechanisms future adapters should use.
 
+### Initial supplied-JAR hotspot audit
+
+Static inspection of the supplied artifacts identified these concrete runtime patterns. These are observations, not permission to change cadence blindly:
+
+- **AlienEvo**: its root `afomni:tick` function is empty in the supplied artifact, but the pack contains many ability scripts, helper entities, scoreboard-driven resources and temporary block/entity mechanics. The existing HeroClock lifecycle/deadline cleanup remains the safest generic layer; deeper cadence changes need Astra 6 gameplay validation.
+- **Infinity**: the supplied `infinity:tick` already throttles maps, stone cleanup and sitting-wolf tagging to once per second, while gauntlet ownership and snap logic remain per tick. Keep its existing targeted HeroClock resources and do not duplicate the already-present throttle.
+- **Infintrix**: no global tick function tag was found. It is primarily a Palladium/data-driven target and should benefit from the generic Palladium layer before any bespoke adapter is considered.
+- **Satsu Iron Man Addon**: the supplied global tick function is exactly `kill @e[tag=sentinel_kill]`. This is a strong candidate for a future verified-profile adapter: tag/lifecycle-triggered removal can replace a global 20 Hz selector. Do not suppress the original tick function until Astra 6 confirms sentinel death/removal semantics and datapack override behavior.
+- **Omni Evo**: the supplied stock tick function repeatedly creates objectives, writes constants, adds a power and decrements recalibration scoreboards. Released HeroClock 2.2.14 already carries a targeted replacement that removes repeated objective creation while preserving the timer behavior. Further timer migration should be treated as a separate adapter and tested against OmniOptimizer overlap.
+- **IntoTheOmniverse/AEO**: its tick calls `aeo:anvil_transform` every tick. OmniOptimizer 1.8.0 already ships an optional AEO integration module, so HeroClock should coordinate rather than duplicate that work.
+- **CelestialSapien/MyPowers**: its tick function repeatedly runs `superpower add mypowers:dummy @a`. This looks redundant after the power is present, but changing it to join/event-driven behavior needs runtime verification before activation.
+- **Powerborne Heroes**: its tick function is narrowly scoped to Herobrine sentinel facing in the mod's void dimension. No broad replacement is justified from static inspection alone.
+- **Saiyan**: the supplied `saiyan:tick` function is empty. Its remaining behavior is resource/script driven; no global function optimization is needed from HeroClock at this point.
+- **PantheonSent**: no global function tick or KubeJS layer was found in the supplied artifact. Treat it as a generic Palladium/Forge compatibility target unless profiling identifies a concrete hotspot.
+- **OmniOptimizer**: already owns optional integrations for overlapping ecosystem mods. HeroClock should advertise capabilities and yield/coordinate rather than implement duplicate fixes.
+
+No new cadence-changing redirect from this list should be promoted solely from static analysis. The current branch keeps generic optimizations active and records the specific candidates for Astra 6 verification.
+
 ### OmniOptimizer 1.8.0 coordination
 
 The supplied OmniOptimizer 1.8.0 JAR exposes `com.openai.omnioptimizer.api.OmniOptimizerAPI` and a companion registration API. It also has optional integrations for several of the same ecosystem mods. HeroClock must coordinate rather than duplicate overlapping responsibilities.
@@ -96,7 +114,7 @@ Do not make stock addons depend on HeroClock for correctness. If an adapter is d
 
 ## Known follow-up items
 
-- The current `VersionGuard` profile expectations should be reconciled with the **embedded** versions above, not filename labels. In particular, the supplied AlienEvo, Infinity, Omni Evo, CelestialSapien/MyPowers and Saiyan artifacts report versions different from their filenames.
+- `VersionGuard` now uses the **embedded** versions above and exposes `isVerifiedProfile(modId)` for future version-gated adapters. If any supplied JAR changes, update the hash table and verified metadata profile together before enabling that adapter.
 - Keep investigating only the supplied mod set until new artifacts are explicitly added to scope.
 - Do not blindly restore old KubeJS cadence throttles globally. Where historical server patches reduced 20 Hz polling, first determine whether the generic Palladium layer already eliminates the expensive side effect. Add a mod-specific cadence adapter only if runtime testing confirms the behavior remains correct.
 - Preserve the released 2.2.14 artifact as a regression reference while developing newer versions.
