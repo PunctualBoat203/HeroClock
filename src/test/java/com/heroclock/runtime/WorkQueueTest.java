@@ -85,4 +85,28 @@ class WorkQueueTest {
         thread.start(); thread.join();
         assertInstanceOf(IllegalStateException.class, failures.get(0));
     }
+
+    @Test void clearDuringCallbackCancelsContinuation() {
+        WorkQueue queue = new WorkQueue(2, fail -> fail(fail), () -> 0);
+        queue.submit("a", "job", 0, () -> { queue.clear(); return false; });
+        queue.drain(0, 10, 100);
+        assertEquals(0, queue.size());
+    }
+
+    @Test void ownerCancellationDuringCallbackCancelsContinuation() {
+        WorkQueue queue = new WorkQueue(2, fail -> fail(fail), () -> 0);
+        queue.submit("a", "job", 0, () -> { queue.cancelOwner("a"); return false; });
+        queue.drain(0, 10, 100);
+        assertEquals(0, queue.size());
+    }
+
+    @Test void continuationKeepsCapacityWhenCallbackSubmitsMoreWork() {
+        WorkQueue queue = new WorkQueue(1, fail -> fail(fail), () -> 0);
+        queue.submit("a", "job", 0, () -> {
+            assertFalse(queue.submit("b", "other", 1, () -> true));
+            return false;
+        });
+        queue.drain(0, 10, 100);
+        assertTrue(queue.contains("a", "job"));
+    }
 }

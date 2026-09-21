@@ -1,6 +1,7 @@
 package com.heroclock.mixin;
 
 import com.heroclock.runtime.TemporaryEntities;
+import com.heroclock.api.HeroClockAPI;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,6 +24,12 @@ abstract class EntityLifecycleMixin {
 
     @Inject(method = {"addTag", "removeTag"}, at = @At("RETURN"))
     private void heroclock$tagsChanged(String tag, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ() && TemporaryEntities.handles(tag)) heroclock$checkAt = Long.MIN_VALUE;
+        if (cir.getReturnValueZ() && TemporaryEntities.handles(tag)) {
+            heroclock$checkAt = Long.MIN_VALUE;
+            Entity entity = (Entity) (Object) this;
+            if (!entity.level().isClientSide && !entity.getTags().contains(tag)) {
+                HeroClockAPI.clear(entity, "cleanup." + tag);
+            }
+        }
     }
 }

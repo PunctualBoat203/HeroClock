@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -54,6 +55,9 @@ public final class TemporaryEntities {
                 deadline = HeroClockAPI.set(entity, key, Math.max(0, rule.ticks - age));
             }
             if (deadline <= HeroClockAPI.now(entity)) {
+                if (entity instanceof AreaEffectCloud cloud && tag.equals("powerborne.shadow_field_marker")) {
+                    cloud.setDuration(Math.max(cloud.getDuration(), cloud.tickCount + 200));
+                }
                 WorkQueue queue = ServerRuntime.queue(level.getServer());
                 if (!queue.contains(entity.getUUID(), key)) {
                     queue.submit(entity.getUUID(), key, HeroClockAPI.now(entity), new Cleanup(entity, tag, rule));
