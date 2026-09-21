@@ -94,14 +94,21 @@ public final class RuntimeTests {
 
     @GameTest(template = "empty", timeoutTicks = 40)
     public static void palladiumMixinsApplyWhenPresent(GameTestHelper helper) throws Exception {
-        if (!net.minecraftforge.fml.ModList.get().isLoaded("palladium")) { helper.succeed(); return; }
+        if (!net.minecraftforge.fml.ModList.get().isLoaded("palladium")) {
+            helper.assertTrue(!Boolean.getBoolean("heroclock.testPalladium"), "Expected Palladium was not loaded");
+            helper.succeed(); return;
+        }
         var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
         entity.setNoGravity(true);
         Class<?> handlerType = Class.forName("net.threetag.palladium.power.PowerHandler");
         Object handler = handlerType.getConstructor(net.minecraft.world.entity.LivingEntity.class).newInstance(entity);
         var getter = handlerType.getMethod("getPowerHolders");
         Object first = getter.invoke(handler);
-        helper.assertTrue(first == getter.invoke(handler), "Power holder view was not reused");
+        if (Boolean.getBoolean("heroclock.testChangedTarget")) {
+            helper.assertTrue(first != getter.invoke(handler), "Incompatible target was still patched");
+            helper.assertTrue(com.heroclock.api.HeroIntegrationAPI.compatibility().get("PowerHandlerMixin")
+                    .contains("field contract changed"), "Incompatible field change was not diagnosed");
+        } else helper.assertTrue(first == getter.invoke(handler), "Power holder view was not reused");
         Class<?> properties = Class.forName("net.threetag.palladium.util.property.EntityPropertyHandler");
         helper.assertTrue(java.util.Arrays.stream(properties.getDeclaredMethods()).anyMatch(method ->
                 method.getName().contains("skipUnchangedScalar")), "Property sync mixin missing");
@@ -128,6 +135,11 @@ public final class RuntimeTests {
         register.invoke(manager, lateProperty, Integer.valueOf(2));
         helper.assertTrue(lookup.invoke(manager, "heroclock_late") == lateProperty,
                 "Late property registration was hidden by lookup caching");
+
+        var exposed = (java.util.Map<?, ?>) managerType.getMethod("values").invoke(manager);
+        exposed.clear();
+        helper.assertTrue(lookup.invoke(manager, "heroclock_cached") == null,
+                "Exposed mutable map retained a stale cached property");
 
         Class<?> commands = Class.forName("net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing");
         Object parsing = commands.getConstructor(java.util.List.class).newInstance(java.util.List.of());
@@ -164,6 +176,8 @@ public final class RuntimeTests {
         entity.setNoGravity(true);
         var source = entity.createCommandSourceStack().withPermission(2).withSuppressedOutput();
         var function = new net.minecraft.resources.ResourceLocation("heroclock", "test_marker");
+        helper.assertTrue(com.heroclock.api.HeroFunctionAPI.schedule(source, "example:cancelled", 2, function), "Cancellation setup rejected");
+        helper.assertTrue(com.heroclock.api.HeroFunctionAPI.cancel(source, "example:cancelled"), "Function cancellation failed");
         helper.assertTrue(com.heroclock.api.HeroFunctionAPI.schedule(source, "example:marker", 3, function), "Function rejected");
         helper.assertTrue(com.heroclock.api.HeroFunctionAPI.schedule(source, "example:marker", 8, function), "Replacement rejected");
         helper.runAfterDelay(5, () -> helper.assertTrue(!entity.getTags().contains("heroclock_test_marker"), "Superseded function ran"));
@@ -186,6 +200,29 @@ public final class RuntimeTests {
         helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Matching function rejected");
         helper.assertTrue(!com.heroclock.SatsuAdapter.matches(changed), "Changed function was suppressed");
         helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Function reload was not rechecked");
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void curiosViewTracksReplacement(GameTestHelper helper) throws Exception {
+        if (!net.minecraftforge.fml.ModList.get().isLoaded("curios")) {
+            helper.assertTrue(!Boolean.getBoolean("heroclock.testCurios"), "Expected Curios was not loaded");
+            helper.succeed(); return;
+        }
+        var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        entity.setNoGravity(true);
+        Class<?> type = Class.forName("top.theillusivec4.curios.common.capability.CurioInventoryCapability$CurioInventoryWrapper");
+        Object inventory = type.getConstructor(net.minecraft.world.entity.LivingEntity.class).newInstance(entity);
+        var getter = type.getMethod("getCurios");
+        Object initial = getter.invoke(inventory);
+        helper.assertTrue(initial == getter.invoke(inventory), "Curios view was not reused");
+        java.util.Map<String, Object> replacement = new java.util.LinkedHashMap<>();
+        type.getMethod("setCurios", java.util.Map.class).invoke(inventory, replacement);
+        Object changed = getter.invoke(inventory);
+        helper.assertTrue(changed != initial, "Curios view still references old storage");
+        replacement.put("test", null);
+        helper.assertTrue(((java.util.Map<?, ?>) changed).containsKey("test"), "Curios view is not live");
+        entity.discard();
         helper.succeed();
     }
 }

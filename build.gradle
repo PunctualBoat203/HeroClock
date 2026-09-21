@@ -22,6 +22,9 @@ minecraft {
         gameTestServer {
             workingDirectory project.file('run-gametest')
             property 'forge.enabledGameTestNamespaces', 'heroclock'
+            property 'heroclock.testPalladium', project.hasProperty('withPalladium').toString()
+            property 'heroclock.testCurios', project.hasProperty('withCurios').toString()
+            property 'heroclock.testChangedTarget', project.hasProperty('changedTarget').toString()
             mods {
                 heroclock {
                     source sourceSets.main
@@ -50,10 +53,13 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.3.0'
     if (project.hasProperty('withPalladium')) {
-        ['palladium:4.5.9', 'palladiumcore:1.0.1', 'player-animation:1.0.2', 'mixinextras:0.2.0'].each {
+        def palladiumArtifact = project.hasProperty('changedTarget') ? 'palladium-changed' :
+                project.hasProperty('alternateVersion') ? 'palladium-relabeled' : 'palladium'
+        ["${palladiumArtifact}:4.5.9", 'palladiumcore:1.0.1', 'player-animation:1.0.2', 'mixinextras:0.2.0'].each {
             runtimeOnly fg.deobf("heroclock.test:${it}")
         }
     }
+    if (project.hasProperty('withCurios')) { runtimeOnly fg.deobf('heroclock.test:curios:5.14.1') }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testImplementation platform('org.junit:junit-bom:5.10.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'
