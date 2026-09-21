@@ -2,17 +2,26 @@
 
 Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
 
-A separate GameTest source set exercises the actual timer API, entity NBT save/load, expiry, deferred steps, late helper tags and targeted block cleanup inside a headless Forge world. CI runs it both without Palladium and with the exact public Palladium 4.5.9 artifact matching the project's test dependency pin. The latter also verifies the optional mixins are applied. Test classes and structures are excluded from the production JAR. The test setup extracts Palladium’s bundled libraries so ForgeGradle remaps each one for development; this does not alter the production Palladium installation. CI requires the explicit six-test completion message because Forge can return exit code zero after a startup failure.
+A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit ten-test completion message because Forge can return exit code zero after a startup failure.
+
+CI runs four environments:
+
+- HeroClock without optional mods.
+- Hash-pinned Palladium 4.5.9 and Curios 5.14.1.
+- The same Palladium code with only its version metadata changed to a synthetic `99.0.0`; matching optimizations must remain enabled. This is not a claim about an actual future release.
+- Palladium with the private PowerHandler backing field renamed throughout its class; that optimization must stay disabled while other matching patches still work and the server completes its tests.
+
+Test classes, structures and modified dependency fixtures are excluded from the production artifacts. Palladium's nested libraries are extracted only for separate ForgeGradle development remapping. CI also checks that the compile-only API JAR contains only public facades/value records, while the runtime contains the implementation, contracts and refmap.
 
 ## Supplied stock-mod baselines
 
-This development pass is intentionally scoped only to JARs actually supplied for inspection. Do not assume unprovided addon versions have been verified. Exact hashes and embedded Forge metadata are recorded in [HANDOFF.md](HANDOFF.md).
+This development pass is intentionally scoped only to JARs actually supplied for inspection. Do not assume unprovided addon versions have been verified. Historical hashes and embedded Forge metadata are recorded in [the archived handoff](archive/2.2.15-HANDOFF.md); current contract inputs are recorded in [COMPATIBILITY.md](COMPATIBILITY.md).
 
 The supplied set currently covers HeroClock 2.2.14, AlienEvo, Infinity, Infintrix, Satsu Iron Man Addon, Omni Evo, IntoTheOmniverse, CelestialSapien/MyPowers, Powerborne Heroes, Saiyan, PantheonSent, and OmniOptimizer 1.8.0.
 
-The compatibility goal is **stock addon JAR + HeroClock**. Historical patched addon JARs are server-specific references, not a required deployment model. Generic optimizations must preserve gameplay semantics; version-specific adapters should activate only when their known target is present and otherwise leave the addon untouched.
+The compatibility goal is **stock addon JAR + HeroClock**. Historical patched addon JARs are server-specific references, not a required deployment model. Generic optimizations must preserve gameplay semantics; targeted adapters should activate only when their audited prerequisites match and otherwise leave the addon untouched.
 
-## target-pack / target-pack verification still required
+## Target-pack verification still required
 
 A production release still needs the real target pack to verify:
 
@@ -25,6 +34,6 @@ A production release still needs the real target pack to verify:
 7. Exercise AlienEvo, Infinity, Infintrix, Satsu, Omni Evo, IntoTheOmniverse, CelestialSapien/MyPowers, Powerborne Heroes, Saiyan and PantheonSent gameplay paths that are actually present in target-pack. Watch for changed cadence, missing helper entities, stale effects, duplicate ability registration, command-function errors, and persistence differences.
 8. Run the same representative workload before/after HeroClock and compare server tick-time percentiles, packet counts, helper-entity counts, and client frame-time behavior.
 9. Verify OmniOptimizer 1.8.0 coexistence: overlapping work should not be duplicated, companion registration should succeed, and HeroClock's deadlines/bounded-work/Palladium optimizations should remain available.
-10. Only after the runtime pass, promote any newly discovered mod-specific redirect from experimental/version-gated to supported.
+10. Only after the runtime pass, promote any newly discovered mod-specific redirect from experimental/contract-gated to supported.
 
 No live target-pack benchmark or in-game validation is claimed by the repository tests. The 1 ms work budget limits starting additional steps; it cannot bound an individual callback's execution time.

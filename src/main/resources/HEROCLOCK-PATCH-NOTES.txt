@@ -1,11 +1,10 @@
-HeroClock 2.2.15 — PunctualBoat
-Recovered development candidate based on the supplied 2.2.10 build.
+HeroClock 2.2.16 — PunctualBoat
 
-Direct mapped, persistent game-tick deadlines; overflow-safe arithmetic; player clone persistence and dirty block storage.
-Bounded, cancellable, coalesced incremental work on the server thread.
-Lifecycle-driven temporary helper cleanup replaces the global recurring selector loop.
-Palladium 4.5.9: suppress unchanged immutable property sync, reuse power-holder views, refresh command caches after dispatcher changes.
-Remove duplicate active script overlays; exclude inert patch archives from the runtime JAR.
-Retain existing targeted compatibility resources and optional OmniOptimizer bridge.
+Optional Palladium and Curios optimizations check audited method bodies and required fields instead of exact version labels. Incompatible targets keep base behavior independently.
+Satsu validates the effective loaded function and rechecks after reload.
+Property lookups invalidate on registration/reload and stop caching after mutable storage is exposed. Curios views track backing-map replacement.
+API v1 provides persistent timers, bounded work, deferred functions and immutable diagnostics through a separate compile-only API artifact.
+Datapack commands expose timer operations, keyed deferred functions and compatibility status.
+Retains persistent game-tick deadlines, cooperative work budgets and targeted lifecycle cleanup.
 
-Requires modpack launch, persistence and performance validation before production use.
+Requires target-pack persistence, gameplay and performance validation before production use.

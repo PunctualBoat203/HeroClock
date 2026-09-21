@@ -11,7 +11,7 @@ Satsu uses a runtime resource contract: the effective loaded `satsu_iron_man_add
 Audited code inputs for the initial contracts:
 
 - Palladium 4.5.9: supplied binary SHA-256 `af99a7ba746404c9774cd737dcc1db2d1f6fb7963fdbfa1bbee6b5b9832e29c9`.
-- Curios 5.14.1+1.20.1: official Maven binary SHA-256 `6d77ae8ad532fdf303390f404b0081b3b4ac4f61e7f1f4b4d4a9077e132dae4f`. This differs from the older supplied artifact's whole-JAR hash recorded in HANDOFF.md. The contract concerns the inspected `getCurios` method and `curios` field, rather than claiming those entire artifacts are identical.
+- Curios 5.14.1+1.20.1: official Maven binary SHA-256 `6d77ae8ad532fdf303390f404b0081b3b4ac4f61e7f1f4b4d4a9077e132dae4f`. This differs from the older supplied artifact's whole-JAR hash recorded in the archived 2.2.15 handoff. The contract concerns the inspected `getCurios` method and `curios` field, rather than claiming those entire artifacts are identical.
 
 `tools/java/GenerateContracts.java` rebuilds the initial manifest from these inputs using the same fingerprint implementation. Do not automatically learn or accept fingerprints from unknown installed code: that would defeat the guard. The disable switches `heroclock.disablePalladiumOptimizations` and `heroclock.disableCuriosOptimizations` remain available.
 
