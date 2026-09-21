@@ -21,6 +21,11 @@ final class VersionGuard {
             Map.entry("powerborne", "0.5.1"),
             Map.entry("saiyan", "0.1"),
             Map.entry("pantheonsent", "1.1.1"),
+            Map.entry("palladium", "4.5.9"),
+            Map.entry("kubejs", "2001.6.5-build.26"),
+            Map.entry("rhino", "2001.2.3-build.10"),
+            Map.entry("curios", "5.14.1+1.20.1"),
+            Map.entry("pehkui", "3.8.2+1.20.1-forge"),
             Map.entry("omnioptimizer", "1.8.0"));
 
     private VersionGuard() {}
