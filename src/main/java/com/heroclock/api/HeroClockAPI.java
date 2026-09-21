@@ -1,206 +1,117 @@
-/*
- * Decompiled with CFR 0.152.
- */
 package com.heroclock.api;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.heroclock.runtime.TickMath;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public final class HeroClockAPI {
-    private static final String ROOT = "HeroClockTimers";
-    private static final Map<Class<?>, Access> ACCESS = new ConcurrentHashMap();
+    public static final String ROOT = "HeroClockTimers";
 
-    private HeroClockAPI() {
+    private HeroClockAPI() {}
+
+    public static long now(Object target) {
+        Level level;
+        if (target instanceof Entity entity) level = entity.level();
+        else if (target instanceof BlockEntity block) level = block.getLevel();
+        else if (target instanceof Level world) level = world;
+        else if (target instanceof MinecraftServer server) return server.overworld().getGameTime();
+        else throw new IllegalArgumentException("Expected an entity, block entity, level or server");
+        if (level == null) throw new IllegalStateException("Target has no level");
+        MinecraftServer server = level.getServer();
+        return server == null ? level.getGameTime() : server.overworld().getGameTime();
     }
 
-    public static long now(Object object) {
-        if (object == null) {
-            return 0L;
+    public static long set(Object target, String key, long ticks) {
+        return setDeadline(target, key, TickMath.add(now(target), Math.max(0, ticks)));
+    }
+
+    public static long setSeconds(Object target, String key, double seconds) {
+        if (!Double.isFinite(seconds)) throw new IllegalArgumentException("Seconds must be finite");
+        return set(target, key, Math.round(Math.max(0, seconds) * 20));
+    }
+
+    public static long setDeadline(Object target, String key, long deadline) {
+        String safeKey = TickMath.key(key);
+        CompoundTag data = data(target, true);
+        CompoundTag root = data.getCompound(ROOT);
+        long value = Math.max(0, deadline);
+        if (!data.contains(ROOT, Tag.TAG_COMPOUND)) data.put(ROOT, root);
+        if (!root.contains(safeKey, Tag.TAG_LONG) || root.getLong(safeKey) != value) {
+            root.putLong(safeKey, value);
+            changed(target);
         }
-        try {
-            return HeroClockAPI.access(object).gameTime(object);
+        return value;
+    }
+
+    public static long add(Object target, String key, long ticks) {
+        long now = now(target);
+        long value = TickMath.add(Math.max(now, deadline(target, key)), ticks);
+        if (value <= now) {
+            clear(target, key);
+            return 0;
         }
-        catch (Throwable throwable) {
-            return 0L;
-        }
+        return setDeadline(target, key, value);
     }
 
-    public static long set(Object object, String string, long l) {
-        long l2 = HeroClockAPI.now(object) + Math.max(0L, l);
-        HeroClockAPI.putDeadline(object, string, l2);
-        return l2;
+    public static long remaining(Object target, String key) {
+        long deadline = deadline(target, key);
+        return deadline <= 0 ? 0 : Math.max(0, deadline - now(target));
     }
 
-    public static long setSeconds(Object object, String string, double d) {
-        return HeroClockAPI.set(object, string, Math.max(0L, Math.round(d * 20.0)));
+    public static double remainingSeconds(Object target, String key) {
+        return remaining(target, key) / 20.0;
     }
 
-    public static long setDeadline(Object object, String string, long l) {
-        HeroClockAPI.putDeadline(object, string, Math.max(0L, l));
-        return Math.max(0L, l);
+    public static boolean active(Object target, String key) { return remaining(target, key) > 0; }
+    public static boolean expired(Object target, String key) { return !active(target, key); }
+
+    public static long deadline(Object target, String key) {
+        String safeKey = TickMath.key(key);
+        CompoundTag data = data(target, false);
+        return data.contains(ROOT, Tag.TAG_COMPOUND) ? data.getCompound(ROOT).getLong(safeKey) : 0;
     }
 
-    public static long add(Object object, String string, long l) {
-        long l2 = Math.max(HeroClockAPI.now(object), HeroClockAPI.deadline(object, string));
-        long l3 = l2 + l;
-        if (l3 <= HeroClockAPI.now(object)) {
-            HeroClockAPI.clear(object, string);
-            return 0L;
-        }
-        HeroClockAPI.putDeadline(object, string, l3);
-        return l3;
+    public static void clear(Object target, String key) {
+        String safeKey = TickMath.key(key);
+        CompoundTag data = data(target, true);
+        if (!data.contains(ROOT, Tag.TAG_COMPOUND)) return;
+        CompoundTag root = data.getCompound(ROOT);
+        if (!root.contains(safeKey)) return;
+        root.remove(safeKey);
+        if (root.isEmpty()) data.remove(ROOT);
+        changed(target);
     }
 
-    public static long remaining(Object object, String string) {
-        long l = HeroClockAPI.deadline(object, string);
-        if (l <= 0L) {
-            return 0L;
-        }
-        return Math.max(0L, l - HeroClockAPI.now(object));
-    }
-
-    public static double remainingSeconds(Object object, String string) {
-        return (double)HeroClockAPI.remaining(object, string) / 20.0;
-    }
-
-    public static boolean active(Object object, String string) {
-        return HeroClockAPI.remaining(object, string) > 0L;
-    }
-
-    public static boolean expired(Object object, String string) {
-        return !HeroClockAPI.active(object, string);
-    }
-
-    public static long deadline(Object object, String string) {
-        if (!HeroClockAPI.valid(object, string)) {
-            return 0L;
-        }
-        try {
-            return HeroClockAPI.access(object).getLong(object, HeroClockAPI.safeKey(string));
-        }
-        catch (Throwable throwable) {
-            return 0L;
-        }
-    }
-
-    public static void clear(Object object, String string) {
-        if (!HeroClockAPI.valid(object, string)) {
-            return;
-        }
-        try {
-            HeroClockAPI.access(object).remove(object, HeroClockAPI.safeKey(string));
-        }
-        catch (Throwable throwable) {
-            // empty catch block
+    public static void clearAll(Object target) {
+        CompoundTag data = data(target, true);
+        if (data.contains(ROOT)) {
+            data.remove(ROOT);
+            changed(target);
         }
     }
 
-    public static void clearAll(Object object) {
-        if (object == null) {
-            return;
-        }
-        try {
-            HeroClockAPI.access(object).clearAll(object);
-        }
-        catch (Throwable throwable) {
-            // empty catch block
-        }
+    private static CompoundTag data(Object target, boolean writing) {
+        Level level;
+        CompoundTag data;
+        if (target instanceof Entity entity) {
+            level = entity.level();
+            data = entity.getPersistentData();
+        } else if (target instanceof BlockEntity block) {
+            level = block.getLevel();
+            data = block.getPersistentData();
+        } else throw new IllegalArgumentException("Timers require an entity or block entity");
+        if (level == null) throw new IllegalStateException("Target has no level");
+        MinecraftServer server = level.getServer();
+        if (server != null && !server.isSameThread()) throw new IllegalStateException("Use timers on the server thread");
+        if (writing && level.isClientSide) throw new IllegalStateException("Timers are server authoritative");
+        return data;
     }
 
-    private static void putDeadline(Object object, String string, long l) {
-        if (!HeroClockAPI.valid(object, string)) {
-            return;
-        }
-        try {
-            HeroClockAPI.access(object).putLong(object, HeroClockAPI.safeKey(string), l);
-        }
-        catch (Throwable throwable) {
-            throw new IllegalStateException("HeroClock could not access player persistent data", throwable);
-        }
-    }
-
-    private static boolean valid(Object object, String string) {
-        return object != null && string != null && !string.isBlank();
-    }
-
-    private static String safeKey(String string) {
-        String string2 = string.trim().replaceAll("[^A-Za-z0-9_.:-]", "_");
-        return string2.length() > 96 ? string2.substring(0, 96) : string2;
-    }
-
-    private static Access access(Object object) {
-        return ACCESS.computeIfAbsent(object.getClass(), Access::new);
-    }
-
-    private static final class Access {
-        final Method getPersistentData;
-        final Method level;
-        final Method getGameTime;
-
-        Access(Class<?> clazz) {
-            try {
-                this.getPersistentData = clazz.getMethod("getPersistentData", new Class[0]);
-                this.level = Access.find(clazz, "level", "getLevel");
-                this.getGameTime = this.level.getReturnType().getMethod("getGameTime", new Class[0]);
-            }
-            catch (Exception exception) {
-                throw new IllegalStateException("Unsupported player object: " + clazz.getName(), exception);
-            }
-        }
-
-        long gameTime(Object object) throws Exception {
-            return ((Number)this.getGameTime.invoke(this.level.invoke(object, new Object[0]), new Object[0])).longValue();
-        }
-
-        Object root(Object object, boolean bl) throws Exception {
-            Object object2 = this.getPersistentData.invoke(object, new Object[0]);
-            Method method = object2.getClass().getMethod("contains", String.class, Integer.TYPE);
-            boolean bl2 = (Boolean)method.invoke(object2, HeroClockAPI.ROOT, 10);
-            if (!bl2 && !bl) {
-                return null;
-            }
-            if (!bl2) {
-                Class<?> clazz = Class.forName("net.minecraft.nbt.CompoundTag");
-                Object obj = clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
-                object2.getClass().getMethod("put", String.class, Class.forName("net.minecraft.nbt.Tag")).invoke(object2, HeroClockAPI.ROOT, obj);
-                return obj;
-            }
-            return object2.getClass().getMethod("getCompound", String.class).invoke(object2, HeroClockAPI.ROOT);
-        }
-
-        long getLong(Object object, String string) throws Exception {
-            Object object2 = this.root(object, false);
-            return object2 == null ? 0L : ((Number)object2.getClass().getMethod("getLong", String.class).invoke(object2, string)).longValue();
-        }
-
-        void putLong(Object object, String string, long l) throws Exception {
-            Object object2 = this.root(object, true);
-            object2.getClass().getMethod("putLong", String.class, Long.TYPE).invoke(object2, string, l);
-        }
-
-        void remove(Object object, String string) throws Exception {
-            Object object2 = this.root(object, false);
-            if (object2 != null) {
-                object2.getClass().getMethod("remove", String.class).invoke(object2, string);
-            }
-        }
-
-        void clearAll(Object object) throws Exception {
-            Object object2 = this.getPersistentData.invoke(object, new Object[0]);
-            object2.getClass().getMethod("remove", String.class).invoke(object2, HeroClockAPI.ROOT);
-        }
-
-        static Method find(Class<?> clazz, String ... stringArray) throws NoSuchMethodException {
-            for (String string : stringArray) {
-                try {
-                    return clazz.getMethod(string, new Class[0]);
-                }
-                catch (NoSuchMethodException noSuchMethodException) {
-                }
-            }
-            throw new NoSuchMethodException();
-        }
+    private static void changed(Object target) {
+        if (target instanceof BlockEntity block) block.setChanged();
     }
 }
-

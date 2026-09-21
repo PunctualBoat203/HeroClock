@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.heroclock.mixin",
+  "plugin": "com.heroclock.mixin.PalladiumPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EntityPropertyHandlerMixin",
+    "PowerHandlerMixin",
+    "CommandFunctionMixin",
+    "EntityLifecycleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "heroclock.refmap.json"
+}

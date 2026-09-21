@@ -1,25 +1,18 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraftforge.fml.common.Mod
- */
 package com.heroclock;
 
-import com.heroclock.CompanionBridge;
-import com.heroclock.PatchManager;
-import com.heroclock.VersionGuard;
+import com.mojang.logging.LogUtils;
 import net.minecraftforge.fml.common.Mod;
+import org.slf4j.Logger;
 
-@Mod(value="heroclock")
+@Mod(HeroClock.MOD_ID)
 public final class HeroClock {
     public static final String MOD_ID = "heroclock";
+    public static final String VERSION = "2.2.15";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public HeroClock() {
-        System.out.println("[HeroClock] v2.2.8 loading timer API + guarded compatibility layer");
         VersionGuard.scan();
-        PatchManager.apply();
         CompanionBridge.handshake();
+        LOGGER.info("HeroClock {} loaded", VERSION);
     }
 }
-

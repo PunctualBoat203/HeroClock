@@ -3,8 +3,9 @@ loaderVersion="[47,)"
 license="All Rights Reserved"
 [[mods]]
 modId="heroclock"
-version="2.2.10"
+version="${version}"
 displayName="HeroClock"
+authors="PunctualBoat"
 description='''InsaneCraft Reloaded hero-stack timer and compatibility optimization layer.'''
 [[dependencies.heroclock]]
 modId="forge"

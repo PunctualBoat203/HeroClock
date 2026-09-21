@@ -1,0 +1,30 @@
+name: Build and test
+on:
+  push:
+    branches: [main, improve-clock-runtime]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.8'
+      - run: gradle --no-daemon test build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HeroClock-2.2.15
+          path: build/libs/*.jar
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: build/reports/tests/
