@@ -18,8 +18,18 @@ jobs:
         with:
           gradle-version: '8.8'
       - run: gradle --no-daemon test build
-      - run: gradle --no-daemon runGameTestServer
-      - run: gradle --no-daemon -PwithPalladium runGameTestServer
+      - name: Test Forge runtime
+        run: |
+          set -o pipefail
+          gradle --no-daemon runGameTestServer | tee gametest-base.log
+          grep -F 'All 6 required tests passed' gametest-base.log
+      - name: Prepare audited Palladium test dependencies
+        run: python tools/prepare_palladium_test.py
+      - name: Test Palladium runtime
+        run: |
+          set -o pipefail
+          gradle --no-daemon -PwithPalladium runGameTestServer | tee gametest-palladium.log
+          grep -F 'All 6 required tests passed' gametest-palladium.log
       - uses: actions/upload-artifact@v4
         with:
           name: HeroClock-2.2.15
@@ -28,4 +38,6 @@ jobs:
         if: always()
         with:
           name: test-results
-          path: build/reports/tests/
+          path: |
+            build/reports/tests/
+            gametest-*.log

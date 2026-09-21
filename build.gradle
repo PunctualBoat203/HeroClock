@@ -43,14 +43,16 @@ minecraft {
 
 repositories {
     mavenCentral()
-    maven { url = 'https://api.modrinth.com/maven' }
+    flatDir { dirs 'build/test-dependencies' }
     maven { url = 'https://maven.minecraftforge.net' }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.3.0'
     if (project.hasProperty('withPalladium')) {
-        runtimeOnly fg.deobf('maven.modrinth:threetag-palladium:4.5.9+1.20.1-forge')
+        ['palladium:4.5.9', 'palladiumcore:1.0.1', 'player-animation:1.0.2', 'mixinextras:0.2.0'].each {
+            runtimeOnly fg.deobf("heroclock.test:${it}")
+        }
     }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testImplementation platform('org.junit:junit-bom:5.10.3')
