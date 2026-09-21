@@ -4,12 +4,6 @@ import java.util.Map;
 import net.minecraftforge.fml.ModList;
 
 final class VersionGuard {
-    /*
-     * These are the embedded Forge metadata versions from the exact stock JARs
-     * supplied for the 2.2.15 compatibility pass. Filenames are intentionally
-     * not used: several supplied artifacts advertise a different version in
-     * their filename than Forge reports at runtime.
-     */
     private static final Map<String, String> VERIFIED_BASELINES = Map.ofEntries(
             Map.entry("alienevo", "1.1.2"),
             Map.entry("infinity", "7.1"),
@@ -37,19 +31,10 @@ final class VersionGuard {
                     if (!version.equals(supported)) {
                         HeroClock.LOGGER.warn(
                                 "HeroClock verified baseline for {} is {}, detected {}; "
-                                        + "version-specific adapters must remain disabled until revalidated",
+                                        + "optional runtime hooks are checked against their own code contracts",
                                 id, supported, version);
                     }
                 }));
     }
 
-    static boolean isVerifiedProfile(String modId) {
-        String supported = VERIFIED_BASELINES.get(modId);
-        if (supported == null) {
-            return false;
-        }
-        return ModList.get().getModContainerById(modId)
-                .map(mod -> supported.equals(mod.getModInfo().getVersion().toString()))
-                .orElse(false);
-    }
 }

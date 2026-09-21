@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Pseudo
@@ -18,17 +17,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 abstract class CuriosInventoryMixin {
     @Shadow private Map<?, ?> curios;
     @Unique private Map<?, ?> heroclock$curiosView;
+    @Unique private Map<?, ?> heroclock$backing;
 
     @Inject(method = "getCurios()Ljava/util/Map;", at = @At("HEAD"), cancellable = true, require = 1, remap = false)
     private void heroclock$reuseCuriosView(CallbackInfoReturnable<Map<?, ?>> cir) {
-        if (heroclock$curiosView == null) {
+        if (heroclock$curiosView == null || heroclock$backing != curios) {
+            heroclock$backing = curios;
             heroclock$curiosView = Collections.unmodifiableMap(curios);
         }
         cir.setReturnValue(heroclock$curiosView);
     }
 
-    @Inject(method = "setCurios(Ljava/util/Map;)V", at = @At("HEAD"), require = 1, remap = false)
-    private void heroclock$invalidateCuriosView(Map<?, ?> replacement, CallbackInfo ci) {
-        heroclock$curiosView = null;
-    }
 }

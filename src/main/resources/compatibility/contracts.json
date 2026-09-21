@@ -1,0 +1,218 @@
+[
+  {
+    "mixin": "EntityPropertyHandlerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.EntityPropertyHandler",
+    "parent": "net/threetag/palladium/util/property/PropertyManager",
+    "fields": [],
+    "methods": [
+      {
+        "name": "onChanged",
+        "descriptor": "(Lnet/threetag/palladium/util/property/PalladiumProperty;Ljava/lang/Object;Ljava/lang/Object;)V",
+        "fingerprint": "7ac66e9948c136810318bd9ae27625960c3767134d83561d7bd1f57ca9e08dd4"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": true,
+        "owner": "net/minecraft/world/entity/Entity",
+        "name": "m_9236_",
+        "descriptor": "()Lnet/minecraft/world/level/Level;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/level/Level",
+        "name": "f_46443_",
+        "descriptor": "Z"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/world/entity/Entity",
+        "name": "m_19879_",
+        "descriptor": "()I"
+      }
+    ]
+  },
+  {
+    "mixin": "PowerHandlerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.power.PowerHandler",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "powers",
+        "descriptor": "Ljava/util/Map;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "getPowerHolders",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "f24fb2c2c2e549bf1c7f4801425c31de7d4f7d2c8ca6d5b92af4ed9fae6b34e8"
+      }
+    ],
+    "minecraftMembers": []
+  },
+  {
+    "mixin": "CommandFunctionMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "commandFunction",
+        "descriptor": "Lnet/minecraft/commands/CommandFunction;",
+        "access": 2
+      },
+      {
+        "name": "error",
+        "descriptor": "Z",
+        "access": 2
+      }
+    ],
+    "methods": [
+      {
+        "name": "getCommandFunction",
+        "descriptor": "(Lnet/minecraft/server/MinecraftServer;)Lnet/minecraft/commands/CommandFunction;",
+        "fingerprint": "6d40480e314e2afd79e9a7c017a65d107d0fe565b253545cf558969194ce50f4"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": false,
+        "owner": "net/minecraft/commands/CommandSource",
+        "name": "f_80164_",
+        "descriptor": "Lnet/minecraft/commands/CommandSource;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/phys/Vec3",
+        "name": "f_82478_",
+        "descriptor": "Lnet/minecraft/world/phys/Vec3;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/phys/Vec2",
+        "name": "f_82462_",
+        "descriptor": "Lnet/minecraft/world/phys/Vec2;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/network/chat/CommonComponents",
+        "name": "f_237098_",
+        "descriptor": "Lnet/minecraft/network/chat/Component;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/server/MinecraftServer",
+        "name": "m_129892_",
+        "descriptor": "()Lnet/minecraft/commands/Commands;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/commands/Commands",
+        "name": "m_82094_",
+        "descriptor": "()Lcom/mojang/brigadier/CommandDispatcher;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/commands/CommandFunction",
+        "name": "m_77984_",
+        "descriptor": "(Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandSourceStack;Ljava/util/List;)Lnet/minecraft/commands/CommandFunction;"
+      }
+    ]
+  },
+  {
+    "mixin": "PropertyManagerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.PropertyManager",
+    "parent": "java/lang/Object",
+    "fields": [],
+    "methods": [
+      {
+        "name": "register",
+        "descriptor": "(Lnet/threetag/palladium/util/property/PalladiumProperty;Ljava/lang/Object;)Lnet/threetag/palladium/util/property/PropertyManager;",
+        "fingerprint": "19cf67e0c3525bbb461de1faefb4a11983578d5e3432e60356156d0e9ebefc31"
+      },
+      {
+        "name": "getPropertyByName",
+        "descriptor": "(Ljava/lang/String;)Lnet/threetag/palladium/util/property/PalladiumProperty;",
+        "fingerprint": "8a273a40f3b5f8ae827eb0b4529b4d8061e226620498bf3091406fe481979be1"
+      },
+      {
+        "name": "values",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "5daa8ddf9faa7c848bde03843241d0b88aa03e0a1ecc53e9df6053d54669d221"
+      },
+      {
+        "name": "fromNBT",
+        "descriptor": "(Lnet/minecraft/nbt/CompoundTag;)V",
+        "fingerprint": "e8be550f099e48b104967838a2c058f87409d3d2b2c7cfdc44e201f94624f346"
+      },
+      {
+        "name": "fromBuffer",
+        "descriptor": "(Lnet/minecraft/network/FriendlyByteBuf;)V",
+        "fingerprint": "e9a97feb73a636e6566427a025494c09f895de7a65c2f42607f6c50dd6ef5b8c"
+      },
+      {
+        "name": "fromJSON",
+        "descriptor": "(Lcom/google/gson/JsonObject;)V",
+        "fingerprint": "0d42a7d1778de20f46c92ba1de8b94168c96656f5cb168b7d405aca42f8e0636"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/CompoundTag",
+        "name": "m_128441_",
+        "descriptor": "(Ljava/lang/String;)Z"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/CompoundTag",
+        "name": "m_128423_",
+        "descriptor": "(Ljava/lang/String;)Lnet/minecraft/nbt/Tag;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/StringTag",
+        "name": "m_7916_",
+        "descriptor": "()Ljava/lang/String;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/network/FriendlyByteBuf",
+        "name": "m_130277_",
+        "descriptor": "()Ljava/lang/String;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/util/GsonHelper",
+        "name": "m_13900_",
+        "descriptor": "(Lcom/google/gson/JsonObject;Ljava/lang/String;)Z"
+      }
+    ]
+  },
+  {
+    "mixin": "CuriosInventoryMixin",
+    "mod": "curios",
+    "target": "top.theillusivec4.curios.common.capability.CurioInventoryCapability$CurioInventoryWrapper",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "curios",
+        "descriptor": "Ljava/util/Map;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "getCurios",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "6d460447227b39d93aa36f6711717c64ed30d1e56616c52781a727a451a8726f"
+      }
+    ],
+    "minecraftMembers": []
+  }
+]

@@ -42,6 +42,7 @@ public final class ServerRuntime {
 
     @SubscribeEvent
     public static void stop(ServerStoppedEvent event) {
+        com.heroclock.SatsuAdapter.clear();
         if (current == event.getServer()) {
             work.clear();
             work = null;
