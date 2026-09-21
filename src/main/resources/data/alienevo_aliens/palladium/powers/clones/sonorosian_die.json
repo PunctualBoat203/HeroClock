@@ -1,0 +1,51 @@
+{
+    "name": "Minion",
+    "background": "minecraft:textures/block/gray_concrete_powder.png",
+    "icon": "sgoc:textures/gui/loki.png",
+    "persistent_data": true,
+    "abilities": {
+        "Power.Remove.Timer": {
+            "type": "palladium:animation_timer",
+            "icon": "minecraft:blaze_rod",
+            "title": "null",
+            "bar_color": "light_gray",
+            "hidden": true,
+            "hidden_in_bar": true,
+            "list_index": -1,
+            "gui_position": "null",
+            "description": "null",
+            "start_value": 0,
+            "max_value": 600
+        },
+        "Power.Remove": {
+            "type": "palladium:command",
+            "title": "null",
+            "bar_color": "light_gray",
+            "hidden": true,
+            "hidden_in_bar": true,
+            "list_index": -1,
+            "gui_position": "null",
+            "description": "null",
+            "first_tick_commands": [
+                "gamerule showDeathMessages false",
+                "tp @s 0 -200 0",
+                "kill @s",
+                "gamerule showDeathMessages true"
+            ],
+            "last_tick_commands": [],
+            "commands": [],
+            "conditions": {
+                "enabling": [
+                    {
+                        "type": "palladium:ability_integer_property",
+                        "power": "null",
+                        "ability": "Power.Remove.Timer",
+                        "property": "value",
+                        "min": 600,
+                        "max": 600
+                    }
+                ]
+            }
+        }
+    }
+}

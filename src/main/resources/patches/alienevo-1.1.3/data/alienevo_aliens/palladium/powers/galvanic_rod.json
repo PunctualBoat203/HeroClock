@@ -1,0 +1,510 @@
+{
+  "name": {
+    "text": "galvanic_mechamorph"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "#alienevo:aliens/alien_9/head"
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "alienevo:textures/gui/power_screen/power_screen.png",
+  "primary_color": "#8ed721",
+  "secondary_color": "#332e27",
+  "allow_bar_shrinking": false,
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/interface.png",
+  "abilities": {
+    "galvanic_mechamorph_loop": {
+      "type": "palladium:command",
+      "hidden": true,
+      "title": {
+        "translate": "species.alienevo_aliens.9"
+      },
+      "gui_position": [
+        0,
+        0
+      ],
+      "icon": "#alienevo:aliens/alien_9/head",
+      "first_tick_commands": [
+        "scale easing set palladium:ability pehkui:exponential_out",
+        "scoreboard objectives add AlienEvo.Fall dummy",
+        "tag @s add GalvanicMechamorph",
+        "scale set pehkui:drops 0.8",
+        "scale set pehkui:projectiles 0.8",
+        "advancement revoke @s only alienevo:galvanic_mechamorph_xp",
+        "kill @e[type=palladium:custom_projectile,tag=lightning,distance=..128]"
+      ],
+      "last_tick_commands": [
+        "kill @e[type=palladium:custom_projectile,tag=lightning,distance=..128]",
+        "scale set pehkui:drops 1",
+        "scale set pehkui:projectiles 1",
+        "tag @s remove GalvanicMechamorph",
+        "setblock ~ ~ ~ minecraft:lightning_rod"
+      ],
+      "commands": [
+        "scoreboard players add @s[palladium.power=selfdestruct:prototype_omnitrix_sdm] AlienEvo.SelfDestruct 1"
+      ]
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "right_arm",
+        "left_arm",
+        "chest",
+        "chest_overlay",
+        "right_arm_overlay",
+        "left_arm_overlay",
+        "right_leg",
+        "left_leg",
+        "cape",
+        "right_leg_overlay",
+        "left_leg_overlay",
+        "head",
+        "head_overlay"
+      ],
+      "affects_first_person": true
+    },
+    "galvanic_mechamorph": {
+      "type": "palladium:render_layer",
+      "hidden": true,
+      "render_layer": "alienevo:aliens/alien_9/galvanic_rod"
+    },
+    "size_change": {
+      "type": "palladium:size",
+      "title": "Size Change",
+      "hidden": true,
+      "scale": 0.8
+    },
+    "base_form": {
+      "type": "alienevo:omnitrix_detransform",
+      "icon": "#alienevo:detransform",
+      "title": {
+        "translate": "ability.alienevo.omnitrix.base_form"
+      },
+      "hidden": true,
+      "list_index": 4,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.BaseForm"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.MasterControl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "timeout_function": {
+      "type": "alienevo:omnitrix_timer",
+      "hidden": true
+    },
+    "attack_1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 4,
+      "hidden": true,
+      "uuid": "fe73df35-c80a-4521-971d-4c8178c732fc"
+    },
+    "defense": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 16,
+      "hidden": true,
+      "uuid": "b149e33a-5bde-4a1c-9fb8-a72f764c826b"
+    },
+    "fall_resistance": {
+      "type": "palladium:damage_immunity",
+      "hidden": true,
+      "damage_sources": [
+        "minecraft:is_fall",
+        "minecraft:is_lightning",
+        "minecraft:is_fire"
+      ]
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": {
+        "translate": "species.alienevo_aliens.9"
+      },
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "alienevo:current_alien_nickname",
+                "value": "species.alienevo_aliens.9"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nickname": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": [
+        {
+          "nbt": "KubeJSPersistentData.alienevo_9",
+          "entity": "@s"
+        }
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "alienevo:current_alien_nickname",
+                    "value": "species.alienevo_aliens.9"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "slot_restriction": {
+      "type": "palladium:restrict_slots",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "slots": [
+        "head",
+        "chest",
+        "legs",
+        "feet",
+        "trinkets:head/hat",
+        "trinkets:head/face",
+        "trinkets:chest/back",
+        "trinkets:chest/necklace",
+        "trinkets:chest/cape",
+        "trinkets:hand/ring",
+        "trinkets:hand/glove",
+        "trinkets:offhand/glove",
+        "trinkets:offhand/ring",
+        "curios:hands"
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "store_armor"
+          }
+        ]
+      }
+    },
+    "summon_lightning": {
+      "type": "palladium:command",
+      "title": {
+        "translate": "ability.galvanic_rod.lightning_storm"
+      },
+      "bar_color": "black",
+      "description": {
+        "translate": "desc.galvanic_rod.lightning_storm"
+      },
+      "icon": "alienevo:textures/gui/aliens/alien_9/storm.png",
+      "commands": [
+        "summon minecraft:lightning_bolt ~3 ~ ~3",
+        "summon minecraft:lightning_bolt ~2 ~ ~4",
+        "summon minecraft:lightning_bolt ~1 ~ ~5",
+        "summon minecraft:lightning_bolt ~0 ~ ~6",
+        "summon minecraft:lightning_bolt ~-1 ~ ~5",
+        "summon minecraft:lightning_bolt ~-2 ~ ~6",
+        "summon minecraft:lightning_bolt ~-3 ~ ~-3",
+        "summon minecraft:lightning_bolt ~-2 ~ ~-4",
+        "summon minecraft:lightning_bolt ~-1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~0 ~ ~-6",
+        "summon minecraft:lightning_bolt ~1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~2 ~ ~-6",
+        "summon minecraft:lightning_bolt ~3 ~ ~-3",
+        "summon minecraft:lightning_bolt ~2 ~ ~-4",
+        "summon minecraft:lightning_bolt ~1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~0 ~ ~-6",
+        "summon minecraft:lightning_bolt ~-1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~-2 ~ ~-6",
+        "summon minecraft:lightning_bolt ~-3 ~ ~3",
+        "summon minecraft:lightning_bolt ~-2 ~ ~4",
+        "summon minecraft:lightning_bolt ~-1 ~ ~5",
+        "summon minecraft:lightning_bolt ~-0 ~ ~6",
+        "summon minecraft:lightning_bolt ~1 ~ ~5",
+        "summon minecraft:lightning_bolt ~2 ~ ~6",
+        "summon minecraft:lightning_bolt ~4 ~ ~0",
+        "summon minecraft:lightning_bolt ~-4 ~ ~0"
+      ],
+      "list_index": 2,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 300,
+            "ticks": 1,
+            "key_type": "key_bind"
+          }
+        ]
+      },
+      "first_tick_commands": [
+        "kill @e[type=palladium:custom_projectile,tag=lightning,distance=..128]"
+      ]
+    },
+    "lightning_shot": {
+      "type": "palladium:projectile",
+      "bar_color": "black",
+      "entity_type": "palladium:custom_projectile",
+      "title": {
+        "translate": "ability.galvanic_rod.lightning_wave"
+      },
+      "icon": "alienevo:textures/gui/aliens/alien_9/dual_strike.png",
+      "description": {
+        "translate": "desc.galvanic_rod.lightning_wave"
+      },
+      "list_index": 1,
+      "velocity": 2,
+      "swing_arm": false,
+      "inaccuracy": 0,
+      "entity_data": {
+        "Damage": 5,
+        "Lifetime": 20,
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "SetEntityOnFireSeconds": 3,
+        "Gravity": 0,
+        "Appearances": [
+          {}
+        ],
+        "CommandOnEntityHit": "summon minecraft:lightning_bolt",
+        "CommandOnBlockHit": "summon minecraft:lightning_bolt"
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 100,
+            "key_type": "key_bind"
+          }
+        ]
+      }
+    },
+    "lightningpro": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "commands": []
+    },
+    "lightningprotag": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "commands": []
+    },
+    "lightning_throw": {
+      "type": "palladium:projectile",
+      "icon": "alienevo:textures/gui/aliens/alien_9/single_strike.png",
+      "entity_type": "palladium:custom_projectile",
+      "title": {
+        "translate": "ability.galvanic_rod.lightning_throw"
+      },
+      "description": {
+        "translate": "desc.galvanic_rod.lightning_throw"
+      },
+      "bar_color": "red",
+      "list_index": 1,
+      "hidden": false,
+      "hidden_in_bar": true,
+      "swinging_arm": "main_arm",
+      "velocity": 3,
+      "inaccuracy": 0,
+      "entity_data": {
+        "Damage": 10,
+        "Gravity": 0,
+        "Size": 1,
+        "Lifetime": 100,
+        "CommandOnEntityHit": "superpower add alienevo:electrocute @e[limit=1,type=!palladium:custom_projectile,sort=nearest,tag=!habb.speedforce,type=!item,type=!armor_stand,type=!item_frame,type=!palladium:custom_projectile,type=!experience_orb,type=!palladium:suit_stand]",
+        "CommandOnBlockHit": "summon minecraft:lightning_bolt",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "trail",
+            "Trail": "alienevo:lightning"
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "right_click",
+            "cooldown": 75,
+            "needs_empty_hand": true
+          }
+        ]
+      }
+    },
+    "lightning_blast": {
+      "type": "palladium:aim",
+      "icon": "alienevo:textures/gui/aliens/alien_9/lightning_beams.png",
+      "title": {
+        "translate": "ability.galvanic_rod.lightning_blast"
+      },
+      "bar_color": "black",
+      "hidden": false,
+      "description": {
+        "translate": "desc.galvanic_rod.lightning_blast"
+      },
+      "list_index": 0,
+      "hidden_in_bar": false,
+      "time": 5,
+      "arm": "both",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "key_type": "key_bind",
+            "cooldown": 200,
+            "needs_empty_hand": true
+          }
+        ]
+      }
+    },
+    "lightning_anim": {
+      "type": "palladium:animation_timer",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "start_value": 0,
+      "max_value": 5,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "lightning_blast"
+          }
+        ]
+      }
+    },
+    "beam_lightning": {
+      "type": "palladium:energy_beam",
+      "damage_type": "alienevo:energy_beam",
+      "energy_beam": "alienevo:lightning_beam",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "lightning_blast"
+          },
+          {
+            "type": "palladium:animation_timer_ability",
+            "power": "null",
+            "ability": "lightning_anim",
+            "min": 5,
+            "max": 5
+          }
+        ]
+      }
+    },
+    "beam_arms": {
+      "type": "palladium:show_both_arms",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "lightning_blast"
+          }
+        ]
+      }
+    },
+    "tech_upgrade": {
+      "type": "palladium:command",
+      "list_index": 3,
+      "commands": [
+        "superpower add alienevo_aliens:galvanic_mechamorph @s",
+        "superpower remove alienevo_aliens:galvanic_rod @s"
+      ],
+      "bar_color": "black",
+      "hidden": true,
+      "icon": "#alienevo:aliens/alien_9/upgrade",
+      "title": {
+        "translate": "ability.alienevo_aliens.9.upgrade"
+      },
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:iron_ingot"
+    },
+    "title": {
+      "translate": "Talk to an iron creature",
+      "bold": false,
+      "color": "green"
+    },
+    "description": {
+      "translate": "Looks like I need to prove myself"
+    },
+    "background": "alienevo:textures/gui/power_screen/power_screen.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft_mobs_pack:overworld_dna",
+  "criteria": {
+    "heroclock_tag_check": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "heroclock_tag_check"
+    ]
+  ]
+}

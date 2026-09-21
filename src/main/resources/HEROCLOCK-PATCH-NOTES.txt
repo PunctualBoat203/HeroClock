@@ -1,0 +1,23 @@
+HeroClock 2.2.10
+
+Stock-addon registry safety:
+- Removed HeroClock addon-layer startup registrations already owned by the original hero JARs.
+- Prevents duplicate Palladium ability/block registrations with stock AlienEvo, Satsu, CelestialSapien, and Infinity.
+- Persistence prevention/cleanup resources from 2.2.9 remain intact.
+- Patch payload copies under patches/ remain inert reference payloads; runtime JAR rewriting stays disabled.
+
+HeroClock 2.2.9 - Persistence Guard
+
+Audit baseline: original user-supplied hero JARs (Gods & Heroes, Infinity 7.2, Infintrix 2.2, IntoTheOmniverse 1.0.6, Overworld DNA 1.0.3b, Pantheonsent 1.1.1, Powerborne Heroes 0.5.1, Saiyan 3.0, Satsu 3.5.3, CelestialSapien 1.0.6.1, Omni Evo 1.0.6, AlienEvo 1.1.3) plus the current HeroClock compatibility stack.
+
+Policy: prevent known runaway behavior first; normal targeted cleanup second; restart/loaded-chunk cleanup is the failsafe. No generic kill-all or full-world per-tick scanner was added.
+
+New high-confidence guards:
+- Lightning Rod tagged projectile leftovers are removed; 2.2.8's impact-driven prevention remains.
+- Frostixian ice/blue-ice timers no longer depend on a transformed player's per-tick command loop. One shared 1-second timer preserves the original 10s/20s cleanup windows.
+- Web timers clean their temporary cobweb volume after 20 seconds.
+- AlienEvo/AFOmni temporary ice markers age independently of a transformed player and invoke the addon's own break_ice cleanup.
+- Conservative orphan timeouts cover known temporary ice/earth/diamond spikes, iceberg/flying-block/slime/tree/root/branch/sound/fireball helpers.
+- Powerborne Sentry shadow-field cleanup now has a restart-safe failsafe based on the persisted area-effect-cloud Age; temporary void blocks are removed before the marker expires.
+
+Deliberately not auto-deleted: persistent/ambiguous gameplay entities such as Satsu sentinels/wolves, Infinity dropped-stone displays/portals, CelestialSapien portals, and other entities that the original content may intentionally keep.

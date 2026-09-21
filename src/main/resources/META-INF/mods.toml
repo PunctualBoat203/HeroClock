@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+[[mods]]
+modId="heroclock"
+version="2.2.10"
+displayName="HeroClock"
+description='''InsaneCraft Reloaded hero-stack timer and compatibility optimization layer.'''
+[[dependencies.heroclock]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.heroclock]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.heroclock]]
+modId="omnioptimizer"
+mandatory=false
+versionRange="[1.7.1,)"
+ordering="NONE"
+side="BOTH"
