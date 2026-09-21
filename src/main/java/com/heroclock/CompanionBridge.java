@@ -1,9 +1,17 @@
 package com.heroclock;
 
-final class CompanionBridge {
+/**
+ * Public reflection bridge for optional optimizer companions.
+ *
+ * <p>OmniOptimizer discovers this class without a compile-time HeroClock
+ * dependency and calls {@link #handshake()} via {@code Class.getMethod}, so
+ * both the class and method are intentionally public. Keep this surface
+ * binary-compatible unless the companion protocol is versioned.</p>
+ */
+public final class CompanionBridge {
     private CompanionBridge() {}
 
-    static void handshake() {
+    public static void handshake() {
         try {
             Class<?> api = Class.forName("com.openai.omnioptimizer.api.OmniOptimizerAPI");
             api.getMethod("registerCompanion", String.class, String.class, String[].class)
