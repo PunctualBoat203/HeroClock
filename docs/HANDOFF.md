@@ -48,7 +48,7 @@ The following are the only addon artifacts considered verified inputs for this h
 | `powerborne-heroes-1.20.1-0.5.1.jar` | `powerborne` | `0.5.1` | `531d88e5e915ab0055027477df995d4c29a0f89775ac0a2b60b63e6be5d20fc2` |
 | `saiyan-3.0.jar` | `saiyan` | `0.1` | `c736737d9b5bf8771db201fbefc46d1130ef9f4631233c531db40f908f5c7ef2` |
 | `pantheonsent-1.1.1+1.20.1-forge.jar` | `pantheonsent` | `1.1.1` | `3a323241a3bfe91afc0151c98779bef818d127f4816d71e9c15e630ff1639a02` |
-| `OmniOptimizer-1.8.0.jar` | `omnioptimizer` | `1.8.0` | `43fee44ddfc8c44df816d74e1dc89075b22237f9d2b4549bf7866e1b9cfc3e1f` |
+| `OmniOptimizer-1.8.0.jar` | `omnioptimizer` | `1.8.0` | `43fee44ddfc8c44df816d74e1dc89075b22237f9d2b4549bf7866e1b9cfc3e1f` |\n| `OmniOptimizer-1.8.1.jar` | `omnioptimizer` | `1.8.0` | `5677f1ae0266e6e29e3162a32713ee8a5cff01dbf5c82025335a5eb184a454ac` |
 
 The filename/metadata mismatches are intentional facts of the supplied artifacts and must not be “corrected” by guessing. Runtime compatibility gating should use Forge-loaded metadata or an explicit artifact/profile check, not filename parsing.
 
@@ -96,7 +96,7 @@ Static inspection of the supplied artifacts identified these concrete runtime pa
 
 No new cadence-changing redirect from this list should be promoted solely from static analysis. The current branch keeps generic optimizations active and records the specific candidates for Astra 6 verification.
 
-### OmniOptimizer 1.8.0 coordination
+### OmniOptimizer 1.8.x coordination
 
 The supplied OmniOptimizer 1.8.0 JAR exposes `com.openai.omnioptimizer.api.OmniOptimizerAPI` and a companion registration API. It also has optional integrations for several of the same ecosystem mods. HeroClock must coordinate rather than duplicate overlapping responsibilities.
 
@@ -114,7 +114,7 @@ Do not make stock addons depend on HeroClock for correctness. If an adapter is d
 
 ## Known follow-up items
 
-- `VersionGuard` now uses the **embedded** versions above and exposes `isVerifiedProfile(modId)` for future version-gated adapters. If any supplied JAR changes, update the hash table and verified metadata profile together before enabling that adapter.
+- `VersionGuard` uses the **embedded** versions above and exposes `isVerifiedProfile(modId)` for future version-gated adapters. OmniOptimizer is a special case: both supplied 1.8.0 and filename-labeled 1.8.1 artifacts advertise embedded version `1.8.0`, so artifact-level changes must be tracked by hash/API inspection rather than Forge version metadata alone.
 - Keep investigating only the supplied mod set until new artifacts are explicitly added to scope.
 - Do not blindly restore old KubeJS cadence throttles globally. Where historical server patches reduced 20 Hz polling, first determine whether the generic Palladium layer already eliminates the expensive side effect. Add a mod-specific cadence adapter only if runtime testing confirms the behavior remains correct.
 - Preserve the released 2.2.14 artifact as a regression reference while developing newer versions.
@@ -141,7 +141,7 @@ Log interpretation matters for this capture:
 - Severe `Can't keep up` messages occurred during world startup before the Spark capture settled.
 - Two low-TPS windows inside the capture align with explicit singleplayer `Saving and pausing game...` events across many dimensions; do not treat those windows as steady-state server load.
 - HeroClock 2.2.15 loaded successfully and no HeroClock mixin application crash was observed in the supplied logs.
-- The pack had updated OmniOptimizer from the supplied/verified 1.8.0 artifact to **1.8.1** before this run. OmniOptimizer 1.8.1 logged a HeroClock companion-handshake `NoSuchMethodException` and also failed its optional integration-pack registration. Because the 1.8.1 JAR was not supplied for this compatibility pass, do not guess at its API or mark it supported until that exact artifact is added to scope.
+- The pack had updated OmniOptimizer from 1.8.0 to the filename-labeled **1.8.1** artifact before this run. That exact JAR was subsequently supplied and hash-verified. Its HeroClock handshake failed because OmniOptimizer uses `Class.getMethod(\"handshake\")` while HeroClock's bridge was package-private; the branch now fixes that visibility contract. The separate OmniOptimizer optional integration-pack registration failure remains an OmniOptimizer-side issue.
 - `minecraft_mobs_pack` advancement/resource errors are present. The failing HeroClock-tagged advancement chain is inherited from the released 2.2.14 compatibility resources, while the log also reports missing `minecraft_mobs` item IDs. Treat this as stale/missing external compatibility content rather than evidence that the new 2.2.15 Java runtime introduced the failure.
 
 This checkpoint is the before/after reference for the next adapter build. Keep exact behavior changes isolated so future Spark captures can show whether each redirect actually reduces the Palladium/Rhino hot paths.
