@@ -52,6 +52,8 @@ The following are the only addon artifacts considered verified inputs for this h
 | `kubejs-forge-2001.6.5-build.26.jar` | `kubejs` | `2001.6.5-build.26` | `1769312192fbf9d72f45054ba61130523bfb471b5f480a4bff8c210ec09400bb` |
 | `palladium-4.5.9+1.20.1-forge.jar` | `palladium` | `4.5.9` | `af99a7ba746404c9774cd737dcc1db2d1f6fb7963fdbfa1bbee6b5b9832e29c9` |
 | `rhino-forge-2001.2.3-build.10.jar` | `rhino` | `2001.2.3-build.10` | `fed2211429301bf043864183cab9ab8e92d4cc4dbb9e488ce6c75217c54584a6` |
+| `curios-forge-5.14.1+1.20.1.jar` | `curios` | `5.14.1+1.20.1` | `1e817919a35b37cf30524aaec73f0ca5130452f23f168f844854df282eb8e51f` |
+| `Pehkui-3.8.2+1.20.1-forge.jar` | `pehkui` | `3.8.2+1.20.1-forge` | `54210f454c166f65a1bcbbfe4ea52e6f73e07844a793c7132f1af4076a0f42fc` |
 | `OmniOptimizer-1.8.1.jar` | `omnioptimizer` | `1.8.0` | `5677f1ae0266e6e29e3162a32713ee8a5cff01dbf5c82025335a5eb184a454ac` |
 
 The filename/metadata mismatches are intentional facts of the supplied artifacts and must not be “corrected” by guessing. Runtime compatibility gating should use Forge-loaded metadata or an explicit artifact/profile check, not filename parsing.
@@ -81,6 +83,15 @@ The current Palladium 4.5.9 mixins are intentionally generic and therefore benef
 - cached command functions are invalidated when the command dispatcher changes.
 
 The timer/work/cleanup systems also provide the internal mechanisms future adapters should use.
+
+### Curios and Pehkui follow-up
+
+The exact Curios 5.14.1+1.20.1 and Pehkui 3.8.2+1.20.1 Forge JARs were inspected after the first Spark-guided pass.
+
+- **Pehkui 3.8.2** already implements its own fast per-entity `ScaleData[]` cache before falling back to the entity scale map. HeroClock therefore does not add a duplicate scale-data cache. `TypedScaleModifier.getType()` still resolves its supplier, but changing that contract is not justified from the current profile.
+- **Curios 5.14.1** keeps the live slot-handler map internally but `getCurios()` creates a fresh `Collections.unmodifiableMap` wrapper on each call. `findFirstCurio` and related scan paths call through that getter. HeroClock now reuses one read-only wrapper for the verified Curios profile and invalidates it when Curios replaces the backing map. The view remains live, so slot-map mutations remain visible.
+- HeroClock intentionally does **not** cache Curios `findFirstCurio` / `findCurios` results or item stacks. Those results can change during gameplay and require stronger invalidation semantics.
+- KubeJS/Rhino universal optimization remains a future Astra 6 concern. HeroClock's current scope is safe boundary optimizations and verified superhero-addon redirects.
 
 ### KubeJS / Palladium / Rhino optimization baseline
 
