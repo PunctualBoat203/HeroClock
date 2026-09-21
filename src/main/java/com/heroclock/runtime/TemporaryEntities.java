@@ -114,6 +114,7 @@ public final class TemporaryEntities {
         @Override
         public boolean getAsBoolean() {
             if (entity.isRemoved() || !entity.getTags().contains(tag)) return true;
+            if (HeroClockAPI.remaining(entity, "cleanup." + tag) > 0) return true;
             ServerLevel level = (ServerLevel) entity.level();
             if (tag.equals("a.ice")) {
                 var function = level.getServer().getFunctions().get(new ResourceLocation("afomni", "iceberg/break_ice"));

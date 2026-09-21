@@ -9,9 +9,26 @@ group = 'com.heroclock'
 base { archivesName = 'HeroClock' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+sourceSets {
+    gameTest {
+        compileClasspath += sourceSets.main.output + configurations.testCompileClasspath
+        runtimeClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+    }
+}
+
 minecraft {
     mappings channel: 'official', version: '1.20.1'
     runs {
+        gameTestServer {
+            workingDirectory project.file('run-gametest')
+            property 'forge.enabledGameTestNamespaces', 'heroclock'
+            mods {
+                heroclock {
+                    source sourceSets.main
+                    source sourceSets.gameTest
+                }
+            }
+        }
         server {
             workingDirectory project.file('run')
             args '--nogui'
