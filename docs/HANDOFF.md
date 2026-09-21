@@ -121,6 +121,31 @@ Do not make stock addons depend on HeroClock for correctness. If an adapter is d
 - Revisit the suspicious Satsu animation resource path and the AlienEvo one-shot cleanup spike during target-pack testing; do not rename/delete behavior-sensitive resources without confirming the owning loader.
 - Build/CI results still need an independently observed successful run on the final commit.
 
+## 2026-09-21 real-pack validation checkpoint
+
+Test build: `HeroClock-2.2.15-dev-6f57c0b.jar` from commit `6f57c0b7c2f2292c66052399f602d5a65087fbfb`.
+
+The exact GitHub Actions build for this commit passed Gradle tests/build, base Forge GameTests and the Palladium 4.5.9 runtime tests before the JAR was tested in the pack.
+
+A roughly 16m20s Spark Java-engine profile was captured in the real integrated-server pack. Important steady-state observations:
+
+- Spark's ending statistics were effectively 20 TPS over the last 1 and 5 minutes. Last-1m MSPT was about 17.50 ms mean / 15.45 ms median / 24.37 ms p95. Last-5m MSPT was about 19.39 ms mean / 16.76 ms median / 33.46 ms p95. The profile contained isolated large spikes, so this is a checkpoint rather than a final benchmark.
+- HeroClock itself was not a meaningful hot path in this sample. Summed exclusive HeroClock-source samples inside the active integrated-server tick subtree were about 228 ms, roughly 0.05% of that sampled tick subtree. `ServerRuntime.tick` and `TemporaryEntities` were individually tiny.
+- The actionable hot area is Palladium + Rhino/KubeJS execution. Palladium's power/ability tick path accounted for a large share of active tick samples. `PropertyManager.getPropertyByName` accumulated about 19.7 s of exclusive sampled time across occurrences; condition evaluation and scriptable condition/ability paths were also substantial.
+- Rhino carried about 16% of exclusive sampled active-tick work and Palladium about 7.7%. Interpreted addon scripts appear under Rhino rather than under each addon JAR's source name, so this profile alone cannot safely attribute all Rhino time to Satsu, Omni Evo, MyPowers, etc.
+- The safest first per-mod redirect remains Satsu's verified `sentinel_kill` global selector -> lifecycle-triggered cleanup. The profile also justifies investigating a generic/version-gated Palladium property-name lookup/cache optimization, which may yield more than a single addon redirect.
+- Do not globally throttle ScriptableCondition/ScriptableAbility callbacks from this profile. Add diagnostics or narrow adapters first so gameplay-sensitive 20 Hz behavior is not changed blindly.
+
+Log interpretation matters for this capture:
+
+- Severe `Can't keep up` messages occurred during world startup before the Spark capture settled.
+- Two low-TPS windows inside the capture align with explicit singleplayer `Saving and pausing game...` events across many dimensions; do not treat those windows as steady-state server load.
+- HeroClock 2.2.15 loaded successfully and no HeroClock mixin application crash was observed in the supplied logs.
+- The pack had updated OmniOptimizer from the supplied/verified 1.8.0 artifact to **1.8.1** before this run. OmniOptimizer 1.8.1 logged a HeroClock companion-handshake `NoSuchMethodException` and also failed its optional integration-pack registration. Because the 1.8.1 JAR was not supplied for this compatibility pass, do not guess at its API or mark it supported until that exact artifact is added to scope.
+- `minecraft_mobs_pack` advancement/resource errors are present. The failing HeroClock-tagged advancement chain is inherited from the released 2.2.14 compatibility resources, while the log also reports missing `minecraft_mobs` item IDs. Treat this as stale/missing external compatibility content rather than evidence that the new 2.2.15 Java runtime introduced the failure.
+
+This checkpoint is the before/after reference for the next adapter build. Keep exact behavior changes isolated so future Spark captures can show whether each redirect actually reduces the Palladium/Rhino hot paths.
+
 ## Astra 6 resume checklist
 
 When Astra 6 access is restored:
