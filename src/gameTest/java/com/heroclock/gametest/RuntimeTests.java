@@ -105,6 +105,30 @@ public final class RuntimeTests {
         Class<?> properties = Class.forName("net.threetag.palladium.util.property.EntityPropertyHandler");
         helper.assertTrue(java.util.Arrays.stream(properties.getDeclaredMethods()).anyMatch(method ->
                 method.getName().contains("skipUnchangedScalar")), "Property sync mixin missing");
+
+        Class<?> managerType = Class.forName("net.threetag.palladium.util.property.PropertyManager");
+        Class<?> propertyType = Class.forName("net.threetag.palladium.util.property.PalladiumProperty");
+        Class<?> integerPropertyType = Class.forName("net.threetag.palladium.util.property.IntegerProperty");
+        Object manager = managerType.getConstructor().newInstance();
+        Object cachedProperty = integerPropertyType.getConstructor(String.class).newInstance("heroclock_cached");
+        var register = managerType.getMethod("register", propertyType, Object.class);
+        var lookup = managerType.getMethod("getPropertyByName", String.class);
+        register.invoke(manager, cachedProperty, Integer.valueOf(1));
+        helper.assertTrue(lookup.invoke(manager, "heroclock_cached") == cachedProperty, "Initial property lookup failed");
+        helper.assertTrue(lookup.invoke(manager, "heroclock_cached") == cachedProperty, "Cached property lookup changed result");
+        var cacheField = java.util.Arrays.stream(managerType.getDeclaredFields())
+                .filter(field -> field.getName().contains("propertyByName"))
+                .findFirst().orElseThrow();
+        cacheField.setAccessible(true);
+        Object cache = cacheField.get(manager);
+        helper.assertTrue(cache instanceof java.util.Map<?, ?> map && map.get("heroclock_cached") == cachedProperty,
+                "Property lookup cache did not retain the positive result");
+        helper.assertTrue(lookup.invoke(manager, "heroclock_late") == null, "Unexpected property found before registration");
+        Object lateProperty = integerPropertyType.getConstructor(String.class).newInstance("heroclock_late");
+        register.invoke(manager, lateProperty, Integer.valueOf(2));
+        helper.assertTrue(lookup.invoke(manager, "heroclock_late") == lateProperty,
+                "Late property registration was hidden by lookup caching");
+
         Class<?> commands = Class.forName("net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing");
         Object parsing = commands.getConstructor(java.util.List.class).newInstance(java.util.List.of());
         helper.assertTrue(commands.getMethod("getCommandFunction", net.minecraft.server.MinecraftServer.class)
