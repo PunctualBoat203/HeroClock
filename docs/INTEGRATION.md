@@ -2,7 +2,9 @@
 
 Author: PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
-Use `HeroClock-2.2.16-api.jar` as a compile-only dependency and install the full HeroClock mod at runtime. Do not install or bundle the API JAR as a mod. It contains only supported API facades and value records, not the scheduler, compatibility inspectors, cleanup implementations or mixins. The implementation stays outside the supported integration contract. Existing All Rights Reserved licensing is unchanged. A small API artifact is not a copy-protection mechanism for the separately distributed runtime or public repository.
+Use `HeroClock-2.2.16-api.jar` as a compile-only dependency and install the full HeroClock mod at runtime. The standalone API artifact is also embedded inside the normal runtime JAR at `META-INF/heroclock/HeroClock-2.2.16-api.jar` so developers can extract it directly from the distributed mod. The embedded copy is an inert resource, not a Forge JarJar dependency, and is byte-for-byte identical to the separately produced API JAR. Do not install the API JAR as a mod and do not bundle/shade it into another mod.
+
+The API artifact contains only supported API facades and value records, not the scheduler, compatibility inspectors, cleanup implementations or mixins. The implementation stays outside the supported integration contract. Existing All Rights Reserved licensing is unchanged. A small API artifact is not a copy-protection mechanism for the separately distributed runtime or public repository.
 
 ## Java addons
 
@@ -30,7 +32,7 @@ if (HeroClock.expired(entity, 'myaddon:cooldown')) {
 }
 ```
 
-Use event handlers rather than registering duplicate global scripts. Installing HeroClock does not automatically migrate arbitrary addon scoreboards or script loops.
+KubeJS users do not need to extract or install the API JAR; the same public `com.heroclock.api.*` classes are already present in the installed runtime mod. Use event handlers rather than registering duplicate global scripts. Installing HeroClock does not automatically migrate arbitrary addon scoreboards or script loops.
 
 ## Datapacks / addonpacks
 

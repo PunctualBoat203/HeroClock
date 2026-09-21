@@ -72,7 +72,20 @@ tasks.named('processResources', ProcessResources) {
     inputs.property 'version', project.version
     filesMatching('META-INF/mods.toml') { expand(version: project.version) }
 }
+
+def apiJarTask = tasks.register('apiJar', Jar) {
+    archiveClassifier = 'api'
+    from(sourceSets.main.output) { include 'com/heroclock/api/**' }
+    manifest.attributes('Implementation-Version': project.version,
+                        'Implementation-Vendor': 'PunctualBoat',
+                        'HeroClock-API-Version': '1')
+}
+
 tasks.named('jar', Jar) {
+    dependsOn apiJarTask
+    from(apiJarTask.flatMap { it.archiveFile }) {
+        into 'META-INF/heroclock'
+    }
     manifest.attributes('Implementation-Version': project.version,
                         'Implementation-Vendor': 'PunctualBoat',
                         'MixinConfigs': 'heroclock.mixins.json')
@@ -84,11 +97,4 @@ mixin {
     config 'heroclock.mixins.json'
 }
 
-tasks.register('apiJar', Jar) {
-    archiveClassifier = 'api'
-    from(sourceSets.main.output) { include 'com/heroclock/api/**' }
-    manifest.attributes('Implementation-Version': project.version,
-                        'Implementation-Vendor': 'PunctualBoat',
-                        'HeroClock-API-Version': '1')
-}
-tasks.named('assemble') { dependsOn 'apiJar' }
+tasks.named('assemble') { dependsOn apiJarTask }
