@@ -2,7 +2,7 @@
 
 Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
 
-Forge-dependent tests exercise the actual timer API with mocked world/entity objects: compressed NBT round trips, dimension changes, block persistence dirtiness, unsupported access, overflow and non-mutating reads. These run in CI with the Forge development classpath.
+A separate GameTest source set exercises the actual timer API, entity NBT save/load, expiry, deferred steps, late helper tags and targeted block cleanup inside a headless Forge world. CI runs it both without Palladium and with the exact public Palladium 4.5.9 artifact matching the supplied JAR. The latter also verifies the optional mixins are applied. Test classes and structures are excluded from the production JAR.
 
 A production release still needs the target modpack to verify:
 

@@ -72,4 +72,46 @@ public final class RuntimeTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void timerEdgeCases(GameTestHelper helper) {
+        var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        entity.setNoGravity(true);
+        helper.assertTrue(!entity.getPersistentData().contains(HeroClockAPI.ROOT), "Unexpected timer root");
+        helper.assertTrue(HeroClockAPI.remaining(entity, "missing") == 0, "Missing timer is active");
+        helper.assertTrue(!entity.getPersistentData().contains(HeroClockAPI.ROOT), "Read created timer data");
+        HeroClockAPI.set(entity, "edge", Long.MAX_VALUE);
+        helper.assertTrue(HeroClockAPI.deadline(entity, "edge") == Long.MAX_VALUE, "Deadline overflowed");
+        HeroClockAPI.add(entity, "edge", Long.MIN_VALUE);
+        helper.assertTrue(HeroClockAPI.expired(entity, "edge"), "Negative adjustment failed");
+        boolean invalidRejected = false;
+        try { HeroClockAPI.setSeconds(entity, "edge", Double.NaN); }
+        catch (IllegalArgumentException expected) { invalidRejected = true; }
+        helper.assertTrue(invalidRejected, "Non-finite duration accepted");
+        entity.discard();
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void palladiumMixinsApplyWhenPresent(GameTestHelper helper) throws Exception {
+        if (!net.minecraftforge.fml.ModList.get().isLoaded("palladium")) { helper.succeed(); return; }
+        var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        entity.setNoGravity(true);
+        Class<?> handlerType = Class.forName("net.threetag.palladium.power.PowerHandler");
+        Object handler = handlerType.getConstructor(net.minecraft.world.entity.LivingEntity.class).newInstance(entity);
+        var getter = handlerType.getMethod("getPowerHolders");
+        Object first = getter.invoke(handler);
+        helper.assertTrue(first == getter.invoke(handler), "Power holder view was not reused");
+        Class<?> properties = Class.forName("net.threetag.palladium.util.property.EntityPropertyHandler");
+        helper.assertTrue(java.util.Arrays.stream(properties.getDeclaredMethods()).anyMatch(method ->
+                method.getName().contains("skipUnchangedScalar")), "Property sync mixin missing");
+        Class<?> commands = Class.forName("net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing");
+        Object parsing = commands.getConstructor(java.util.List.class).newInstance(java.util.List.of());
+        helper.assertTrue(commands.getMethod("getCommandFunction", net.minecraft.server.MinecraftServer.class)
+                .invoke(parsing, helper.getLevel().getServer()) != null, "Command parsing failed");
+        helper.assertTrue(java.util.Arrays.stream(commands.getDeclaredFields()).anyMatch(field ->
+                field.getName().contains("dispatcher")), "Command cache mixin missing");
+        entity.discard();
+        helper.succeed();
+    }
 }

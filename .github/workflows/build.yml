@@ -2,7 +2,6 @@ name: Build and test
 on:
   push:
     branches: [main, improve-clock-runtime]
-  pull_request:
 permissions:
   contents: read
 jobs:
@@ -20,6 +19,7 @@ jobs:
           gradle-version: '8.8'
       - run: gradle --no-daemon test build
       - run: gradle --no-daemon runGameTestServer
+      - run: gradle --no-daemon -PwithPalladium runGameTestServer
       - uses: actions/upload-artifact@v4
         with:
           name: HeroClock-2.2.15
