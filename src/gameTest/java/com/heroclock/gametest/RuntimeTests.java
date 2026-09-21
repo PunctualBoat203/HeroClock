@@ -138,4 +138,54 @@ public final class RuntimeTests {
         entity.discard();
         helper.succeed();
     }
+
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void datapackTimerCommands(GameTestHelper helper) {
+        var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        entity.setNoGravity(true);
+        var source = entity.createCommandSourceStack().withPermission(2).withSuppressedOutput();
+        var commands = helper.getLevel().getServer().getCommands();
+        int result = commands.performPrefixedCommand(source, "heroclock timer set example:cooldown 30");
+        helper.assertTrue(result == 30, "Timer command did not return remaining ticks");
+        helper.assertTrue(HeroClockAPI.remaining(entity, "example:cooldown") == 30, "Command did not set timer");
+        commands.performPrefixedCommand(source, "heroclock timer add example:cooldown -10");
+        helper.assertTrue(HeroClockAPI.remaining(entity, "example:cooldown") == 20, "Command did not adjust timer");
+        commands.performPrefixedCommand(source, "heroclock timer clear example:cooldown");
+        helper.assertTrue(HeroClockAPI.expired(entity, "example:cooldown"), "Command did not clear timer");
+        int denied = commands.performPrefixedCommand(source.withPermission(0), "heroclock timer set example:denied 20");
+        helper.assertTrue(denied == 0 && HeroClockAPI.deadline(entity, "example:denied") == 0, "Command permission was bypassed");
+        entity.discard();
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void deferredFunctionsCoalesce(GameTestHelper helper) {
+        var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        entity.setNoGravity(true);
+        var source = entity.createCommandSourceStack().withPermission(2).withSuppressedOutput();
+        var function = new net.minecraft.resources.ResourceLocation("heroclock", "test_marker");
+        helper.assertTrue(com.heroclock.api.HeroFunctionAPI.schedule(source, "example:marker", 3, function), "Function rejected");
+        helper.assertTrue(com.heroclock.api.HeroFunctionAPI.schedule(source, "example:marker", 8, function), "Replacement rejected");
+        helper.runAfterDelay(5, () -> helper.assertTrue(!entity.getTags().contains("heroclock_test_marker"), "Superseded function ran"));
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(entity.getTags().contains("heroclock_test_marker"), "Deferred function lost its executor");
+            entity.discard();
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void satsuFunctionChangesRetainStockBehavior(GameTestHelper helper) {
+        var server = helper.getLevel().getServer();
+        var source = server.createCommandSourceStack().withPermission(2);
+        var id = new net.minecraft.resources.ResourceLocation("satsu_iron_man_addon", "tick");
+        var original = net.minecraft.commands.CommandFunction.fromLines(id, server.getCommands().getDispatcher(), source,
+                java.util.List.of("kill @e[tag=sentinel_kill]"));
+        var changed = net.minecraft.commands.CommandFunction.fromLines(id, server.getCommands().getDispatcher(), source,
+                java.util.List.of("kill @e[tag=sentinel_kill]", "say additional gameplay"));
+        helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Matching function rejected");
+        helper.assertTrue(!com.heroclock.SatsuAdapter.matches(changed), "Changed function was suppressed");
+        helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Function reload was not rechecked");
+        helper.succeed();
+    }
 }

@@ -32,4 +32,4 @@ Recognized helper tags are the ones used by the original 2.2.10 persistence guar
 
 Block cleanup starts at the original timeout and finishes over multiple ticks. It changes only the original rule's target block within its original volume. A needed unloaded neighboring chunk defers cleanup. The `a.ice` rule still calls the addon's own `afomni:iceberg/break_ice` function; that function is not preemptible. Other original addon commands are not automatically made cheap by this API.
 
-Palladium patches can be disabled with `-Dheroclock.disablePalladiumOptimizations=true`. Unsupported Palladium versions keep their own behavior. The optional OmniOptimizer bridge retains its existing external class name for binary compatibility; HeroClock's authorship is PunctualBoat.
+Palladium patches can be disabled with `-Dheroclock.disablePalladiumOptimizations=true`. Palladium methods that do not match their audited code contracts keep their own behavior. The optional companion bridge discovers the API relative to the installed companion's entrypoint package. HeroClock's author is PunctualBoat.

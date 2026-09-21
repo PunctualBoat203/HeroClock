@@ -25,7 +25,7 @@ public final class SatsuAdapter {
         if (function == null || !TICK_FUNCTION.equals(function.getId())) return false;
         if (function != checkedFunction) {
             var entries = function.getEntries();
-            compatible = entries.length == 1 && entries[0].toString().equals("kill @e[tag=sentinel_kill]");
+            compatible = entries.length == 1 && entries[0] instanceof CommandFunction.CommandEntry && entries[0].toString().equals("kill @e[tag=sentinel_kill]");
             checkedFunction = function;
         }
         return compatible;

@@ -22,17 +22,17 @@ jobs:
         run: |
           set -o pipefail
           gradle --no-daemon runGameTestServer | tee gametest-base.log
-          grep -F 'All 6 required tests passed' gametest-base.log
+          grep -F 'All 9 required tests passed' gametest-base.log
       - name: Prepare audited Palladium test dependencies
         run: python tools/prepare_palladium_test.py
       - name: Test Palladium runtime
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium runGameTestServer | tee gametest-palladium.log
-          grep -F 'All 6 required tests passed' gametest-palladium.log
+          grep -F 'All 9 required tests passed' gametest-palladium.log
       - uses: actions/upload-artifact@v4
         with:
-          name: HeroClock-2.2.15
+          name: HeroClock-2.2.16
           path: build/libs/*.jar
       - uses: actions/upload-artifact@v4
         if: always()

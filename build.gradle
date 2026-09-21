@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '2.2.15'
+version = '2.2.16'
 group = 'com.heroclock'
 base { archivesName = 'HeroClock' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -77,3 +77,12 @@ mixin {
     add sourceSets.main, 'heroclock.refmap.json'
     config 'heroclock.mixins.json'
 }
+
+tasks.register('apiJar', Jar) {
+    archiveClassifier = 'api'
+    from(sourceSets.main.output) { include 'com/heroclock/api/**' }
+    manifest.attributes('Implementation-Version': project.version,
+                        'Implementation-Vendor': 'PunctualBoat',
+                        'HeroClock-API-Version': '1')
+}
+tasks.named('assemble') { dependsOn 'apiJar' }
