@@ -48,7 +48,11 @@ The following are the only addon artifacts considered verified inputs for this h
 | `powerborne-heroes-1.20.1-0.5.1.jar` | `powerborne` | `0.5.1` | `531d88e5e915ab0055027477df995d4c29a0f89775ac0a2b60b63e6be5d20fc2` |
 | `saiyan-3.0.jar` | `saiyan` | `0.1` | `c736737d9b5bf8771db201fbefc46d1130ef9f4631233c531db40f908f5c7ef2` |
 | `pantheonsent-1.1.1+1.20.1-forge.jar` | `pantheonsent` | `1.1.1` | `3a323241a3bfe91afc0151c98779bef818d127f4816d71e9c15e630ff1639a02` |
-| `OmniOptimizer-1.8.0.jar` | `omnioptimizer` | `1.8.0` | `43fee44ddfc8c44df816d74e1dc89075b22237f9d2b4549bf7866e1b9cfc3e1f` |\n| `OmniOptimizer-1.8.1.jar` | `omnioptimizer` | `1.8.0` | `5677f1ae0266e6e29e3162a32713ee8a5cff01dbf5c82025335a5eb184a454ac` |
+| `OmniOptimizer-1.8.0.jar` | `omnioptimizer` | `1.8.0` | `43fee44ddfc8c44df816d74e1dc89075b22237f9d2b4549bf7866e1b9cfc3e1f` |
+| `kubejs-forge-2001.6.5-build.26.jar` | `kubejs` | `2001.6.5-build.26` | `1769312192fbf9d72f45054ba61130523bfb471b5f480a4bff8c210ec09400bb` |
+| `palladium-4.5.9+1.20.1-forge.jar` | `palladium` | `4.5.9` | `af99a7ba746404c9774cd737dcc1db2d1f6fb7963fdbfa1bbee6b5b9832e29c9` |
+| `rhino-forge-2001.2.3-build.10.jar` | `rhino` | `2001.2.3-build.10` | `fed2211429301bf043864183cab9ab8e92d4cc4dbb9e488ce6c75217c54584a6` |
+| `OmniOptimizer-1.8.1.jar` | `omnioptimizer` | `1.8.0` | `5677f1ae0266e6e29e3162a32713ee8a5cff01dbf5c82025335a5eb184a454ac` |
 
 The filename/metadata mismatches are intentional facts of the supplied artifacts and must not be “corrected” by guessing. Runtime compatibility gating should use Forge-loaded metadata or an explicit artifact/profile check, not filename parsing.
 
@@ -77,6 +81,27 @@ The current Palladium 4.5.9 mixins are intentionally generic and therefore benef
 - cached command functions are invalidated when the command dispatcher changes.
 
 The timer/work/cleanup systems also provide the internal mechanisms future adapters should use.
+
+### KubeJS / Palladium / Rhino optimization baseline
+
+Exact supplied runtime artifacts were inspected before adding any direct optimization.
+
+- KubeJS 2001.6.5-build.26 already caches event-handler containers.
+- Rhino 2001.2.3-build.10 already caches Java member metadata and method overload resolution.
+- Palladium 4.5.9 `PropertyManager.getPropertyByName(String)` performs a linear scan over every registered property on each lookup.
+
+Because KubeJS/Rhino already cache their reflection/event structures, HeroClock does **not** add a broad Rhino/KubeJS core cache. Instead, 2.2.15 now adds a positive-result cache around Palladium's property-name lookup. Only successful lookups are cached, so a miss followed by late/dynamic property registration remains visible. The Palladium GameTest verifies that behavior.
+
+### First active per-mod redirect
+
+For the verified Satsu Iron Man 3.5.3 profile, HeroClock now replaces the stock 20 Hz `kill @e[tag=sentinel_kill]` world selector with keyed lifecycle work:
+
+- adding/loading `sentinel_kill` schedules a bounded HeroClock kill task;
+- the stock `satsu_iron_man_addon:tick` function is suppressed only for the verified 3.5.3 profile;
+- unknown Satsu versions keep their stock function;
+- if the HeroClock work queue approaches saturation, suppression fails open and the stock Satsu function runs.
+
+The adapter uses `Entity.kill()` to preserve the stock kill command's removal intent and schedules it one tick later rather than killing inline at tag assignment.
 
 ### Initial supplied-JAR hotspot audit
 
