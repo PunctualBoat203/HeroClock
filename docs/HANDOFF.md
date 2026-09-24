@@ -22,3 +22,5 @@ Keep the 2.2.16 baseline for a matched real-pack comparison. Client gameplay, re
 The supplied 2026-09-24 capture has now been cross-referenced at [SCRIPTING_PROFILE_2026-09-24.md](SCRIPTING_PROFILE_2026-09-24.md). It prioritizes wrapper/member initialization and source-attributed callbacks for the requested scripting-first pass, with RAM tuning outside scope.
 
 The 2.2.18 follow-up defers unused Rhino overload caches and pre-sizes receiver-bound member maps. It preserves per-receiver wrappers and stock resolution, with independent guards and stricter full-method-set checks for the private-cache transformation. See the 2.2.18 section of [SCRIPTING.md](SCRIPTING.md).
+
+The completed 2.2.18 candidate passed CI run `35982475439` at `bcb3b713` across all seven environments. See [VALIDATION.md](VALIDATION.md) for evidence and artifacts. Subsequent checkpoint documentation does not change the tested runtime.

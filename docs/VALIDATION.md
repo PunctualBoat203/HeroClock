@@ -11,7 +11,7 @@ CI runs seven environments:
 - The same Palladium code with only its version metadata changed to a synthetic `99.0.0`; matching optimizations must remain enabled. This is not a claim about an actual future release.
 - Palladium with the private PowerHandler backing field renamed throughout its class; that optimization must stay disabled while other matching patches still work and the server completes its tests.
 
-Three additional scripting environments exercise the exact supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels and deliberately incompatible scripting targets. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
+Three additional scripting environments exercise the exact supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels and deliberately incompatible scripting targets. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. Rhino wrapper checks also cover all three cache-allocation constructor paths, live field reads, independent receivers/caches, zero/one-argument overloads, single-method storage, concurrent first-use publication and mutable scopes/prototypes. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
 
 Test classes, structures and modified dependency fixtures are excluded from the production artifacts. Palladium's nested libraries are extracted only for separate ForgeGradle development remapping. CI also checks that the compile-only API JAR contains only public facades/value records, while the runtime contains the implementation, contracts and refmap.
 
@@ -39,3 +39,11 @@ A production release still needs the real target pack to verify:
 10. Only after the runtime pass, promote any newly discovered mod-specific redirect from experimental/contract-gated to supported.
 
 No live target-pack benchmark or in-game validation is claimed by the repository tests. The 1 ms work budget limits starting additional steps; it cannot bound an individual callback's execution time.
+
+## 2.2.18 scripting hotspot checkpoint
+
+[CI run 35982475439](https://github.com/PunctualBoat203/HeroClock/actions/runs/35982475439) passed at `bcb3b713c5864f06d194b94ab4565abdf300a8e6` on 2026-09-24: unit/build checks, byte-identical embedded API verification and all twelve required GameTests in each of seven environments. Both new Rhino patches enabled on supplied and relabeled code, then independently declined the changed-field fixtures.
+
+An earlier candidate failed its constructor injection count; explicit audited constructor signatures corrected that failure, and runtime checks now exercise every allocation path. The scripting startup step has a diagnostic timeout so a Forge startup failure cannot hang indefinitely.
+
+[Runtime and developer API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/35982475439/artifacts/10801266073) are development candidates. This establishes tested behavior in the fixtures, not target-pack TPS/FPS gains.
