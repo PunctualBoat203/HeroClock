@@ -23,7 +23,7 @@ jobs:
       - name: Test supplied KubeJS and Rhino
         run: |
           set -o pipefail
-          gradle --no-daemon -PwithScripting runGameTestServer | tee gametest-scripting.log
+          timeout --signal=QUIT --kill-after=15s 300s gradle --no-daemon -PwithScripting runGameTestServer | tee gametest-scripting.log
           grep -F 'All 12 required tests passed' gametest-scripting.log
       - name: Test unchanged scripting code with different versions
         run: |

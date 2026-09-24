@@ -1,6 +1,6 @@
 # KubeJS and Rhino support
 
-HeroClock 2.2.17 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
+HeroClock 2.2.18 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
 ## Automatic optimizations
 
@@ -14,7 +14,7 @@ Each optimization is checked separately against audited executable method bodies
 
 The embedded API is an integration surface for mod/addon developers; datapack developers use HeroClock commands for the systems exposed to functions. Automatic optimizations run independently of this API and require no developer calls.
 
-`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.17-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
+`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.18-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
 
 ```javascript
 const HeroScript = Java.loadClass('com.heroclock.api.HeroScriptAPI');

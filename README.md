@@ -29,7 +29,7 @@ See [API and behavior](docs/API.md), [validation](docs/VALIDATION.md), and [hand
 
 ## Integration and safeguards
 
-2.2.17 checks each targeted method body and required field contract before enabling its optional patch, and checks Satsu's effective tick function after reloads. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
+HeroClock checks each targeted method body and required field contract before enabling its optional patch, and checks Satsu's effective tick function after reloads. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
 
 A separate `HeroClock-2.2.18-api.jar` exposes supported timer, bounded-work, deferred-function and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
 
