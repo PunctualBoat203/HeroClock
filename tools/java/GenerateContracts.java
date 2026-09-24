@@ -18,6 +18,11 @@ public final class GenerateContracts {
         try (ZipFile zip = new ZipFile(jar)) {
             new ClassReader(zip.getInputStream(zip.getEntry(target.replace('.', '/') + ".class"))).accept(node, 0);
         }
+        boolean exhaustive = methods.contains("*");
+        if (exhaustive) {
+            methods = new LinkedHashSet<>();
+            for (var method : node.methods) methods.add(method.name);
+        }
         List<CompatibilityContract.Field> fieldContracts = new ArrayList<>();
         for (var field : node.fields) if (fields.contains(field.name)) {
             fieldContracts.add(new CompatibilityContract.Field(field.name, field.desc, field.access));
@@ -37,7 +42,7 @@ public final class GenerateContracts {
             methodContracts.add(new CompatibilityContract.Method(method.name, method.desc, hash));
         }
         if (!found.equals(methods)) throw new IllegalStateException("Missing methods in " + target);
-        return new CompatibilityContract(mixin, mod, target, node.superName, fieldContracts, methodContracts, List.copyOf(anchors));
+        return new CompatibilityContract(mixin, mod, target, node.superName, fieldContracts, methodContracts, List.copyOf(anchors), exhaustive);
     }
 
     public static void main(String[] args) throws Exception {
@@ -50,7 +55,9 @@ public final class GenerateContracts {
             contract(args[2], "KubeEventContainerMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandlerContainer", Set.of("child"), Set.of("<init>", "add", "handle")),
             contract(args[3], "RhinoMapIdsMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaMap", Set.of("map"), Set.of("<init>", "getIds")),
             contract(args[2], "KubeBoundaryMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandler", Set.of(), Set.of("postToHandlers")),
-            contract(args[3], "RhinoBoundaryMixin", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync"))
+            contract(args[3], "RhinoBoundaryMixin", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync")),
+            contract(args[3], "RhinoLazyOverloadMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaMethod", Set.of("overloadCache", "methods"), Set.of("*")),
+            contract(args[3], "RhinoMemberMapMixin", "rhino", "dev.latvian.mods.rhino.JavaMembers", Set.of("fieldAndMethods", "staticFieldAndMethods"), Set.of("getFieldAndMethodsObjects"))
         );
         Files.writeString(Path.of(args[4]), new GsonBuilder().setPrettyPrinting().create().toJson(contracts) + "\n");
     }

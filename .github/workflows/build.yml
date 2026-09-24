@@ -59,7 +59,7 @@ jobs:
           grep -F 'All 12 required tests passed' gametest-changed-target.log
       - uses: actions/upload-artifact@v4
         with:
-          name: HeroClock-2.2.17
+          name: HeroClock-2.2.18
           path: build/libs/*.jar
       - uses: actions/upload-artifact@v4
         if: always()

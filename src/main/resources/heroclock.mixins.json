@@ -10,6 +10,8 @@
     "RhinoMapIdsMixin",
     "KubeBoundaryMixin",
     "RhinoBoundaryMixin",
+    "RhinoLazyOverloadMixin",
+    "RhinoMemberMapMixin",
     "EntityPropertyHandlerMixin",
     "PropertyManagerMixin",
     "PowerHandlerMixin",

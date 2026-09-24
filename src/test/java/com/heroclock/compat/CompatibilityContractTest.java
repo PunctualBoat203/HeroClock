@@ -69,4 +69,16 @@ class CompatibilityContractTest {
         assertEquals(expected, MethodFingerprint.hash(development,
                 (method, owner, name, descriptor) -> name.equals("getGameTime") ? "m_46467_" : name));
     }
+    @Test void exhaustiveContractRejectsNewReadersAndNestmates() {
+        ClassNode node = target();
+        var partial = contract(node);
+        var complete = new CompatibilityContract(partial.mixin(), partial.mod(), partial.target(), partial.parent(),
+                partial.fields(), partial.methods(), partial.minecraftMembers(), true);
+        assertNull(complete.mismatch(node, MethodFingerprint.IDENTITY));
+        node.methods.add(new MethodNode(Opcodes.ACC_PUBLIC, "newReader", "()V", null, null));
+        assertEquals("method set changed", complete.mismatch(node, MethodFingerprint.IDENTITY));
+        node.methods.remove(1);
+        node.nestHostClass = "example/NewHost";
+        assertEquals("nest members changed", complete.mismatch(node, MethodFingerprint.IDENTITY));
+    }
 }

@@ -31,7 +31,8 @@
         "name": "m_19879_",
         "descriptor": "()I"
       }
-    ]
+    ],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "PowerHandlerMixin",
@@ -52,7 +53,8 @@
         "fingerprint": "f24fb2c2c2e549bf1c7f4801425c31de7d4f7d2c8ca6d5b92af4ed9fae6b34e8"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "CommandFunctionMixin",
@@ -121,7 +123,8 @@
         "name": "m_77984_",
         "descriptor": "(Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandSourceStack;Ljava/util/List;)Lnet/minecraft/commands/CommandFunction;"
       }
-    ]
+    ],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "PropertyManagerMixin",
@@ -192,7 +195,8 @@
         "name": "m_13900_",
         "descriptor": "(Lcom/google/gson/JsonObject;Ljava/lang/String;)Z"
       }
-    ]
+    ],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "CuriosInventoryMixin",
@@ -213,7 +217,8 @@
         "fingerprint": "6d460447227b39d93aa36f6711717c64ed30d1e56616c52781a727a451a8726f"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "KubeEventContainerMixin",
@@ -244,7 +249,8 @@
         "fingerprint": "45ad8796fd71cbfeebe513df10bd4727e3598a849d5fba5896a3155be3d38c22"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "RhinoMapIdsMixin",
@@ -275,7 +281,8 @@
         "fingerprint": "144c5b6c912bc44cf4688595e5c4b469d5b01d355e3df792da22f12e603dbce4"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "KubeBoundaryMixin",
@@ -290,7 +297,8 @@
         "fingerprint": "0bf41ae59bfc3435e551e9bb983ff1ab0a65d4cbbed4b1e485055bcb0fbb84c8"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   },
   {
     "mixin": "RhinoBoundaryMixin",
@@ -311,6 +319,116 @@
         "fingerprint": "8bc10251ddae19abc0d29b7533211a8a796a19f85edfef93cf2cf5f3aac21c2f"
       }
     ],
-    "minecraftMembers": []
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoLazyOverloadMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.NativeJavaMethod",
+    "parent": "dev/latvian/mods/rhino/BaseFunction",
+    "fields": [
+      {
+        "name": "overloadCache",
+        "descriptor": "Ljava/util/concurrent/CopyOnWriteArrayList;",
+        "access": 146
+      },
+      {
+        "name": "methods",
+        "descriptor": "[Ldev/latvian/mods/rhino/MemberBox;",
+        "access": 129
+      }
+    ],
+    "methods": [
+      {
+        "name": "scriptSignature",
+        "descriptor": "([Ljava/lang/Object;)Ljava/lang/String;",
+        "fingerprint": "71cb1d79eea8fdb876a8ac1253110f188dc12dbf702f77aa966790d92a9fd919"
+      },
+      {
+        "name": "findFunction",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ldev/latvian/mods/rhino/MemberBox;[Ljava/lang/Object;)I",
+        "fingerprint": "f192ca690e68a4817740def3c17edd5bfdefdfaade436b2aca09b3337c3942db"
+      },
+      {
+        "name": "preferSignature",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ljava/lang/Object;[Ljava/lang/Class;Z[Ljava/lang/Class;Z)I",
+        "fingerprint": "0f2d3c863ef54039cb81857bc21faa820fc83f1ecdb4187ab0f34b716108ceb0"
+      },
+      {
+        "name": "printDebug",
+        "descriptor": "(Ljava/lang/String;Ldev/latvian/mods/rhino/MemberBox;[Ljava/lang/Object;)V",
+        "fingerprint": "e93bd7933834fe32f29d68d528014426981cc5041f79db4634c6d15ad0120e26"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "([Ldev/latvian/mods/rhino/MemberBox;)V",
+        "fingerprint": "11bd2fb9334f476d4c95efe2ee7c7bbb1bdbec6aa947e6a6772175d214a448f5"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "([Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V",
+        "fingerprint": "14ab54950b14fb82c4508a5ad83164c7258da74a0b6db110371fd02ded1db2b5"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V",
+        "fingerprint": "9ccd6db8f0078d0f1661f368a2e738800df47a938f7d88edf01f0aef35f87fac"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ljava/lang/reflect/Method;Ljava/lang/String;)V",
+        "fingerprint": "664018413e24f0ee04e1a6f61a99b8d3f420c440bc2db90e5efd7146b457ae67"
+      },
+      {
+        "name": "getFunctionName",
+        "descriptor": "()Ljava/lang/String;",
+        "fingerprint": "d83054856d815dacfb268724df96d401fda10c9d4683c1aa994d25b1e910f12d"
+      },
+      {
+        "name": "toString",
+        "descriptor": "()Ljava/lang/String;",
+        "fingerprint": "161f1689c3ead9329323be5db0f336f69e4291b5e8a6cb0c373ecbfcdecbee39"
+      },
+      {
+        "name": "call",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "97afc2e8bf8b2d82d1b1934adc56d48b126a3c52e58c72b040134ec23c2304bd"
+      },
+      {
+        "name": "findCachedFunction",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ljava/lang/Object;)I",
+        "fingerprint": "15eae0397476215f7d7beba6617b711e1f060b1ad6073a07512f741b542e046f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": true
+  },
+  {
+    "mixin": "RhinoMemberMapMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.JavaMembers",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "fieldAndMethods",
+        "descriptor": "Ljava/util/Map;",
+        "access": 2
+      },
+      {
+        "name": "staticFieldAndMethods",
+        "descriptor": "Ljava/util/Map;",
+        "access": 2
+      }
+    ],
+    "methods": [
+      {
+        "name": "getFieldAndMethodsObjects",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;ZLdev/latvian/mods/rhino/Context;)Ljava/util/Map;",
+        "fingerprint": "2dd678149ba238b19a7fa53e2856b8a9d9fdad0689c20574bb56d6f006884891"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   }
 ]

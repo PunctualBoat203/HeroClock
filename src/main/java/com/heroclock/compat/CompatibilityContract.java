@@ -5,7 +5,11 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 public record CompatibilityContract(String mixin, String mod, String target, String parent,
-                                    List<Field> fields, List<Method> methods, List<Member> minecraftMembers) {
+                                    List<Field> fields, List<Method> methods, List<Member> minecraftMembers, boolean exhaustiveMethods) {
+    public CompatibilityContract(String mixin, String mod, String target, String parent,
+                                 List<Field> fields, List<Method> methods, List<Member> minecraftMembers) {
+        this(mixin, mod, target, parent, fields, methods, minecraftMembers, false);
+    }
     public record Field(String name, String descriptor, int access) {}
     public record Method(String name, String descriptor, String fingerprint) {}
     public record Member(boolean method, String owner, String name, String descriptor) {}
@@ -18,6 +22,8 @@ public record CompatibilityContract(String mixin, String mod, String target, Str
                     && current.desc.equals(field.descriptor) && current.access == field.access);
             if (!found) return "field contract changed: " + field.name;
         }
+        if (exhaustiveMethods && candidate.methods.size() != methods.size()) return "method set changed";
+        if (exhaustiveMethods && (candidate.nestHostClass != null || candidate.nestMembers != null && !candidate.nestMembers.isEmpty())) return "nest members changed";
         for (Method expected : methods) {
             MethodNode actual = candidate.methods.stream().filter(current -> current.name.equals(expected.name)
                     && current.desc.equals(expected.descriptor)).findFirst().orElse(null);
