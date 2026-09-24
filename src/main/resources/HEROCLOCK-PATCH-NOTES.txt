@@ -1,0 +1,9 @@
+HeroClock 2.2.18 — PunctualBoat
+
+Defers per-method overload-cache allocation until Rhino's stock resolver actually needs it.
+Publishes independent caches atomically; receiver wrappers, live field values, scope/prototype behavior and overload semantics remain unchanged.
+Pre-sizes receiver-bound field/method maps to avoid growth during population.
+Both fixes are independently code-guarded; changed targets retain stock behavior. Private-cache changes also reject new methods/nestmates.
+Retains the KubeJS/Rhino integration, bounded-work developer API and inert embedded compile-only API from 2.2.17.
+
+Targets measured wrapper-initialization work. Matched real-pack performance validation remains required.

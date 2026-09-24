@@ -1,0 +1,972 @@
+{
+  "name": {
+    "text": "Methanosian"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "afomni:textures/gui/methanosian/methanosian.png"
+  },
+  "energy_bars": {
+    "test_1": {
+      "max": 500,
+      "auto_increase_per_tick": 1,
+      "color": "#fca103"
+    }
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "minecraft:textures/block/green_stained_glass.png",
+  "allow_bar_shrinking": false,
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/interface.png",
+  "abilities": {
+    "methanosian_loop": {
+      "type": "palladium:command",
+      "gui_position": [
+        0,
+        0
+      ],
+      "title": "methanosian",
+      "icon": "alienevo:textures/gui/playlists/playlist_1/alien_5.png",
+      "hidden": false,
+      "first_tick_commands": [
+        "scale set pehkui:width 1.1",
+        "tag @s add afomni.vineprot",
+        "energybar value set @s alienevo_aliens:methanosian test_1 250"
+      ],
+      "last_tick_commands": [
+        "scale set pehkui:width 1",
+        "tag @s remove afomni.vineprot"
+      ],
+      "commands": [
+        "scale easing set palladium:ability pehkui:exponential_out",
+        "effect clear @s minecraft:poison",
+        "execute as @e[tag=a.tree,distance=..128] at @s run function afomni:tree/projectile_tick",
+        "execute as @e[tag=a.branch,distance=..128] at @s run function afomni:tree/branch_tick",
+        "execute as @e[tag=a.root,distance=..128] at @s run function afomni:tree/root_tick",
+        "execute as @a[scores={afomni.use_tree=1..}] at @s run function afomni:tree/tick",
+        "scoreboard players add @e[type=armor_stand,tag=DiamondSpikes,distance=..128] AlienEvo.SpikesStart 1",
+        "execute as @e[scores={AlienEvo.SpikesStart=100..},type=armor_stand,distance=..128] run kill @s",
+        "function afomni:aliens/petrosapien/diamond_spike_raycast",
+        "function afomni:aliens/petrosapien/diamond_spike",
+        "superpower set afomni:roots @e[tag=diamond_spike,distance=..128]"
+      ]
+    },
+    "base_form": {
+      "type": "alienevo:omnitrix_detransform",
+      "icon": "#alienevo:detransform",
+      "title": "Base Form",
+      "hidden": true,
+      "list_index": 4,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.BaseForm"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.MasterControl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "timeout_function": {
+      "type": "alienevo:omnitrix_timer",
+      "hidden": true
+    },
+    "methanosian_model": {
+      "type": "palladium:render_layer",
+      "hidden": true,
+      "render_layer": "afomni:methanosian"
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "right_arm",
+        "left_arm",
+        "chest",
+        "chest_overlay",
+        "right_arm_overlay",
+        "left_arm_overlay",
+        "right_leg",
+        "left_leg",
+        "cape",
+        "right_leg_overlay",
+        "left_leg_overlay",
+        "head",
+        "head_overlay"
+      ],
+      "affects_first_person": true
+    },
+    "size_change": {
+      "type": "palladium:size",
+      "title": "Size Change",
+      "hidden": true,
+      "scale": 1.7
+    },
+    "fire_ball": {
+      "type": "palladium:projectile",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Fire Ball",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "swinging_arm": "main_arm",
+      "velocity": 2,
+      "entity_data": {
+        "Damage": 10,
+        "Gravity": 0.02,
+        "ExplosionBlockInteraction": "break",
+        "ExplosionRadius": 0.7,
+        "ExplosionCausesFire": true,
+        "SetEntityOnFireSeconds": 5,
+        "Size": 1.3,
+        "Lifetime": 60,
+        "CommandOnEntityHit": "function afomni:methanosian/fireball_particles",
+        "CommandOnBlockHit": "function afomni:methanosian/fireball_particles",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "afomni:invis"
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "alienevo:pyronite_ball",
+            "Spread": 0.2,
+            "Amount": 10
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "alienevo:pyronite_flares",
+            "Spread": 0.1,
+            "Amount": 4
+          }
+        ]
+      },
+      "energy_bar_usage": {
+        "energy_bar": "test_1",
+        "amount": 50
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "needs_empty_hand": true,
+            "key_type": "right_click"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:energy_bar",
+            "energy_bar": "test_1",
+            "min": 50
+          },
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:in_water"
+                  },
+                  {
+                    "type": "palladium:is_hovering"
+                  },
+                  {
+                    "type": "palladium:is_fast_flying"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "fireball_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "minecraft:entity.ghast.shoot",
+      "volume": 0.5,
+      "pitch": 0.9,
+      "looping": false,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "fire_ball"
+          }
+        ]
+      }
+    },
+    "phase": {
+      "type": "palladium:intangibility",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "vertical": false,
+      "whitelist": "afomni:phase",
+      "blacklist": "palladium:prevents_intangibility"
+    },
+    "beam": {
+      "type": "palladium:aim",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Pyrokinetic Blast",
+      "list_index": 0,
+      "ability_bar_texture": "alienevo:textures/gui/bars/pyronite_bar.png",
+      "bar_color": "green",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "time": 5,
+      "arm": "both",
+      "energy_bar_usage": {
+        "energy_bar": "test_1",
+        "amount": 2
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "needs_empty_hand": true,
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:energy_bar",
+            "energy_bar": "test_1",
+            "min": 10
+          },
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:in_water"
+                  },
+                  {
+                    "type": "palladium:is_hovering"
+                  },
+                  {
+                    "type": "palladium:is_fast_flying"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pyrokinetic_flight": {
+      "type": "palladium:attribute_modifier",
+      "title": "Pyrokinetic Flight",
+      "bar_color": "orange",
+      "hidden": true,
+      "list_index": 4,
+      "description": "null",
+      "attribute": "palladium:flight_speed",
+      "amount": 1,
+      "operation": 0,
+      "uuid": "f020d6d1-0f08-4fce-a782-bc2afdf89ccd",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:energy_bar",
+            "energy_bar": "test_1",
+            "min": 10
+          },
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:in_water"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pyrokinetic_fparticle": {
+      "type": "palladium:particles",
+      "emitter": [
+        "afomni:swamp_righthand",
+        "afomni:swamp_lefthand"
+      ],
+      "particle_type": "afomni:swamp_beam",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:is_hovering_or_flying"
+        }
+      }
+    },
+    "flight_dummy": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Pyrokinetic Blast",
+      "list_index": 0,
+      "ability_bar_texture": "alienevo:textures/gui/bars/pyronite_bar.png",
+      "bar_color": "orange",
+      "hidden": true,
+      "energy_bar_usage": {
+        "energy_bar": "test_1",
+        "amount": 2
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:is_flying"
+          }
+        ]
+      }
+    },
+    "beam_anim": {
+      "type": "palladium:particles",
+      "emitter": [
+        "afomni:swamp_beam",
+        "afomni:swamp_beam_left"
+      ],
+      "particle_type": "afomni:swamp_beam",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "beam"
+          }
+        ]
+      }
+    },
+    "show_both_arms": {
+      "type": "palladium:show_both_arms",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "beam"
+          }
+        ]
+      }
+    },
+    "dual_beam_pro": {
+      "type": "palladium:projectile",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Beam",
+      "hidden": true,
+      "inaccuracy": 4,
+      "bar_color": "orange",
+      "list_index": 0,
+      "swinging_arm": "none",
+      "velocity": 1.2,
+      "entity_data": {
+        "Damage": 4,
+        "ExplosionBlockInteraction": "none",
+        "ExplosionRadius": 0,
+        "ExplosionCausesFire": true,
+        "SetEntityOnFireSeconds": 5,
+        "Gravity": 0,
+        "Size": 0,
+        "Lifetime": 10,
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "CommandOnEntityHit": "particle afomni:swamp_fireball_end ~ ~ ~ 0.1 0.2 0.1 0.1 3",
+        "CommandOnBlockHit": "particle afomni:swamp_fireball_end ~ ~ ~ 0.1 0.2 0.1 0.1 3",
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "alienevo:invis"
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "beam"
+          }
+        ]
+      }
+    },
+    "bone_meal": {
+      "type": "palladium:command",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Tree Growth",
+      "list_index": 3,
+      "bar_color": "green",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "commands": [
+        "function afomni:commands/prepare_tree"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 150,
+            "needs_empty_hand": true,
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:crouching"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "tree_growth": {
+      "type": "palladium:command",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Tree Growth",
+      "list_index": 3,
+      "bar_color": "green",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "commands": [
+        "function afomni:commands/tree"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 300,
+            "needs_empty_hand": true,
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:crouching"
+          }
+        ]
+      }
+    },
+    "vine_wave": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Vine Wave",
+      "list_index": 2,
+      "bar_color": "green",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 200,
+            "needs_empty_hand": true,
+            "key_type": "key_bind"
+          }
+        ]
+      }
+    },
+    "seed": {
+      "type": "palladium:projectile",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Seed Generation",
+      "hidden": true,
+      "list_index": 1,
+      "bar_color": "green",
+      "hidden_in_bar": false,
+      "swinging_arm": "main_arm",
+      "velocity": 2,
+      "entity_data": {
+        "Damage": 0.1,
+        "Gravity": 0.02,
+        "Size": 1,
+        "Lifetime": 30,
+        "CommandOnEntityHit": "function afomni:methanosian/vine_summon",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "item",
+            "Item": "afomni:seed"
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 250,
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          }
+        ]
+      }
+    },
+    "base_strength": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "uuid": "20c7c6cb-2ab7-4341-890c-d6cace50e7fc",
+      "title": "Base Attack : 7",
+      "gui_position": [
+        -1,
+        1.5
+      ],
+      "hidden": false,
+      "amount": 7,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          }
+        ]
+      }
+    },
+    "defense": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "title": "Base Defense : 8",
+      "uuid": "0713291c-8352-4d9f-a1f6-7d2171673a70",
+      "list_index": -1,
+      "hidden": false,
+      "gui_position": [
+        1,
+        1.5
+      ],
+      "amount": 16,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          }
+        ]
+      }
+    },
+    "fall_resistance": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "palladium:fall_resistance",
+      "hidden": true,
+      "uuid": "08b1af9e-2118-4574-99eb-4124cf9eb2e5",
+      "amount": 5
+    },
+    "hearts": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.max_health",
+      "hidden": true,
+      "uuid": "312059f5-7fdb-44a1-8239-91a06b03d856",
+      "amount": 10
+    },
+    "slots": {
+      "type": "palladium:restrict_slots",
+      "icon": "alienevo:textures/gui/playlists/playlist_1/alien_5.png",
+      "title": "Alien Physique",
+      "gui_position": [
+        -1,
+        0.5
+      ],
+      "description": "Due to your alien physique, armor made for humans doesn't fit you.",
+      "slots": [
+        "head",
+        "chest",
+        "legs",
+        "feet",
+        "trinkets:head/hat",
+        "trinkets:head/face",
+        "trinkets:chest/back",
+        "trinkets:chest/necklace",
+        "trinkets:chest/cape",
+        "trinkets:hand/ring",
+        "trinkets:hand/glove",
+        "trinkets:offhand/glove",
+        "trinkets:offhand/ring",
+        "curios:hands"
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          }
+        ]
+      }
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "name": [
+        {
+          "nbt": "KubeJSPersistentData.alienevo_31",
+          "entity": "@s"
+        }
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "alienevo.nickname"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "fire_resistance": {
+      "type": "palladium:damage_immunity",
+      "hidden": false,
+      "icon": "alienevo:textures/gui/playlists/playlist_1/alien_5.png",
+      "title": "Methanosian Body",
+      "description": "Rapidly regenerate and adapt using a tough, plant-like alien body",
+      "gui_position": [
+        1,
+        0.5
+      ],
+      "damage_sources": [
+        "minecraft:is_fire",
+        "minecraft:is_freezing"
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          }
+        ]
+      }
+    },
+    "pyrokinetic_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Pyrokinetic Blast",
+      "description": "Emit a powerful beam of fire",
+      "gui_position": [
+        1,
+        -0.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          }
+        ]
+      }
+    },
+    "regen": {
+      "type": "palladium:healing",
+      "icon": "minecraft:apple",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "frequency": 65,
+      "amount": 1
+    },
+    "strength_1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "title": "Attack : + 1",
+      "uuid": "cc19f523-2bef-45dd-a015-9154e4c1fb1c",
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        -1
+      ],
+      "hidden": false,
+      "amount": 1,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "pyrokinetic_ability"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "seed_gen_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Seed Generation",
+      "description": "Launch seeds that grow into entangling plants",
+      "gui_position": [
+        1,
+        -1.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "strength_1"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "strength_2": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "title": "Attack : + 1",
+      "uuid": "f6371397-1afe-4cfe-bef7-2b2054cb33dd",
+      "amount": 1,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        -2
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "seed_gen_ability"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "vine_wave_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Vine Wave",
+      "description": "Summon a wave of vines to trap and damage enemies",
+      "gui_position": [
+        1,
+        -2.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "strength_2"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "bone_meal_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Plant Growth",
+      "description": "Rapidly accelerate plant growth in a targeted area (Bone Meal)",
+      "gui_position": [
+        -1,
+        -0.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "methanosian_loop"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "defense_1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "title": "Defense : + 1",
+      "uuid": "37ef17db-5b08-47ec-9ae2-20d207ab6b5f",
+      "amount": 2,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        -1
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "bone_meal_ability"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "tree_growth_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Tree Growth",
+      "description": "Instantly grow a tree at the chosen location",
+      "gui_position": [
+        -1,
+        -1.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "defense_1"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "defense_2": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "title": "Defense : + 1",
+      "uuid": "f90809d0-b68e-445b-a729-b6d1ff42c3d9",
+      "amount": 2,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        -2
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "tree_growth_ability"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    },
+    "pyrokinetic_flight_ability": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/pyronite/pyro_blast.png",
+      "title": "Pyrokinetic Flight",
+      "description": "Fly by propelling yourself with fire",
+      "gui_position": [
+        -1,
+        -2.5
+      ],
+      "hidden": false,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "ability": "defense_2"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "afomni.Methanosian.SkillP",
+            "score": 1,
+            "icon": "afomni:textures/gui/methanosian/pyro_blast.png",
+            "description": {
+              "text": "Methanosian Skill Point"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

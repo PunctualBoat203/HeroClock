@@ -1,72 +1,36 @@
-# HeroClock — Development Backup & Handoff
+# HeroClock
 
-HeroClock is a Minecraft **Forge 1.20.1** performance, stability, timing, and compatibility framework for complex superhero modpacks.
+Forge 1.20.1 timing, bounded work, and targeted Palladium compatibility by **PunctualBoat**.
 
-## Backup status
+## Development build: 2.2.18
 
-This repository was created as a durable handoff/backup on 2026-09-20.
+This source tree was originally recovered from the supplied 2.2.10 JAR. The released **HeroClock 2.2.14** JAR has now also been supplied and hash-verified, so it is the release-behavior/regression reference for this branch even though its original source snapshot was not present in Git. See [recovery provenance](docs/RECOVERY.md) and the [development handoff](docs/HANDOFF.md).
 
-Backed-up build line:
-- **2.2.10** — last build explicitly confirmed in-game by the user to launch cleanly and pass the core persistence tests.
-- **2.2.12** — later deep-audited build.
-- **2.2.14** — latest development JAR preserved from the workspace; treat as the latest candidate snapshot rather than claiming the same runtime verification as 2.2.10.
+Build with Java 17:
 
-SHA-256:
-- 2.2.10: `4d1b7ee500ca46caadee407a23a3e4815ff230f91247fef0eccd4e43420ad53f`
-- 2.2.12: `818f7612de17512a77b29f7e3487ebe33e70a9c56424130f62e1da2d58bb27df`
-- 2.2.14: `68549ce622e07d0b2b8c53086ad1b8e240de67a636c84d492a20d97a7cef9897`
+```sh
+python tools/prepare_scripting_test.py
+./gradlew test build
+```
 
-## Core design decisions
+The reobfuscated mod is `build/libs/HeroClock-2.2.18.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
 
-- Shared timing API intended to reduce scoreboard-as-clock abuse. Scoreboards remain valid for actual gameplay state.
-- Failure strategy: **prevent first → targeted cleanup failsafe → restart/chunk-load recovery**.
-- Avoid giant global `@e` scans.
-- Compatibility integrations should be optional; HeroClock should not require hero mods just to load.
-- Minecraft 1.20.1 / Forge 47.x.
-- OmniOptimizer integration is optional.
-- Avoid duplicate active KubeJS overlay scripts because Palladium/addon loaders can execute both copies.
+## Changes
 
-## Work completed across the project
+- Direct mapped Minecraft timer access replaces reflective lookups that could silently report time zero in production. Deadlines retain the `HeroClockTimers` NBT layout, use the server overworld's saved game time across dimensions, and saturate on overflow. Player clones copy timers; block-entity writes mark storage dirty.
+- `HeroWorkAPI` supports cancellable, keyed, coalesced work beyond timers. Jobs execute on the server thread with a 4,096-entry capacity, 128-step limit, and 1 ms admission budget per tick. A running callback cannot be preempted; callers must keep each step small.
+- Known temporary helpers use entity lifecycle hooks and saved deadlines. The old recurring global-selector function is unscheduled. Block cleanup checks at most 256 positions per step, waits for loaded chunks, and never forces chunk loads. Queue saturation retries cleanup; entity unload cancels its queued work. Saved deadlines restore cleanup when entities load again.
+- Compatible Palladium targets skip redundant scalar-property sync packets, reuses its read-only power-holder view, and invalidates parsed command caches when the dispatcher changes. Mutable property values still sync normally; ability ticks and command execution cadence are preserved.
+- Duplicate Omni Evo/IntoTheOmniverse script overlays are inactive. Historical server-specific patch payloads remain reference material rather than a requirement for stock addon JARs.
+- The forward compatibility direction is **stock addon JAR + HeroClock**: generic safe optimizations stay in HeroClock's runtime layer, while code-checked addon adapters may redirect known hotspots through HeroClock deadlines, bounded work, cleanup, or sync-deduplication systems without rewriting the addon JAR.
+- Version checks use Forge's loaded metadata instead of reopening every installed mod JAR.
 
-The development line covered timer/deadline APIs, persistence/recovery guards, optional companion integration, version/compatibility guards, and prepatched compatibility resources for superhero addons. Later JARs contain compatibility resources for multiple addon namespaces, including AlienEvo, Infinity/Power Stone content, Omni Evo, Minecraft Mobs Pack, and Satsu Iron Man content.
+See [API and behavior](docs/API.md), [validation](docs/VALIDATION.md), and [handoff](docs/HANDOFF.md). This is a development candidate, not a claim of measured TPS/FPS gains or zero lag.
 
-The 2.2.14 JAR reports itself as loading the timer API plus guarded compatibility layer. Runtime JAR rewriting is disabled in that build because it is a prepatched distribution.
+## Integration and safeguards
 
-The optional OmniOptimizer companion bridge is reflection-based so OmniOptimizer is not a hard dependency.
+HeroClock checks each targeted method body and required field contract before enabling its optional patch, and checks Satsu's effective tick function after reloads. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
 
-## Important historical testing
+A separate `HeroClock-2.2.18-api.jar` exposes supported timer, bounded-work, deferred-function and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
 
-The strongest confirmed runtime checkpoint is **2.2.10**: it launched without issues and the core persistence tests worked.
-
-2.2.12 was subsequently deep-audited. 2.2.14 is the newest preserved artifact and contains the latest compatibility/resource state available in this workspace.
-
-Do not silently call 2.2.14 “fully tested” unless it is re-tested in the target pack.
-
-## Source recovery note
-
-The original editable Java source tree for 2.2.14 was not present in the current workspace when this backup repository was created. To avoid losing the implementation state, this repo includes a **recovered 2.2.14 source/resource snapshot** made directly from the authoritative JAR:
-- complete unpacked JAR contents/resources;
-- compiled HeroClock classes;
-- `javap -p -c` output for the HeroClock Java classes.
-
-That recovered snapshot is useful for reconstruction and auditing, but it is **not claimed to be byte-for-byte original Java source**.
-
-## Recommended continuation
-
-1. Keep 2.2.10 as the known-good rollback build.
-2. Treat 2.2.14 as the latest development baseline.
-3. Reconstruct/restore a normal Gradle Java source tree from the recovered snapshot before substantial new Java changes.
-4. Re-test persistence/restart/chunk-load behavior after reconstruction.
-5. Keep compatibility patches targeted and optional.
-6. Preserve the no-global-scan performance rule.
-
-## Files
-
-- `releases/HeroClock-2.2.10-forge-1.20.1.jar` — confirmed working rollback.
-- `releases/HeroClock-2.2.12-forge-1.20.1.jar` — audited intermediate.
-- `releases/HeroClock-2.2.14-forge-1.20.1.jar` — latest preserved candidate.
-- `source-backup/HeroClock-2.2.14-source-snapshot.zip` — recovered source/resource snapshot.
-
-## Version target
-
-If development resumes, increment from **2.2.14** rather than overwriting an existing build.
+KubeJS/Rhino support and the embedded scripting API are described in [docs/SCRIPTING.md](docs/SCRIPTING.md).

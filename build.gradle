@@ -1,0 +1,110 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+version = '2.2.18'
+group = 'com.heroclock'
+base { archivesName = 'HeroClock' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+sourceSets {
+    gameTest {
+        compileClasspath += sourceSets.main.output + configurations.testCompileClasspath
+        runtimeClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+    }
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        gameTestServer {
+            workingDirectory project.file('run-gametest')
+            property 'forge.enabledGameTestNamespaces', 'heroclock'
+            property 'heroclock.testPalladium', project.hasProperty('withPalladium').toString()
+            property 'heroclock.testScripting', project.hasProperty('withScripting').toString()
+            property 'heroclock.testChangedScripts', project.hasProperty('changedScripts').toString()
+            property 'heroclock.testCurios', project.hasProperty('withCurios').toString()
+            property 'heroclock.testChangedTarget', project.hasProperty('changedTarget').toString()
+            mods {
+                heroclock {
+                    source sourceSets.main
+                    source sourceSets.gameTest
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            args '--nogui'
+            mods { heroclock { source sourceSets.main } }
+        }
+        client {
+            workingDirectory project.file('run')
+            mods { heroclock { source sourceSets.main } }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir { dirs 'build/test-dependencies' }
+    maven { url = 'https://maven.minecraftforge.net' }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.3.0'
+    if (project.hasProperty('withPalladium')) {
+        def palladiumArtifact = project.hasProperty('changedTarget') ? 'palladium-changed' :
+                project.hasProperty('alternateVersion') ? 'palladium-relabeled' : 'palladium'
+        ["${palladiumArtifact}:4.5.9", 'palladiumcore:1.0.1', 'player-animation:1.0.2', 'mixinextras:0.2.0'].each {
+            runtimeOnly fg.deobf("heroclock.test:${it}")
+        }
+    }
+    if (project.hasProperty('withCurios')) { runtimeOnly fg.deobf('heroclock.test:curios:5.14.1') }
+    if (project.hasProperty('withScripting')) {
+        def suffix = project.hasProperty('changedScripts') ? '-changed' : project.hasProperty('relabeledScripts') ? '-relabeled' : ''
+        runtimeOnly fg.deobf("heroclock.test:kubejs${suffix}:2001.6.5-build.26")
+        runtimeOnly fg.deobf("heroclock.test:rhino${suffix}:2001.2.3-build.10")
+        runtimeOnly fg.deobf('heroclock.test:architectury:9.2.14')
+    }
+    gameTestCompileOnly files('build/test-dependencies/kubejs-2001.6.5-build.26.jar', 'build/test-dependencies/rhino-2001.2.3-build.10.jar')
+    compileOnly files('build/test-dependencies/kubejs-2001.6.5-build.26.jar', 'build/test-dependencies/rhino-2001.2.3-build.10.jar')
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    testImplementation platform('org.junit:junit-bom:5.10.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.named('test', Test) { useJUnitPlatform() }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('processResources', ProcessResources) {
+    exclude 'patches/**', 'HEROCLOCK_PATCH_NOTES.txt'
+    inputs.property 'version', project.version
+    filesMatching('META-INF/mods.toml') { expand(version: project.version) }
+}
+
+def apiJarTask = tasks.register('apiJar', Jar) {
+    archiveClassifier = 'api'
+    from(sourceSets.main.output) { include 'com/heroclock/api/**' }
+    manifest.attributes('Implementation-Version': project.version,
+                        'Implementation-Vendor': 'PunctualBoat',
+                        'HeroClock-API-Version': '1')
+}
+
+tasks.named('jar', Jar) {
+    dependsOn apiJarTask
+    from(apiJarTask.flatMap { it.archiveFile }) {
+        into 'META-INF/heroclock'
+    }
+    manifest.attributes('Implementation-Version': project.version,
+                        'Implementation-Vendor': 'PunctualBoat',
+                        'MixinConfigs': 'heroclock.mixins.json')
+    finalizedBy 'reobfJar'
+}
+
+mixin {
+    add sourceSets.main, 'heroclock.refmap.json'
+    config 'heroclock.mixins.json'
+}
+
+tasks.named('assemble') { dependsOn apiJarTask }

@@ -1,0 +1,1568 @@
+{
+  "name": {
+    "text": "Kryptonian"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "alienevo:textures/gui/aliens/alien_6/emblem.png"
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "alienevo:textures/gui/power_screen/power_screen.png",
+  "primary_color": "#af071c",
+  "allow_bar_shrinking": false,
+  "secondary_color": "#332e27",
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/tetramand_bar.png",
+  "abilities": {
+    "kryptonian_loop": {
+      "type": "palladium:command",
+      "hidden": false,
+      "gui_position": [
+        0,
+        0
+      ],
+      "title": "Homelander",
+      "icon": "alienevo:textures/gui/aliens/alien_6/emblem.png",
+      "description": "",
+      "first_tick_commands": [
+        "scoreboard objectives add rng dummy",
+        "scoreboard objectives add AlienEvo.SpeedLevel dummy"
+      ],
+      "last_tick_commands": [
+        ""
+      ],
+      "commands": [
+        "execute as @e[tag=a.flying_block,distance=..128] at @s run function afomni:flying_block/tick/main",
+        "execute as @a[scores={afomni.using_slam=1..}] at @s run function afomni:slam/tick",
+        "scoreboard players set @s[scores={AlienEvo.SpeedLevel=6}] AlienEvo.SpeedLevel 0",
+        "scoreboard players set @s[scores={AlienEvo.SpeedLevel=-1}] AlienEvo.SpeedLevel 5"
+      ]
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "cape"
+      ],
+      "affects_first_person": true
+    },
+    "suit_activate": {
+      "type": "palladium:animation_timer",
+      "list_index": 0,
+      "icon": "alienevo:textures/gui/aliens/alien_6/flag.png",
+      "max_value": 16,
+      "title": "Suit Activation",
+      "bar_color": "red",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          }
+        ]
+      }
+    },
+    "cape_activate": {
+      "type": "palladium:animation_timer",
+      "list_index": 0,
+      "icon": "alienevo:textures/gui/aliens/alien_6/slam.png",
+      "max_value": 9,
+      "title": "Suit Activation",
+      "bar_color": "red",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "suit_activate"
+          }
+        ]
+      }
+    },
+    "kryp_slam": {
+      "type": "palladium:animation_timer",
+      "list_index": 1,
+      "icon": "alienevo:textures/gui/aliens/alien_6/slam.png",
+      "max_value": 16,
+      "title": "Ground Smash",
+      "bar_color": "red",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 16,
+            "cooldown": 100,
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          },
+          {
+            "type": "palladium:on_ground"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "earth_slam_unlock"
+          },
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "palladium:crouching"
+          }
+        ]
+      }
+    },
+    "command_slam": {
+      "type": "palladium:command",
+      "gui_position": [
+        0,
+        0
+      ],
+      "hidden": true,
+      "first_tick_commands": [
+        "function afomni:commands/start_slam"
+      ],
+      "commands": [
+        ""
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "kryp_slam",
+            "property": "value",
+            "min": 7,
+            "max": 7
+          },
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "kryp_slam"
+          }
+        ]
+      }
+    },
+    "punch_righthand": {
+      "type": "palladium:animation_timer",
+      "list_index": 2,
+      "max_value": 5,
+      "hidden": true,
+      "hidden_in_bar": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 5,
+            "cooldown": 50,
+            "needs_empty_hand": true,
+            "key_type": "right_click"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "afomni:is_mainhand",
+            "hand_type": "right"
+          },
+          {
+            "type": "palladium:crouching"
+          }
+        ]
+      }
+    },
+    "punch_lefthand": {
+      "type": "palladium:animation_timer",
+      "list_index": 2,
+      "max_value": 5,
+      "hidden": true,
+      "hidden_in_bar": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 5,
+            "cooldown": 50,
+            "needs_empty_hand": true,
+            "key_type": "right_click"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "afomni:is_mainhand",
+            "hand_type": "left"
+          }
+        ]
+      }
+    },
+    "super_punch_projectile": {
+      "type": "palladium:projectile",
+      "hidden": true,
+      "entity_type": "palladium:custom_projectile",
+      "inaccuracy": 0,
+      "velocity": 3,
+      "swinging_arm": "main_arm",
+      "damage_from_player": true,
+      "entity_data": {
+        "Size": 1,
+        "ExplosionBlockInteraction": "break",
+        "ExplosionRadius": 2,
+        "ExplosionCausesFire": false,
+        "SetEntityOnFireSeconds": 0,
+        "Gravity": 0,
+        "Lifetime": 2,
+        "KnockbackStrength": 3,
+        "Appearances": [
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:explosion",
+            "Spread": 0,
+            "Amount": 1
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_integer_property",
+                "power": "alienevo_aliens:kryptonian",
+                "ability": "punch_righthand",
+                "property": "value",
+                "min": 5,
+                "max": 5
+              },
+              {
+                "type": "palladium:ability_integer_property",
+                "power": "alienevo_aliens:kryptonian",
+                "ability": "punch_lefthand",
+                "property": "value",
+                "min": 5,
+                "max": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "punch_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "minecraft:entity.generic.explode",
+      "volume": 0.5,
+      "pitch": 1.5,
+      "looping": false,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_integer_property",
+                "power": "alienevo_aliens:kryptonian",
+                "ability": "punch_righthand",
+                "property": "value",
+                "min": 5,
+                "max": 5
+              },
+              {
+                "type": "palladium:ability_integer_property",
+                "power": "alienevo_aliens:kryptonian",
+                "ability": "punch_lefthand",
+                "property": "value",
+                "min": 5,
+                "max": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "heat_vision": {
+      "type": "palladium:energy_beam",
+      "title": "Heat Vision",
+      "bar_color": "red",
+      "icon": "alienevo:textures/gui/aliens/alien_9/beam/beam_6.png",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "energy_beam": "alienevo:heat_vision",
+      "damage": 8,
+      "max_distance": 50,
+      "speed": 0.6,
+      "set_on_fire_seconds": 5,
+      "cause_fire": true,
+      "smelt_blocks": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 200,
+            "key_type": "key_bind",
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "heat_vision_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:crouching"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "laser_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "afomni:heat_vision_loop",
+      "volume": 0.3,
+      "pitch": 1.0,
+      "looping": true,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "heat_vision"
+          }
+        ]
+      }
+    },
+    "speed_down": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "commands": [
+        "scoreboard players remove @s AlienEvo.SpeedLevel 1"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "scroll_down",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "speed_adjustment"
+          }
+        ]
+      }
+    },
+    "speed_adjustment": {
+      "type": "palladium:dummy",
+      "gui_position": [
+        0,
+        0
+      ],
+      "title": "Speed Adjustment",
+      "icon": "minecraft:textures/mob_effect/speed.png",
+      "hidden": true,
+      "list_index": 4,
+      "bar_color": "red",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "speed_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:is_fast_flying"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "speed_up": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "commands": [
+        "scoreboard players add @s AlienEvo.SpeedLevel 1"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "needs_empty_hand": false,
+            "key_type": "scroll_up"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "speed_adjustment"
+          }
+        ]
+      }
+    },
+    "speed_1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "a87e9cee-1f50-4c8d-b25c-3b9984ecba19",
+      "hidden": true,
+      "amount": 0.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 1,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "step_assist": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "forge:step_height_addition",
+      "uuid": "7fa44cbc-93f4-4fc3-a746-bd573f2830d3",
+      "hidden": true,
+      "amount": 2,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 1,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "speed_2": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "3d6e07fe-eee1-4f96-a073-93d3a631ddde",
+      "hidden": true,
+      "amount": 0.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 2,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "speed_3": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "cc8a3d45-c267-4ac6-bd4a-dcbdd39b9f38",
+      "hidden": true,
+      "amount": 0.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 3,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "speed_4": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "65e6a6e3-6046-487f-8916-5a7f9e88461c",
+      "hidden": true,
+      "amount": 0.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 4,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "speed_5": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "f3ba476d-6778-4bba-8c3f-db51521f9866",
+      "hidden": true,
+      "amount": 0.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 5,
+            "max_score": 5
+          }
+        ]
+      }
+    },
+    "speed_counter": {
+      "type": "palladium:gui_overlay",
+      "alignment": "bottom_center",
+      "texture": "#alienevo:homelander",
+      "hidden": true,
+      "texture_width": 167,
+      "texture_height": 84,
+      "translate": [
+        0,
+        -50,
+        0
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "speed_unlock"
+          }
+        ]
+      }
+    },
+    "water_running": {
+      "type": "palladium:water_walk",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 2,
+            "max_score": 5
+          },
+          {
+            "type": "palladium:sprinting"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:in_water"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "flight": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "palladium:flight_speed",
+      "uuid": "d4baa8c3-5fad-4fb5-9217-45d8a4f70367",
+      "hidden": true,
+      "amount": 1.1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "flight_unlock"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          }
+        ]
+      }
+    },
+    "speed_boost": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "palladium:flight_speed",
+      "uuid": "07264fbd-bf79-4982-a7f0-4494a2f65dfd",
+      "hidden": true,
+      "bar_color": "red",
+      "list_index": 4,
+      "amount": 0.7,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "needs_empty_hand": false,
+            "key_type": "space_bar"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "flight_boost"
+          },
+          {
+            "type": "palladium:is_fast_flying"
+          }
+        ]
+      }
+    },
+    "speed_flash": {
+      "type": "palladium:command",
+      "hidden": false,
+      "gui_position": [
+        0,
+        0
+      ],
+      "title": "Homelander",
+      "icon": "alienevo:textures/gui/playlists/playlist_1/head_6.png",
+      "description": "",
+      "first_tick_commands": [
+        "particle minecraft:flash"
+      ],
+      "last_tick_commands": [
+        ""
+      ],
+      "commands": [
+        ""
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "speed_boost"
+          },
+          {
+            "type": "palladium:is_fast_flying"
+          }
+        ]
+      }
+    },
+    "flight_heroic": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "palladium:heroic_flight_type",
+      "uuid": "4a442a63-aab6-438c-8831-fcd8dafc4be6",
+      "hidden": true,
+      "amount": 1
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "name": {
+        "text": "Homelander"
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          }
+        ]
+      }
+    },
+    "xlr8_trail": {
+      "type": "palladium:trail",
+      "list_index": 3,
+      "hidden": true,
+      "trail": "alienevo_aliens:kryptonian",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 3,
+            "max_score": 5
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:is_hovering_or_flying"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "leap": {
+      "type": "palladium:animation_timer",
+      "list_index": 3,
+      "icon": "alienevo:textures/gui/aliens/alien_6/leap.png",
+      "max_value": 10,
+      "bar_color": "red",
+      "title": "Leap",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 10,
+            "cooldown": 100,
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "leap_unlock"
+          },
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          }
+        ]
+      }
+    },
+    "leap_commands": {
+      "type": "palladium:command",
+      "hidden": true,
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s at @s if block ~ ~-1 ~ minecraft:water run execute as @s at @s anchored feet run particle minecraft:bubble_pop ^ ^0.2 ^ 0.3 0 0.3 0 75"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "leap",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      }
+    },
+    "leap_motion": {
+      "type": "alienevo:motion",
+      "motion": 10,
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "leap",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      }
+    },
+    "no_speed": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.movement_speed",
+      "uuid": "6d4c9a79-e61a-44e1-ace2-206b8c5cbb8e",
+      "hidden": true,
+      "amount": -50,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "leap"
+          }
+        ]
+      }
+    },
+    "leap_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "minecraft:entity.generic.explode",
+      "volume": 0.5,
+      "pitch": 1.4,
+      "looping": false,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "leap",
+            "min": 8,
+            "max": 8
+          },
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "leap"
+          }
+        ]
+      }
+    },
+    "thunder_clap": {
+      "type": "palladium:animation_timer",
+      "list_index": 2,
+      "icon": "alienevo:textures/gui/aliens/alien_6/sonic_clap.png",
+      "max_value": 10,
+      "bar_color": "red",
+      "title": "Thunder Clap",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 10,
+            "cooldown": 100,
+            "needs_empty_hand": false,
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "sonic_clap_unlock"
+          },
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          }
+        ]
+      }
+    },
+    "sonic_boom_projectile": {
+      "type": "palladium:projectile",
+      "hidden": true,
+      "entity_type": "palladium:custom_projectile",
+      "inaccuracy": 0,
+      "velocity": 3,
+      "swinging_arm": "none",
+      "damage_from_player": false,
+      "entity_data": {
+        "Size": 2,
+        "Gravity": 0,
+        "Damage": 10,
+        "Lifetime": 10,
+        "KnockbackStrength": 4,
+        "Appearances": [
+          {
+            "Type": "particles",
+            "ParticleType": "alienevo:sonic_boom",
+            "Spread": 0.5,
+            "Amount": 1
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:cloud",
+            "Spread": 0.5,
+            "Amount": 7
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "thunder_clap",
+            "property": "value",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      }
+    },
+    "sonic_boom_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "minecraft:entity.generic.explode",
+      "volume": 0.5,
+      "pitch": 1.3,
+      "looping": false,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "thunder_clap",
+            "property": "value",
+            "min": 10,
+            "max": 10
+          }
+        ]
+      }
+    },
+    "thunder_clap_arms": {
+      "type": "palladium:show_both_arms",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "thunder_clap",
+            "property": "value",
+            "min": 1,
+            "max": 10
+          }
+        ]
+      }
+    },
+    "flight_damage": {
+      "type": "afomni:aoe_damage",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "radius": 1,
+      "damage": 8,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:is_fast_flying"
+          }
+        ]
+      }
+    },
+    "punch_barrage": {
+      "type": "palladium:repeating_animation_timer",
+      "list_index": 2,
+      "max_value": 4,
+      "title": "Punch Barrage",
+      "bar_color": "red",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 150,
+            "needs_empty_hand": false,
+            "key_type": "right_click"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "speed_punches"
+          },
+          {
+            "type": "palladium:ability_integer_property",
+            "power": "alienevo_aliens:kryptonian",
+            "ability": "suit_activate",
+            "property": "value",
+            "min": 16,
+            "max": 16
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:crouching"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "barrage_1": {
+      "type": "palladium:animation_timer",
+      "icon": "habb:textures/gui/aerophibian/speed_down.png",
+      "hidden": true,
+      "list_index": 0,
+      "max_value": 1,
+      "bar_color": "red",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          },
+          {
+            "type": "palladium:animation_timer_ability",
+            "ability": "punch_barrage",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    },
+    "barrage_2": {
+      "type": "palladium:animation_timer",
+      "icon": "habb:textures/gui/aerophibian/speed_down.png",
+      "hidden": true,
+      "list_index": 0,
+      "max_value": 1,
+      "bar_color": "red",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          },
+          {
+            "type": "palladium:animation_timer_ability",
+            "ability": "punch_barrage",
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    },
+    "barrage_3": {
+      "type": "palladium:animation_timer",
+      "icon": "habb:textures/gui/aerophibian/speed_down.png",
+      "hidden": true,
+      "list_index": 0,
+      "max_value": 1,
+      "bar_color": "red",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          },
+          {
+            "type": "palladium:animation_timer_ability",
+            "ability": "punch_barrage",
+            "min": 3,
+            "max": 3
+          }
+        ]
+      }
+    },
+    "barrage_4": {
+      "type": "palladium:animation_timer",
+      "icon": "habb:textures/gui/aerophibian/speed_down.png",
+      "hidden": true,
+      "list_index": 0,
+      "max_value": 1,
+      "bar_color": "red",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          },
+          {
+            "type": "palladium:animation_timer_ability",
+            "ability": "punch_barrage",
+            "min": 4,
+            "max": 4
+          }
+        ]
+      }
+    },
+    "Barrage_Dam": {
+      "type": "palladium:projectile",
+      "hidden": true,
+      "entity_type": "palladium:custom_projectile",
+      "entity_data": {
+        "Damage": 2,
+        "Gravity": 0.0,
+        "Size": 1.2,
+        "Lifetime": 3,
+        "DieOnEntityHit": false,
+        "DieOnBlockHit": false
+      },
+      "inaccuracy": 0,
+      "velocity": 1,
+      "swinging_arm": "none",
+      "damage_from_player": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          }
+        ]
+      }
+    },
+    "Barrage_Hands": {
+      "type": "palladium:show_both_arms",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          }
+        ]
+      }
+    },
+    "punch_sounds": {
+      "type": "palladium:command",
+      "gui_position": [
+        0,
+        0
+      ],
+      "title": "Speedforce",
+      "icon": "habb:textures/gui/flash/flash_icon.png",
+      "hidden": true,
+      "last_tick_commands": [],
+      "commands": [
+        "playsound minecraft:entity.player.attack.strong master @a ~ ~ ~ 1 1.4",
+        "particle minecraft:explosion ^ ^0.5 ^1.5 0.5 0.4 0.5 0 1"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "punch_barrage"
+          }
+        ]
+      }
+    },
+    "base_attack": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "hidden": true,
+      "uuid": "fc07d66d-0c5d-40a8-a16e-99c08e305fdb",
+      "amount": 10
+    },
+    "health": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.max_health",
+      "uuid": "ba64e34b-86ed-4c38-9c71-9f436793989d",
+      "list_index": -1,
+      "hidden": true,
+      "amount": 40
+    },
+    "defense": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "uuid": "aea1afca-82dd-4472-9e50-7a392f871c38",
+      "list_index": -1,
+      "hidden": true,
+      "amount": 20
+    },
+    "regen": {
+      "type": "palladium:healing",
+      "hidden": true,
+      "frequency": 20,
+      "amount": 0.5
+    },
+    "defense_armor": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor_toughness",
+      "uuid": "f0a229c4-14a9-42a7-8596-380c30c404e8",
+      "list_index": -1,
+      "hidden": true,
+      "gui_position": [
+        1,
+        1.5
+      ],
+      "amount": 10
+    },
+    "fall_resistance": {
+      "type": "palladium:damage_immunity",
+      "hidden": true,
+      "damage_sources": [
+        "minecraft:is_fall",
+        "minecraft:is_fire"
+      ]
+    },
+    "water_particles": {
+      "type": "palladium:command",
+      "hidden": true,
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s at @s if block ~ ~-1 ~ minecraft:water run execute as @s at @s anchored feet run particle minecraft:bubble_pop ^ ^0.2 ^ 0.3 0 0.3 0 75"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "AlienEvo.SpeedLevel",
+            "min_score": 2,
+            "max_score": 5
+          },
+          {
+            "type": "palladium:sprinting"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:in_water"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "super_punch_unlock": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_6/power_punch.png",
+      "title": "Super Punch",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        1
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "kryptonian_loop"
+          }
+        ]
+      }
+    },
+    "attack_upgrade_1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "title": "Attack: +1",
+      "uuid": "e5b7e330-610d-4687-a03c-df0fd9f6952f",
+      "list_index": -1,
+      "hidden": false,
+      "amount": 1,
+      "gui_position": [
+        0,
+        2
+      ],
+      "description": "null",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "super_punch_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 21
+          }
+        ]
+      }
+    },
+    "speed_punches": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_6/pummel_barrage.png",
+      "title": "Speed Punches",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        3
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "attack_upgrade_1"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 35
+          }
+        ]
+      }
+    },
+    "sonic_clap_unlock": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_6/sonic_clap.png",
+      "title": "Sonic Clap",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0.5,
+        0.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "kryptonian_loop"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 15
+          }
+        ]
+      }
+    },
+    "leap_unlock": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_6/leap.png",
+      "title": "Leap",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.5,
+        0.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "kryptonian_loop"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 24
+          }
+        ]
+      }
+    },
+    "speed_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:textures/mob_effect/speed.png",
+      "title": "Super Speed",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1,
+        1
+      ],
+      "description": "null",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "leap_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 25
+          }
+        ]
+      }
+    },
+    "flight_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:textures/mob_effect/levitation.png",
+      "title": "Flight",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        1.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "speed_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 11
+          }
+        ]
+      }
+    },
+    "flight_boost": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:textures/mob_effect/levitation.png",
+      "title": "Flight Boost",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        2.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "flight_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 23
+          }
+        ]
+      }
+    },
+    "earth_slam_unlock": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_6/slam.png",
+      "title": "Earth Slam",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1,
+        1
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "sonic_clap_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 15
+          }
+        ]
+      }
+    },
+    "attack_upgrade_2": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.attack_damage",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "title": "Attack: +2",
+      "uuid": "4aa79e03-acf1-4ab6-9ac4-33e029c27a41",
+      "list_index": -1,
+      "hidden": false,
+      "amount": 2,
+      "gui_position": [
+        1.5,
+        1.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "earth_slam_unlock"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 10
+          }
+        ]
+      }
+    },
+    "heat_vision_unlock": {
+      "type": "palladium:dummy",
+      "icon": "alienevo:textures/gui/aliens/alien_9/beam/beam_6.png",
+      "title": "Heat Vision",
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        2.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "attack_upgrade_2"
+          },
+          {
+            "type": "palladium:experience_level_buyable",
+            "xp_level": 30
+          }
+        ]
+      }
+    }
+  }
+}

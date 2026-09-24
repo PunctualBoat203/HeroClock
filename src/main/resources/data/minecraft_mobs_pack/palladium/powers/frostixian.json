@@ -1,0 +1,4311 @@
+{
+  "name": {
+    "text": "frostixian"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "#alienevo:alien_sel"
+  },
+  "energy_bars": {
+    "cold_meter": {
+      "max": 4000,
+      "color": "#ffffff"
+    }
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "alienevo:textures/gui/power_screen/power_screen.png",
+  "primary_color": "#8ed721",
+  "secondary_color": "#332e27",
+  "allow_bar_shrinking": false,
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/interface.png",
+  "abilities": {
+    "frostixian_loop": {
+      "type": "palladium:command",
+      "hidden": false,
+      "title": {
+        "translate": "species.alienevo_aliens.280"
+      },
+      "icon": "#alienevo:alien_sel",
+      "gui_position": [
+        0,
+        0
+      ],
+      "first_tick_commands": [
+        "tag @s add Frostixian",
+        "scoreboard objectives add Frostixian.XP dummy",
+        "scoreboard objectives add Frostixian.Level dummy",
+        "scoreboard objectives add Frostixian.SkillPoint dummy",
+        "scoreboard objectives add golemCount dummy",
+        "scoreboard objectives add iceTime dummy",
+        "scoreboard objectives add damage minecraft.custom:minecraft.damage_taken",
+        "scale set pehkui:eye_height 0.93",
+        "scale set pehkui:hitbox_height 0.97",
+        "scale set pehkui:hitbox_width 1.1",
+        "scale set pehkui:block_reach 0.6",
+        "scale set pehkui:entity_reach 0.5"
+      ],
+      "last_tick_commands": [
+        "tag @s remove Frostixian",
+        "scale reset pehkui:eye_height",
+        "scale reset pehkui:hitbox_height",
+        "scale reset pehkui:hitbox_width",
+        "scale reset pehkui:block_reach",
+        "scale reset pehkui:entity_reach",
+        "execute as @e[tag=ice_timer] at @s run fill ~-7 ~-7 ~-7 ~7 ~7 ~7 air replace minecraft:blue_ice",
+        "execute as @e[tag=blue_ice_timer] at @s run fill ~-15 ~-15 ~-15 ~15 ~15 ~15 air replace minecraft:blue_ice",
+        "item replace entity @s armor.head with air",
+        "kill @e[tag=ice_timer]",
+        "kill @e[tag=blue_ice_timer]"
+      ],
+      "commands": [
+        "scoreboard players add @s[palladium.power=selfdestruct:prototype_omnitrix_sdm] AlienEvo.SelfDestruct 1",
+        "execute store result score @s golemCount run execute if entity @e[tag=GolemFriend,distance=..5]",
+        "execute as @a[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:powder_snow run setblock ~ ~-1 ~ minecraft:snow_block",
+        "effect clear @s corewithstuff:freezing",
+        "effect clear @s minecraft:slowness",
+        "execute if score @s golemCount matches 3.. run tag @s add Snow_together",
+        "execute unless score @s golemCount matches 3.. run tag @s remove Snow_together",
+        "execute as @s run tag @e[type=minecraft:snow_golem,distance=..5] add GolemFriend"
+      ]
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "right_arm",
+        "left_arm",
+        "chest",
+        "chest_overlay",
+        "right_arm_overlay",
+        "left_arm_overlay",
+        "right_leg",
+        "left_leg",
+        "cape",
+        "right_leg_overlay",
+        "left_leg_overlay",
+        "head",
+        "head_overlay"
+      ],
+      "affects_first_person": true
+    },
+    "render_layer": {
+      "type": "palladium:render_layer",
+      "hidden": true,
+      "render_layer": "minecraft_mobs:aliens/alien_280/frostixian"
+    },
+    "size_change": {
+      "type": "palladium:size",
+      "title": "Size Change",
+      "hidden": true,
+      "scale": 1.1
+    },
+    "base_form": {
+      "type": "alienevo:omnitrix_detransform",
+      "icon": "#alienevo:detransform",
+      "title": {
+        "translate": "ability.alienevo.omnitrix.base_form"
+      },
+      "hidden": true,
+      "list_index": 4,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.BaseForm"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.MasterControl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "timeout_function": {
+      "type": "alienevo:omnitrix_timer",
+      "hidden": true
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": {
+        "translate": "species.alienevo_aliens.280"
+      },
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "alienevo:current_alien_nickname",
+                "value": "species.alienevo_aliens.280"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nickname": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": [
+        {
+          "nbt": "KubeJSPersistentData.alienevo_280",
+          "entity": "@s"
+        }
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "alienevo:current_alien_nickname",
+                    "value": "species.alienevo_aliens.280"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "slot_restriction": {
+      "type": "palladium:restrict_slots",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "slots": [
+        "chest",
+        "legs",
+        "feet",
+        "trinkets:head/hat",
+        "trinkets:head/face",
+        "trinkets:chest/back",
+        "trinkets:chest/necklace",
+        "trinkets:chest/cape",
+        "trinkets:hand/ring",
+        "trinkets:hand/glove",
+        "trinkets:offhand/glove",
+        "trinkets:offhand/ring",
+        "curios:hands"
+      ]
+    },
+    "snow_hurt_sound": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute at @s run playsound minecraft:entity.snow_golem.hurt player @a[distance=..6] ~ ~ ~",
+        "scoreboard players set @s damage 0"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "damage",
+            "min_score": 1
+          }
+        ]
+      }
+    },
+    "golem_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/explosion.png",
+      "title": "Snow explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 7,
+      "damage": 8,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 400,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "fire_immune": {
+      "type": "alienevo:fire_immunity",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "blue_ice_skin"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "immunity": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:is_fire"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "blue_ice_skin"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_golem_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/giant_explosion.png",
+      "title": "Mega snow explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 11,
+      "damage": 12,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          },
+          {
+            "type": "palladium:has_tag",
+            "tag": "Snow_giant"
+          }
+        ]
+      }
+    },
+    "mega_ice_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/mega_ice_explosion.png",
+      "title": "Mega ice explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 11,
+      "damage": 16,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "ice_skin"
+          },
+          {
+            "type": "palladium:has_tag",
+            "tag": "Snow_giant"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "mega_blue_ice_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/mega_blue_explosion.png",
+      "title": "Mega blue ice explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 12,
+      "damage": 20,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          },
+          {
+            "type": "palladium:has_tag",
+            "tag": "Snow_giant"
+          },
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "blue_ice_skin"
+          }
+        ]
+      }
+    },
+    "ice_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/ice_explosion.png",
+      "title": "Ice explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 7,
+      "damage": 12,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "blue_ice_explosion": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/blue_ice_explosion.png",
+      "title": "Blue ice explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 7,
+      "damage": 16,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 1,
+            "key_type": "key_bind",
+            "needs_empty_hand": true,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "golem_explosion_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/explosion.png",
+      "title": "\u00a7aIce explosion",
+      "description": "\u00a73% \u00a7a(Keybind) \u00a7fGain the ability to do a cold explosion around you, dealing damage and freezing enemies",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.8,
+        3.6
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "mega_golem_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "golem_explosion_particles": {
+      "type": "alienevo:particle_ring",
+      "icon": "minecraft:nether_star",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "particle_id": "minecraft:snowflake",
+      "mode": "spread",
+      "particle_count": 80,
+      "spawn_delay": 0,
+      "ring_distance": 4,
+      "ring_height": 2,
+      "layer_count": 6,
+      "layer_height": 0.5,
+      "distance_decrease": 0.5,
+      "particle_speed": 1,
+      "rotation_speed": 2,
+      "particle_spread": 0.1,
+      "vertical_spread": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "golem_explosion"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_explosion"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_explosion"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_golem_explosion_particles": {
+      "type": "alienevo:particle_ring",
+      "icon": "minecraft:nether_star",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "particle_id": "minecraft:snowflake",
+      "mode": "spread",
+      "particle_count": 80,
+      "spawn_delay": 0,
+      "ring_distance": 8,
+      "ring_height": 2,
+      "layer_count": 8,
+      "layer_height": 0.8,
+      "distance_decrease": 0.5,
+      "particle_speed": 1,
+      "rotation_speed": 2,
+      "particle_spread": 0.1,
+      "vertical_spread": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem_explosion"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_ice_explosion"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_blue_ice_explosion"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "mega_golem"
+          }
+        ]
+      }
+    },
+    "golem_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~ ~-7 ~7 ~ ~7 minecraft:snow replace minecraft:air",
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~-1 ~-7 ~7 ~-1 ~7 minecraft:snow replace minecraft:air",
+        "execute as @s[tag=Frostixian] at @s run effect give @e[distance=..7] corewithstuff:freezing 50 0 true",
+        "particle minecraft:flash ~ ~ ~",
+        "effect clear @s corewithstuff:freezing",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 0"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "golem_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_golem_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "function minecraft_mobs_pack:snow_aura",
+        "execute as @a at @s run effect give @e[distance=..11] corewithstuff:freezing 70 0 true",
+        "effect clear @s corewithstuff:freezing",
+        "particle minecraft:flash ~ ~ ~",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 0"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "mega_golem_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_ice_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "function minecraft_mobs_pack:ice_aura",
+        "execute as @a at @s run effect give @e[distance=..11] corewithstuff:freezing 70 0 true",
+        "effect clear @s corewithstuff:freezing",
+        "particle minecraft:flash ~ ~ ~",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 0"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "mega_ice_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ice_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~ ~-7 ~7 ~ ~7 minecraft:snow replace minecraft:air",
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~-1 ~-7 ~7 ~-1 ~7 minecraft:snow replace minecraft:air",
+        "execute as @a at @s run effect give @e[distance=..7] corewithstuff:freezing 200 2 true",
+        "execute as @a at @s run effect give @e[distance=..7] minecraft:slowness 200 1 true",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 1000"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "ice_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_blue_ice_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "function minecraft_mobs_pack:mega_blue_ice_explosion",
+        "execute as @s[tag=Frostixian] at @s run fill ~-20 ~ ~-20 ~20 ~ ~20 minecraft:snow replace minecraft:air",
+        "execute as @s[tag=Frostixian] at @s run fill ~-20 ~-1 ~-20 ~20 ~-1 ~20 minecraft:snow replace minecraft:air",
+        "execute as @a at @s run effect give @e[distance=..14] corewithstuff:freezing 200 4 true",
+        "execute as @a at @s run effect give @e[distance=..14] minecraft:slowness 200 4 true",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 0"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "mega_blue_ice_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "blue_ice_explosion_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "function minecraft_mobs_pack:blue_ice_explosion",
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~ ~-7 ~7 ~ ~7 minecraft:snow replace minecraft:air",
+        "execute as @s[tag=Frostixian] at @s run fill ~-7 ~-1 ~-7 ~7 ~-1 ~7 minecraft:snow replace minecraft:air",
+        "execute as @a at @s run effect give @e[distance=..7] corewithstuff:freezing 200 4 true",
+        "execute as @a at @s run effect give @e[distance=..7] minecraft:slowness 200 4 true",
+        "energybar value set @s minecraft_mobs_pack:frostixian cold_meter 2500"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "blue_ice_explosion"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "golem_explosion_sound": {
+      "type": "palladium:play_sound",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "sound": "minecraft:entity.wither.shoot",
+      "volume": 1,
+      "pitch": 0.1,
+      "looping": false,
+      "play_self": false,
+      "play_others": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:or",
+          "conditions": [
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "golem_explosion"
+            },
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "ice_explosion"
+            },
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "blue_ice_explosion"
+            }
+          ]
+        },
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_golem_explosion_sound": {
+      "type": "palladium:play_sound",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "sound": "minecraft:entity.phantom.flap",
+      "volume": 1,
+      "pitch": 1,
+      "looping": false,
+      "play_self": false,
+      "play_others": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:or",
+          "conditions": [
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "mega_golem_explosion"
+            },
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "mega_ice_explosion"
+            },
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "mega_blue_ice_explosion"
+            }
+          ]
+        },
+        "unlocking": []
+      }
+    },
+    "snow_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -8,
+      "operation": 0,
+      "uuid": "b5100870-bc21-48b6-b6fd-bd06e023fd5a",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "snow_healt1": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 2,
+      "operation": 0,
+      "uuid": "06a4ee06-7357-440f-93a0-f72da996725b",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "snow_health1_unlock"
+          }
+        ]
+      }
+    },
+    "snow_health1_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:golden_apple",
+      "title": "\u00a7aHealth +2",
+      "description": "null",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.2,
+        2.4
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "spawn_golems_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "snow_healt2": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 2,
+      "operation": 0,
+      "uuid": "5804d86b-51c4-42fd-bb38-8ca8af49c564",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "snow_health2_unlock"
+          }
+        ]
+      }
+    },
+    "snow_health2_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:golden_apple",
+      "title": "\u00a7aHealth +2",
+      "description": "null",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.2,
+        2.4
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "ice_skin_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "giant_healt": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 8,
+      "operation": 0,
+      "uuid": "3ec76be1-6d90-4f65-a18e-bd0e25b644c4",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "giant_ice_healt": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 16,
+      "operation": 0,
+      "uuid": "e4eadf35-1aec-4f38-9db8-549fca0c4461",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "giant__blue_ice_healt": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 24,
+      "operation": 0,
+      "uuid": "4a32e138-8c5c-443f-9fba-f709fa136766",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "blue_ice_damage": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 6,
+      "operation": 0,
+      "uuid": "21b508e0-2b44-46f4-8b95-c583ee2affa9",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "ice_damage": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 3,
+      "operation": 0,
+      "uuid": "19ae6200-0ce7-46a8-9fb4-d523d4e79de8",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_golem_damage": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 4,
+      "operation": 0,
+      "uuid": "011a0bba-8555-4d17-81fb-2405064a863a",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_ice_damage": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 8,
+      "operation": 0,
+      "uuid": "e92d824b-d90d-4ecf-8cf4-eabc62338d50",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_blue_damage": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 12,
+      "operation": 0,
+      "uuid": "b8cb8fee-72e6-4af2-b3ca-30505da3ffcb",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "ice_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 10,
+      "operation": 0,
+      "uuid": "d96706fb-e098-49fc-b241-3ca94c1e7f52",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "ice_skin"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "blue_ice_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 20,
+      "operation": 0,
+      "uuid": "c54a1a0f-e34d-4d74-94ee-8281cb4cda31",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "blue_ice_skin"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "end_giant_damage": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [
+        "damage @s 0.01"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_on_cooldown",
+            "power": "null",
+            "ability": "mega_golem"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "snowball": {
+      "type": "palladium:projectile",
+      "icon": "minecraft:snowball",
+      "title": "Throw snowball",
+      "list_index": 0,
+      "description": "\u00a73% \u00a7fGain the ability to throw a snowball. It doesn't do much damage",
+      "gui_position": [
+        0,
+        -0.6
+      ],
+      "entity_type": "palladium:custom_projectile",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 2,
+      "inaccuracy": 0,
+      "entity_data": {
+        "Damage": 1,
+        "Gravity": 0,
+        "Size": 1,
+        "Lifetime": 20,
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "item",
+            "Item": "minecraft:snowball"
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "mega_golem"
+                  },
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Melted"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_unlocked",
+                    "power": "null",
+                    "ability": "ice_shards_unlock"
+                  },
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Melted"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_snowball": {
+      "type": "palladium:projectile",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/giant_snow.png",
+      "title": "Throw giant snowball",
+      "list_index": 0,
+      "description": "Gain the ability to throw a snowball. It doesn't do much damage",
+      "gui_position": [
+        0,
+        -0.6
+      ],
+      "entity_type": "palladium:custom_projectile",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 2,
+      "inaccuracy": 0,
+      "entity_data": {
+        "Damage": 4,
+        "Gravity": 0,
+        "Size": 2,
+        "Lifetime": 20,
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "item",
+            "Item": "minecraft:snowball"
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 20,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_unlocked",
+                        "power": "null",
+                        "ability": "ice_shards_unlock"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "snowball_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:snowball",
+      "title": "\u00a7aThrow snowball",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        0.6
+      ],
+      "description": "\u00a73% \u00a7a(Keybind) \u00a7fGain the ability to throw snowballs, they don't deal much damage, but you can throw as many as you want",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "frostixian_loop"
+          }
+        ]
+      }
+    },
+    "snowball_sound": {
+      "type": "palladium:play_sound",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "sound": "minecraft:entity.experience_bottle.throw",
+      "volume": 1,
+      "pitch": 0.5,
+      "looping": false,
+      "play_self": false,
+      "play_others": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:or",
+          "conditions": [
+            {
+              "type": "palladium:ability_first_tick",
+              "power": "null",
+              "ability": "snowball"
+            },
+            {
+              "type": "palladium:ability_first_tick",
+              "power": "null",
+              "ability": "mega_snowball"
+            }
+          ]
+        }
+      }
+    },
+    "ice_shards": {
+      "type": "palladium:projectile",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/shards.png",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Ice Shard",
+      "hidden": true,
+      "list_index": 0,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 2,
+      "entity_data": {
+        "Damage": 10,
+        "Gravity": 0,
+        "ExplosionRadius": 0,
+        "ExplosionCausesFire": false,
+        "SetEntityOnFireSeconds": 0,
+        "Size": 1,
+        "Lifetime": 30,
+        "CommandOnEntityHit": "function afomni:necrofriggian/ice_shard_hit",
+        "CommandOnBlockHit": "function afomni:necrofriggian/ice_shard_hit",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "minecraft_mobs:ice_projectile"
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:snowflake",
+            "Spread": 0.2,
+            "Amount": 1
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 50,
+            "ticks": 1,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "ice_shards_unlock"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "mega_golem"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_ice_shards": {
+      "type": "palladium:projectile",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/mega_shards.png",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Giant Ice Shard",
+      "hidden": true,
+      "list_index": 0,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 1,
+      "entity_data": {
+        "Damage": 15,
+        "Gravity": 0,
+        "ExplosionRadius": 0,
+        "ExplosionCausesFire": false,
+        "SetEntityOnFireSeconds": 0,
+        "Size": 1,
+        "Lifetime": 30,
+        "CommandOnEntityHit": "function afomni:necrofriggian/ice_shard_hit",
+        "CommandOnBlockHit": "function afomni:necrofriggian/ice_shard_hit",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "minecraft_mobs:ice_projectile"
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:snowflake",
+            "Spread": 0.2,
+            "Amount": 1
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 30,
+            "ticks": 1,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "ice_shards_unlock"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "blue_ice_shards": {
+      "type": "palladium:projectile",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/blue_shards.png",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Blue ice Shard",
+      "hidden": true,
+      "list_index": 0,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 2,
+      "entity_data": {
+        "Damage": 15,
+        "Gravity": 0,
+        "ExplosionRadius": 0,
+        "ExplosionCausesFire": false,
+        "SetEntityOnFireSeconds": 0,
+        "Size": 1,
+        "Lifetime": 30,
+        "CommandOnEntityHit": "function afomni:necrofriggian/ice_shard_hit",
+        "CommandOnBlockHit": "function afomni:necrofriggian/ice_shard_hit",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "minecraft_mobs:ice_projectile2"
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:snowflake",
+            "Spread": 0.2,
+            "Amount": 1
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 45,
+            "ticks": 5,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "ice_shards_unlock"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "mega_golem"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_blue_ice_shards": {
+      "type": "palladium:projectile",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/mega_blue_shards.png",
+      "entity_type": "palladium:custom_projectile",
+      "title": "Mega blue ice Shard",
+      "hidden": true,
+      "list_index": 0,
+      "hidden_in_bar": false,
+      "swinging_arm": "none",
+      "velocity": 2,
+      "entity_data": {
+        "Damage": 30,
+        "Gravity": 0,
+        "ExplosionRadius": 0,
+        "ExplosionCausesFire": false,
+        "SetEntityOnFireSeconds": 0,
+        "Size": 1,
+        "Lifetime": 30,
+        "CommandOnEntityHit": "function afomni:necrofriggian/ice_shard_hit",
+        "CommandOnBlockHit": "function afomni:necrofriggian/ice_shard_hit",
+        "DieOnEntityHit": true,
+        "DieOnBlockHit": true,
+        "Appearances": [
+          {
+            "Type": "renderLayer",
+            "RenderLayer": "minecraft_mobs:ice_projectile2"
+          },
+          {
+            "Type": "particles",
+            "ParticleType": "minecraft:snowflake",
+            "Spread": 0.2,
+            "Amount": 1
+          }
+        ]
+      },
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 25,
+            "ticks": 3,
+            "key_type": "right_click",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "ice_shards_unlock"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ice_shards_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/shards.png",
+      "title": "\u00a7aIce shards",
+      "description": "\u00a73% \u00a7a(Keybind) \u00a7fGain the ability to throw ice shards while ice/blue armor are active",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.8,
+        3
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "snow_health2_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "ice_shard_sound": {
+      "type": "palladium:play_sound",
+      "hidden": true,
+      "list_index": -1,
+      "sound": "minecraft:entity.experience_bottle.throw",
+      "volume": 1,
+      "pitch": 2,
+      "looping": false,
+      "play_self": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "ability": "ice_shards"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "ability": "blue_ice_shards"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "ability": "mega_ice_shards"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "ability": "mega_blue_ice_shards"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "spawn_golems": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/3_golems.png",
+      "title": "Spawn 3 snow golems",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute at @s run summon minecraft:snow_golem ~ ~ ~-1 {Tags:[\"GolemFriend\"]}",
+        "execute at @s run summon minecraft:snow_golem ~1 ~ ~ {Tags:[\"GolemFriend\"]}",
+        "execute at @s run summon minecraft:snow_golem ~-1 ~ ~ {Tags:[\"GolemFriend\"]}"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 800,
+            "ticks": 100,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "spawn_golems_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "spawn_ice_golems": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/4_golems.png",
+      "title": "Spawn 4 snow golems",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute at @s run summon minecraft:snow_golem ~ ~ ~-1 {Tags:[\"GolemFriend\"]}",
+        "execute at @s run summon minecraft:snow_golem ~1 ~ ~ {Tags:[\"GolemFriend\"]}",
+        "execute at @s run summon minecraft:snow_golem ~-1 ~ ~ {Tags:[\"GolemFriend\"]}",
+        "execute at @s run summon minecraft:snow_golem ~-2 ~ ~ {Tags:[\"GolemFriend\"]}"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 600,
+            "ticks": 100,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "spawn_golems_unlock"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "spawn_blue_ice_golems": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/5_golems.png",
+      "title": "Spawn 5 snow golems",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute at @s run summon minecraft:snow_golem ~ ~ ~-1 {Tags:[\"GolemFriend\"],ActiveEffects:[{Id:12,Amplifier:0,Duration:2000000,ShowParticles:0b}]}",
+        "execute at @s run summon minecraft:snow_golem ~1 ~ ~ {Tags:[\"GolemFriend\"],ActiveEffects:[{Id:12,Amplifier:0,Duration:2000000,ShowParticles:0b}]}",
+        "execute at @s run summon minecraft:snow_golem ~2 ~ ~ {Tags:[\"GolemFriend\"],ActiveEffects:[{Id:12,Amplifier:0,Duration:2000000,ShowParticles:0b}]}",
+        "execute at @s run summon minecraft:snow_golem ~-1 ~ ~ {Tags:[\"GolemFriend\"],ActiveEffects:[{Id:12,Amplifier:0,Duration:2000000,ShowParticles:0b}]}",
+        "execute at @s run summon minecraft:snow_golem ~-2 ~ ~ {Tags:[\"GolemFriend\"],ActiveEffects:[{Id:12,Amplifier:0,Duration:2000000,ShowParticles:0b}]}"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 500,
+            "ticks": 100,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "spawn_golems_unlock"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "spawn_golems_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/3_golems.png",
+      "title": "\u00a7aCold army",
+      "description": "\u00a73% \u00a7a(Keybind) \u00a7fGain the ability to spawn icy friends",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        1.8
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "water_ice_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "ice_skin": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/ice_armor.png",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:snow_golem",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:command_result",
+                "command": "energybar value get @s minecraft_mobs_pack:frostixian cold_meter",
+                "comparison": ">",
+                "compare_to": 2000,
+                "log": false
+              },
+              {
+                "type": "palladium:command_result",
+                "command": "energybar value get @s minecraft_mobs_pack:frostixian cold_meter",
+                "comparison": "<",
+                "compare_to": 4000,
+                "log": false
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "ice_skin_unlock"
+          }
+        ]
+      }
+    },
+    "nether_skin": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:ice",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:nether_golem",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_ticks",
+                "power": "null",
+                "ability": "fire_animation",
+                "min": 10,
+                "max": 2000
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "animation_command": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "scale set pehkui:hitbox_height 0.08",
+        "scale set pehkui:hitbox_width 1.6",
+        "scale set pehkui:eye_height 0.1"
+      ],
+      "last_tick_commands": [
+        "tag @s remove Melted",
+        "scale set pehkui:hitbox_height 0.97",
+        "scale set pehkui:hitbox_width 1.1",
+        "scale set pehkui:eye_height 0.93",
+        "effect clear @s minecraft:weakness"
+      ],
+      "commands": [
+        "tag @s add Melted",
+        "effect give @s minecraft:weakness 8 5 true"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "nether_skin"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "fire_animation": {
+      "type": "geckolib:render_layer_animation",
+      "render_layer": "minecraft_mobs:aliens/alien_280/frostixian",
+      "controller": "frostixian_move",
+      "animation_trigger": "golem_melt",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:is_on_fire"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "snow_water_damage"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:dimension",
+                    "dimension": "minecraft:the_nether"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "end_animation": {
+      "type": "geckolib:render_layer_animation",
+      "render_layer": "minecraft_mobs:aliens/alien_280/frostixian",
+      "controller": "frostixian_move",
+      "animation_trigger": "golem_melt2",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_last_tick",
+                "power": "null",
+                "ability": "nether_skin"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:is_on_fire"
+                  },
+                  {
+                    "type": "palladium:is_in_water_or_rain"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "end_animation2": {
+      "type": "geckolib:render_layer_animation",
+      "render_layer": "minecraft_mobs:aliens/alien_280/frostixian",
+      "controller": "frostixian_move",
+      "animation_trigger": "golem_melt2",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "golem_explosion"
+                  },
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "mega_golem_explosion"
+                  },
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "ice_explosion"
+                  },
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "mega_ice_explosion"
+                  },
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "blue_ice_explosion"
+                  },
+                  {
+                    "type": "palladium:ability_last_tick",
+                    "power": "null",
+                    "ability": "mega_blue_ice_explosion"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:dimension",
+                "dimension": "minecraft:the_nether"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:is_on_fire"
+                  },
+                  {
+                    "type": "palladium:is_in_water_or_rain"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nether_particle": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute at @s run particle minecraft:snowflake ~ ~0.05 ~ 0.2 0.05 0.2 0.001 5 force @a"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              },
+              {
+                "type": "palladium:is_moving"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_jump_power": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "forge:step_height_addition",
+      "amount": 1,
+      "operation": 0,
+      "uuid": "971843a4-d217-4c1c-8a9b-528def9b267d",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_jump_heigh": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "forge:entity_gravity",
+      "amount": 1,
+      "operation": 0,
+      "uuid": "a7dd3a07-2151-4d65-b03c-6163e8eda7e9",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_walking_speed": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.movement_speed",
+      "amount": -0.04,
+      "operation": 0,
+      "uuid": "0f174244-c005-4dce-a446-45a4b48b4258",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_tag": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add Melted",
+        "scale set pehkui:hitbox_height 0.08",
+        "scale set pehkui:hitbox_width 1.6",
+        "scale set pehkui:eye_height 0.1",
+        "effect give @s minecraft:weakness 8 5 true"
+      ],
+      "last_tick_commands": [
+        "tag @s remove Melted",
+        "scale set pehkui:hitbox_height 0.97",
+        "scale set pehkui:hitbox_width 1.1",
+        "scale set pehkui:eye_height 0.93",
+        "effect clear @s weakness"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "nether_skin"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "snow_water_damage"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:dimension",
+                    "dimension": "minecraft:the_nether"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "ice_skin"
+                      },
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "blue_ice_skin"
+                      },
+                      {
+                        "type": "palladium:has_tag",
+                        "tag": "Snow_giant"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -11,
+      "operation": 0,
+      "uuid": "553c3d9b-b6ac-4c03-bdc1-bcace65f0aff",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "slot_nether": {
+      "type": "palladium:restrict_slots",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "slots": [
+        "mainhand",
+        "offhand"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "nether_ignore": {
+      "type": "alienevo:invulnerable",
+      "icon": "minecraft:golden_apple",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Melted"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:is_on_fire"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "snow_water_damage"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "bar_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "energybar value add @s minecraft_mobs_pack:frostixian cold_meter 1",
+        "energybar max set @s minecraft_mobs_pack:frostixian cold_meter 3999"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_unlocked",
+                    "power": "null",
+                    "ability": "ice_skin"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "nether_skin"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:dimension",
+                        "dimension": "minecraft:the_nether"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "bar_blue_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "energybar value add @s minecraft_mobs_pack:frostixian cold_meter 1",
+        "energybar max set @s minecraft_mobs_pack:frostixian cold_meter 4000"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_unlocked",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:ability_enabled",
+                        "power": "null",
+                        "ability": "nether_skin"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "palladium:and",
+                "conditions": [
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "nether_skin"
+                  },
+                  {
+                    "type": "palladium:not",
+                    "conditions": [
+                      {
+                        "type": "palladium:dimension",
+                        "dimension": "minecraft:the_nether"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "ice_skin_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/ice_armor.png",
+      "title": "\u00a7aIce armor",
+      "description": "Gain the ability to form an ice armor around you. \u00a7aYou will start getting colder passively",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0.6,
+        1.8
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "water_ice_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "blue_ice_skin": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:ice",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:snow_golem2",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:command_result",
+            "command": "energybar value get @s minecraft_mobs_pack:frostixian cold_meter",
+            "comparison": "==",
+            "compare_to": 4000,
+            "log": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "blue_ice_skin_unlock"
+          }
+        ]
+      }
+    },
+    "blue_ice_skin_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/blue_ice_armor.png",
+      "title": "\u00a7aBlue ice armor",
+      "description": "\u00a7aOnce your cold meter is full. \u00a7fGain the ability to form a blue ice armor around you",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        3.6
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lava_ice_unlock"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_explosion_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "mega_golem_sound": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute at @s run playsound minecraft:block.snow.place player @a[distance=..6] ~ ~ ~ 1 0.01",
+        "execute at @s run playsound minecraft:entity.iron_golem.attack player @a[distance=..6] ~ ~ ~ 1 0.01"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "mega_golem"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_golem": {
+      "type": "palladium:size",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/giant.png",
+      "title": "Become a giant",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "null",
+      "scale": 2,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 500,
+            "ticks": 800,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_together"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "mega_golem"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "mega_golem_unlock"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mega_golem_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/giant.png",
+      "title": "\u00a7aSnow giant",
+      "description": "\u00a73% \u00a7a(Keybind) \u00a7fGain the ability to combine with 3 other snow golems",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.8,
+        3
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "snow_health1_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "mega_golem_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tp @e[tag=GolemFriend,distance=..5,limit=3] ~ -500 ~",
+        "tag @s add Snow_giant"
+      ],
+      "last_tick_commands": [
+        "tag @s remove Snow_giant"
+      ],
+      "commands": [
+        "tag @s add Snow_giant",
+        "execute as @a[tag=Frostixian] at @s positioned ~-1 ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~ ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~1 ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~-1 ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~ ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~1 ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~-1 ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~ ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s positioned ~1 ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @a[tag=Frostixian] at @s if block ~-1 ~-1 ~-1 minecraft:water run setblock ~-1 ~-1 ~-1 minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~ ~-1 ~-1 minecraft:water run setblock ~ ~-1 ~-1 minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~1 ~-1 ~-1 minecraft:water run setblock ~1 ~-1 ~-1 minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~-1 ~-1 ~ minecraft:water run setblock ~-1 ~-1 ~ minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:water run setblock ~ ~-1 ~ minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~1 ~-1 ~ minecraft:water run setblock ~1 ~-1 ~ minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~-1 ~-1 ~1 minecraft:water run setblock ~-1 ~-1 ~1 minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~ ~-1 ~1 minecraft:water run setblock ~ ~-1 ~1 minecraft:ice",
+        "execute as @a[tag=Frostixian] at @s if block ~1 ~-1 ~1 minecraft:water run setblock ~1 ~-1 ~1 minecraft:ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "mega_golem"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_blue_ice_golem_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tp @e[tag=GolemFriend,distance=..5,limit=3] ~ -500 ~",
+        "tag @s add Snow_giant"
+      ],
+      "last_tick_commands": [
+        "tag @s remove Snow_giant"
+      ],
+      "commands": [
+        "tag @s add Snow_giant",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~-1 minecraft:water run setblock ~-1 ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~-1 minecraft:water run setblock ~ ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~-1 minecraft:water run setblock ~1 ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~ minecraft:water run setblock ~-1 ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:water run setblock ~ ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~ minecraft:water run setblock ~1 ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~1 minecraft:water run setblock ~-1 ~-1 ~1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~1 minecraft:water run setblock ~ ~-1 ~1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~1 minecraft:water run setblock ~1 ~-1 ~1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s positioned ~-1 ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~ ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~1 ~-1 ~-1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~-1 ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~ ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~1 ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~-1 ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~ ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow",
+        "execute as @s[tag=Frostixian] at @s positioned ~1 ~-1 ~1 unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "mega_lava_golem_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~-1 minecraft:lava run setblock ~-1 ~-1 ~-1 minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~-1 minecraft:lava run setblock ~ ~-1 ~-1 minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~-1 minecraft:lava run setblock ~1 ~-1 ~-1 minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~ minecraft:lava run setblock ~-1 ~-1 ~ minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:lava run setblock ~ ~-1 ~ minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~ minecraft:lava run setblock ~1 ~-1 ~ minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~1 minecraft:lava run setblock ~-1 ~-1 ~1 minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~1 minecraft:lava run setblock ~ ~-1 ~1 minecraft:ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~1 minecraft:lava run setblock ~1 ~-1 ~1 minecraft:ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lava_ice_unlock"
+          }
+        ]
+      }
+    },
+    "mega_blue_lava_golem_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~-1 minecraft:lava run setblock ~-1 ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~-1 minecraft:lava run setblock ~ ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~-1 minecraft:lava run setblock ~1 ~-1 ~-1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~ minecraft:lava run setblock ~-1 ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:lava run setblock ~ ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~ minecraft:lava run setblock ~1 ~-1 ~ minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~-1 ~-1 ~1 minecraft:lava run setblock ~-1 ~-1 ~1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~1 minecraft:lava run setblock ~ ~-1 ~1 minecraft:blue_ice",
+        "execute as @s[tag=Frostixian] at @s if block ~1 ~-1 ~1 minecraft:lava run setblock ~1 ~-1 ~1 minecraft:blue_ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "mega_golem"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lava_ice_unlock"
+          }
+        ]
+      }
+    },
+    "not_giant_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s positioned ~ ~-1 ~ unless block ~ ~ ~ minecraft:air unless block ~ ~ ~ minecraft:water unless block ~ ~ ~ minecraft:ice unless block ~ ~ ~ minecraft:lava unless block ~ ~ ~ minecraft:snow unless block ~ ~ ~ minecraft:packed_ice unless block ~ ~ ~ minecraft:blue_ice if block ~ ~1 ~ minecraft:air run setblock ~ ~1 ~ minecraft:snow"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "Snow_giant"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "Melted"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "water_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:water run setblock ~ ~-1 ~ minecraft:ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "blue_ice_skin"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "water_ice_unlock"
+          }
+        ]
+      }
+    },
+    "water_blue_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:water run setblock ~ ~-1 ~ minecraft:blue_ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "water_ice_unlock"
+          }
+        ]
+      }
+    },
+    "water_ice_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/snow_water.png",
+      "title": "\u00a7aFrost walker",
+      "description": "\u00a73% \u00a7a(Passive) \u00a7fGain the ability to turn the water beneath you into ice",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        1.2
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "snowball_tree"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "lava_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:lava run setblock ~ ~-1 ~ minecraft:ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lava_ice_unlock"
+          }
+        ]
+      }
+    },
+    "lava_ice_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/snow_lava.png",
+      "title": "\u00a7aLava walker",
+      "description": "\u00a73% \u00a7a(Passive) \u00a7fGain the ability to turn the lava beneath you into ice while using ice armor",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.8,
+        3.6
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "ice_shards_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "lava_blue_ice": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @s[tag=Frostixian] at @s if block ~ ~-1 ~ minecraft:lava run setblock ~ ~-1 ~ minecraft:blue_ice"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "Snow_giant"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "blue_ice_skin"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lava_ice_unlock"
+          }
+        ]
+      }
+    },
+    "ice_shards_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "ice_shards"
+          }
+        ]
+      }
+    },
+    "blue_ice_shards_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "blue_ice_shards"
+          }
+        ]
+      }
+    },
+    "explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "golem_explosion"
+          }
+        ]
+      }
+    },
+    "ice_explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "ice_explosion"
+          }
+        ]
+      }
+    },
+    "blue_ice_explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 3"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "blue_ice_explosion"
+          }
+        ]
+      }
+    },
+    "mega_blue_ice_explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Frostixian.Level=..10}] Frostixian.XP 4"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "mega_blue_ice_explosion"
+          }
+        ]
+      }
+    },
+    "pumpkin_activate": {
+      "type": "palladium:command",
+      "icon": "minecraft:carved_pumpkin",
+      "title": "Activate Pumpkin overlay",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        0
+      ],
+      "description": "\u00a7a+4 Health, +4 Armor. \u00a76You can deactivate it and activate it anytime you want",
+      "first_tick_commands": [
+        "item replace entity @s armor.head with minecraft:carved_pumpkin{CustomModelData:1}",
+        "ability lock @s minecraft_mobs_pack:frostixian pumpkin_deactivate"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 0,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "pumpkin_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": 4,
+      "operation": 0,
+      "uuid": "9fcb6e0b-1272-4538-9450-1b84c9a161f3",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "pumpkin_activate"
+          }
+        ]
+      }
+    },
+    "pumpkin_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 4,
+      "operation": 0,
+      "uuid": "867bdc3f-58b6-4514-855d-c037694a376b",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "pumpkin_activate"
+          }
+        ]
+      }
+    },
+    "snow_water_damage": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [
+        "effect clear @s"
+      ],
+      "commands": [
+        "effect give @s minecraft:wither infinite 5 true"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:is_in_water_or_rain"
+        }
+      }
+    },
+    "pumpkin": {
+      "type": "palladium:command",
+      "icon": "minecraft:carved_pumpkin",
+      "title": "Pumpkin",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        0
+      ],
+      "description": "null",
+      "first_tick_commands": [
+        "item replace entity @s armor.head with minecraft:carved_pumpkin{CustomModelData:1}",
+        "ability lock @s minecraft_mobs_pack:frostixian pumpkin_deactivate",
+        "ability unlock @s minecraft_mobs_pack:frostixian pumpkin_activate"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_unlocked",
+                "power": "null",
+                "ability": "pumpkin_deactivate"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pumpkin_deactivate": {
+      "type": "palladium:command",
+      "icon": "minecraft:shears",
+      "title": "Deactivate Pumpkin overlay",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0.6,
+        0
+      ],
+      "description": "\u00a7c-4 Health, -4 Armor. \u00a76You can deactivate it and activate it anytime you want",
+      "first_tick_commands": [
+        "item replace entity @s armor.head with air",
+        "ability lock @s minecraft_mobs_pack:frostixian pumpkin_activate"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Frostixian.SkillPoint",
+            "score": 0,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eFrostixian Skill Point"
+          }
+        ]
+      }
+    },
+    "pumpkin_lock": {
+      "type": "palladium:lock_armor",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "golem_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:heart_of_the_blizzard",
+      "title": "\u00a73Cold evolution",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        -0.6
+      ],
+      "description": "\u00a73The colder and bigger you get, the stronger you become. Abilities with \u00a7f% \u00a73change depending on if ice/blue armor or snow giant are active. If both are active at the same time you'll get even stronger",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "frostixian_loop"
+          }
+        ]
+      }
+    },
+    "water_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_280/water.png",
+      "title": "\u00a7cHydrofobia",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        -1.2
+      ],
+      "description": "\u00a7cYou will receive damage when touched by water",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_tree"
+          }
+        ]
+      }
+    },
+    "nether_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:snow_block",
+      "title": "\u00a7cSnow man",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0.6,
+        -1.2
+      ],
+      "description": "\u00a7cYou will melt while in the Nether or touched by fire/water.\u00a7a In this state mobs will ignore you. \u00a7fYou come back to normal when ice/blue armor are active",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_tree"
+          }
+        ]
+      }
+    },
+    "snow_walking_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:leather_boots",
+      "title": "\u00a7aLight feet",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        -1.8
+      ],
+      "description": "\u00a7a(Passive) You are able to walk on powdered snow without falling",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "golem_tree"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,434 @@
+[
+  {
+    "mixin": "EntityPropertyHandlerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.EntityPropertyHandler",
+    "parent": "net/threetag/palladium/util/property/PropertyManager",
+    "fields": [],
+    "methods": [
+      {
+        "name": "onChanged",
+        "descriptor": "(Lnet/threetag/palladium/util/property/PalladiumProperty;Ljava/lang/Object;Ljava/lang/Object;)V",
+        "fingerprint": "7ac66e9948c136810318bd9ae27625960c3767134d83561d7bd1f57ca9e08dd4"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": true,
+        "owner": "net/minecraft/world/entity/Entity",
+        "name": "m_9236_",
+        "descriptor": "()Lnet/minecraft/world/level/Level;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/level/Level",
+        "name": "f_46443_",
+        "descriptor": "Z"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/world/entity/Entity",
+        "name": "m_19879_",
+        "descriptor": "()I"
+      }
+    ],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "PowerHandlerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.power.PowerHandler",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "powers",
+        "descriptor": "Ljava/util/Map;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "getPowerHolders",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "f24fb2c2c2e549bf1c7f4801425c31de7d4f7d2c8ca6d5b92af4ed9fae6b34e8"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "CommandFunctionMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "commandFunction",
+        "descriptor": "Lnet/minecraft/commands/CommandFunction;",
+        "access": 2
+      },
+      {
+        "name": "error",
+        "descriptor": "Z",
+        "access": 2
+      }
+    ],
+    "methods": [
+      {
+        "name": "getCommandFunction",
+        "descriptor": "(Lnet/minecraft/server/MinecraftServer;)Lnet/minecraft/commands/CommandFunction;",
+        "fingerprint": "6d40480e314e2afd79e9a7c017a65d107d0fe565b253545cf558969194ce50f4"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": false,
+        "owner": "net/minecraft/commands/CommandSource",
+        "name": "f_80164_",
+        "descriptor": "Lnet/minecraft/commands/CommandSource;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/phys/Vec3",
+        "name": "f_82478_",
+        "descriptor": "Lnet/minecraft/world/phys/Vec3;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/world/phys/Vec2",
+        "name": "f_82462_",
+        "descriptor": "Lnet/minecraft/world/phys/Vec2;"
+      },
+      {
+        "method": false,
+        "owner": "net/minecraft/network/chat/CommonComponents",
+        "name": "f_237098_",
+        "descriptor": "Lnet/minecraft/network/chat/Component;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/server/MinecraftServer",
+        "name": "m_129892_",
+        "descriptor": "()Lnet/minecraft/commands/Commands;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/commands/Commands",
+        "name": "m_82094_",
+        "descriptor": "()Lcom/mojang/brigadier/CommandDispatcher;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/commands/CommandFunction",
+        "name": "m_77984_",
+        "descriptor": "(Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/brigadier/CommandDispatcher;Lnet/minecraft/commands/CommandSourceStack;Ljava/util/List;)Lnet/minecraft/commands/CommandFunction;"
+      }
+    ],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "PropertyManagerMixin",
+    "mod": "palladium",
+    "target": "net.threetag.palladium.util.property.PropertyManager",
+    "parent": "java/lang/Object",
+    "fields": [],
+    "methods": [
+      {
+        "name": "register",
+        "descriptor": "(Lnet/threetag/palladium/util/property/PalladiumProperty;Ljava/lang/Object;)Lnet/threetag/palladium/util/property/PropertyManager;",
+        "fingerprint": "19cf67e0c3525bbb461de1faefb4a11983578d5e3432e60356156d0e9ebefc31"
+      },
+      {
+        "name": "getPropertyByName",
+        "descriptor": "(Ljava/lang/String;)Lnet/threetag/palladium/util/property/PalladiumProperty;",
+        "fingerprint": "8a273a40f3b5f8ae827eb0b4529b4d8061e226620498bf3091406fe481979be1"
+      },
+      {
+        "name": "values",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "5daa8ddf9faa7c848bde03843241d0b88aa03e0a1ecc53e9df6053d54669d221"
+      },
+      {
+        "name": "fromNBT",
+        "descriptor": "(Lnet/minecraft/nbt/CompoundTag;)V",
+        "fingerprint": "e8be550f099e48b104967838a2c058f87409d3d2b2c7cfdc44e201f94624f346"
+      },
+      {
+        "name": "fromBuffer",
+        "descriptor": "(Lnet/minecraft/network/FriendlyByteBuf;)V",
+        "fingerprint": "e9a97feb73a636e6566427a025494c09f895de7a65c2f42607f6c50dd6ef5b8c"
+      },
+      {
+        "name": "fromJSON",
+        "descriptor": "(Lcom/google/gson/JsonObject;)V",
+        "fingerprint": "0d42a7d1778de20f46c92ba1de8b94168c96656f5cb168b7d405aca42f8e0636"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/CompoundTag",
+        "name": "m_128441_",
+        "descriptor": "(Ljava/lang/String;)Z"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/CompoundTag",
+        "name": "m_128423_",
+        "descriptor": "(Ljava/lang/String;)Lnet/minecraft/nbt/Tag;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/nbt/StringTag",
+        "name": "m_7916_",
+        "descriptor": "()Ljava/lang/String;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/network/FriendlyByteBuf",
+        "name": "m_130277_",
+        "descriptor": "()Ljava/lang/String;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/util/GsonHelper",
+        "name": "m_13900_",
+        "descriptor": "(Lcom/google/gson/JsonObject;Ljava/lang/String;)Z"
+      }
+    ],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "CuriosInventoryMixin",
+    "mod": "curios",
+    "target": "top.theillusivec4.curios.common.capability.CurioInventoryCapability$CurioInventoryWrapper",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "curios",
+        "descriptor": "Ljava/util/Map;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "getCurios",
+        "descriptor": "()Ljava/util/Map;",
+        "fingerprint": "6d460447227b39d93aa36f6711717c64ed30d1e56616c52781a727a451a8726f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeEventContainerMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandlerContainer",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "child",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/EventHandlerContainer;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/kubejs/event/IEventHandler;Ljava/lang/String;I)V",
+        "fingerprint": "321542cc4445296b72531c8af3f5604d4cd1df04f7f5e02a599f4d1c85196869"
+      },
+      {
+        "name": "handle",
+        "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
+        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+      },
+      {
+        "name": "add",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/kubejs/event/IEventHandler;Ljava/lang/String;I)V",
+        "fingerprint": "45ad8796fd71cbfeebe513df10bd4727e3598a849d5fba5896a3155be3d38c22"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoMapIdsMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.NativeJavaMap",
+    "parent": "dev/latvian/mods/rhino/NativeJavaObject",
+    "fields": [
+      {
+        "name": "map",
+        "descriptor": "Ljava/util/Map;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/util/Map;Ljava/lang/Class;Ldev/latvian/mods/rhino/util/ValueUnwrapper;)V",
+        "fingerprint": "874425f8e8ccb8c37b9908869a99604907c2e329be3502e2eef200c66694de19"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/util/Map;)V",
+        "fingerprint": "44a3ff94dafcd51584b91c2db9e0c319d01cb922f15002ba7350db83ccfc0406"
+      },
+      {
+        "name": "getIds",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;)[Ljava/lang/Object;",
+        "fingerprint": "144c5b6c912bc44cf4688595e5c4b469d5b01d355e3df792da22f12e603dbce4"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeBoundaryMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandler",
+    "parent": "dev/latvian/mods/rhino/BaseFunction",
+    "fields": [],
+    "methods": [
+      {
+        "name": "postToHandlers",
+        "descriptor": "(Ldev/latvian/mods/kubejs/script/ScriptType;[Ldev/latvian/mods/kubejs/event/EventHandlerContainer;Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)V",
+        "fingerprint": "0bf41ae59bfc3435e551e9bb983ff1ab0a65d4cbbed4b1e485055bcb0fbb84c8"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoBoundaryMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.Context",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "lock",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 17
+      }
+    ],
+    "methods": [
+      {
+        "name": "callSync",
+        "descriptor": "(Ldev/latvian/mods/rhino/Callable;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "8bc10251ddae19abc0d29b7533211a8a796a19f85edfef93cf2cf5f3aac21c2f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoLazyOverloadMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.NativeJavaMethod",
+    "parent": "dev/latvian/mods/rhino/BaseFunction",
+    "fields": [
+      {
+        "name": "overloadCache",
+        "descriptor": "Ljava/util/concurrent/CopyOnWriteArrayList;",
+        "access": 146
+      },
+      {
+        "name": "methods",
+        "descriptor": "[Ldev/latvian/mods/rhino/MemberBox;",
+        "access": 129
+      }
+    ],
+    "methods": [
+      {
+        "name": "scriptSignature",
+        "descriptor": "([Ljava/lang/Object;)Ljava/lang/String;",
+        "fingerprint": "71cb1d79eea8fdb876a8ac1253110f188dc12dbf702f77aa966790d92a9fd919"
+      },
+      {
+        "name": "findFunction",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ldev/latvian/mods/rhino/MemberBox;[Ljava/lang/Object;)I",
+        "fingerprint": "f192ca690e68a4817740def3c17edd5bfdefdfaade436b2aca09b3337c3942db"
+      },
+      {
+        "name": "preferSignature",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ljava/lang/Object;[Ljava/lang/Class;Z[Ljava/lang/Class;Z)I",
+        "fingerprint": "0f2d3c863ef54039cb81857bc21faa820fc83f1ecdb4187ab0f34b716108ceb0"
+      },
+      {
+        "name": "printDebug",
+        "descriptor": "(Ljava/lang/String;Ldev/latvian/mods/rhino/MemberBox;[Ljava/lang/Object;)V",
+        "fingerprint": "e93bd7933834fe32f29d68d528014426981cc5041f79db4634c6d15ad0120e26"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "([Ldev/latvian/mods/rhino/MemberBox;)V",
+        "fingerprint": "11bd2fb9334f476d4c95efe2ee7c7bbb1bdbec6aa947e6a6772175d214a448f5"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "([Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V",
+        "fingerprint": "14ab54950b14fb82c4508a5ad83164c7258da74a0b6db110371fd02ded1db2b5"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V",
+        "fingerprint": "9ccd6db8f0078d0f1661f368a2e738800df47a938f7d88edf01f0aef35f87fac"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ljava/lang/reflect/Method;Ljava/lang/String;)V",
+        "fingerprint": "664018413e24f0ee04e1a6f61a99b8d3f420c440bc2db90e5efd7146b457ae67"
+      },
+      {
+        "name": "getFunctionName",
+        "descriptor": "()Ljava/lang/String;",
+        "fingerprint": "d83054856d815dacfb268724df96d401fda10c9d4683c1aa994d25b1e910f12d"
+      },
+      {
+        "name": "toString",
+        "descriptor": "()Ljava/lang/String;",
+        "fingerprint": "161f1689c3ead9329323be5db0f336f69e4291b5e8a6cb0c373ecbfcdecbee39"
+      },
+      {
+        "name": "call",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "97afc2e8bf8b2d82d1b1934adc56d48b126a3c52e58c72b040134ec23c2304bd"
+      },
+      {
+        "name": "findCachedFunction",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ljava/lang/Object;)I",
+        "fingerprint": "15eae0397476215f7d7beba6617b711e1f060b1ad6073a07512f741b542e046f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": true
+  },
+  {
+    "mixin": "RhinoMemberMapMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.JavaMembers",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "fieldAndMethods",
+        "descriptor": "Ljava/util/Map;",
+        "access": 2
+      },
+      {
+        "name": "staticFieldAndMethods",
+        "descriptor": "Ljava/util/Map;",
+        "access": 2
+      }
+    ],
+    "methods": [
+      {
+        "name": "getFieldAndMethodsObjects",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;ZLdev/latvian/mods/rhino/Context;)Ljava/util/Map;",
+        "fingerprint": "2dd678149ba238b19a7fa53e2856b8a9d9fdad0689c20574bb56d6f006884891"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  }
+]
