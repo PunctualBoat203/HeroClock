@@ -11,7 +11,7 @@ This pass starts from the pushed 2.2.16 embedded-API baseline (`20a3411`, with r
 - Embedded `HeroScriptAPI` for bounded iterator batches, namespace cancellation and immutable profiling snapshots. The API remains byte-identical to the standalone compile-only artifact and inert inside the runtime JAR.
 - Hash-pinned scripting fixtures from the exact supplied KubeJS/Rhino artifacts, including relabeled and incompatible-code variants.
 
-Read [SCRIPTING.md](SCRIPTING.md) for behavior, profile evidence and limitations. The supplied Spark capture identifies wrapping, interpreter and callback work; it does not establish an improvement from this development build. Arbitrary callback suppression, global wrapper reuse and native-scheduler replacement remain inappropriate without preserving their observable semantics.
+Read [SCRIPTING.md](SCRIPTING.md) for behavior, profile evidence and limitations. The latest Astra performance priorities and safety gates are tracked in [ASTRA_OPTIMIZATION_TARGETS.md](ASTRA_OPTIMIZATION_TARGETS.md). The supplied Spark capture identifies wrapping, interpreter and callback work; it does not establish an improvement from this development build. Arbitrary callback suppression, global wrapper reuse and native-scheduler replacement remain inappropriate without preserving their observable semantics.
 
 ## Validation
 
