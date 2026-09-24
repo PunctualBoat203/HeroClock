@@ -2,7 +2,7 @@
 
 Forge 1.20.1 timing, bounded work, and targeted Palladium compatibility by **PunctualBoat**.
 
-## Development build: 2.2.17
+## Development build: 2.2.18
 
 This source tree was originally recovered from the supplied 2.2.10 JAR. The released **HeroClock 2.2.14** JAR has now also been supplied and hash-verified, so it is the release-behavior/regression reference for this branch even though its original source snapshot was not present in Git. See [recovery provenance](docs/RECOVERY.md) and the [development handoff](docs/HANDOFF.md).
 
@@ -13,7 +13,7 @@ python tools/prepare_scripting_test.py
 ./gradlew test build
 ```
 
-The reobfuscated mod is `build/libs/HeroClock-2.2.17.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
+The reobfuscated mod is `build/libs/HeroClock-2.2.18.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
 
 ## Changes
 
@@ -31,6 +31,6 @@ See [API and behavior](docs/API.md), [validation](docs/VALIDATION.md), and [hand
 
 2.2.17 checks each targeted method body and required field contract before enabling its optional patch, and checks Satsu's effective tick function after reloads. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
 
-A separate `HeroClock-2.2.17-api.jar` exposes supported timer, bounded-work, deferred-function and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
+A separate `HeroClock-2.2.18-api.jar` exposes supported timer, bounded-work, deferred-function and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
 
 KubeJS/Rhino support and the embedded scripting API are described in [docs/SCRIPTING.md](docs/SCRIPTING.md).

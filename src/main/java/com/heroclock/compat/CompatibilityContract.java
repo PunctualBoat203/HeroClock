@@ -24,6 +24,7 @@ public record CompatibilityContract(String mixin, String mod, String target, Str
         }
         if (exhaustiveMethods && candidate.methods.size() != methods.size()) return "method set changed";
         if (exhaustiveMethods && (candidate.nestHostClass != null || candidate.nestMembers != null && !candidate.nestMembers.isEmpty())) return "nest members changed";
+        if (exhaustiveMethods && candidate.fields.stream().anyMatch(field -> field.name.startsWith("heroclock$"))) return "reserved field collision";
         for (Method expected : methods) {
             MethodNode actual = candidate.methods.stream().filter(current -> current.name.equals(expected.name)
                     && current.desc.equals(expected.descriptor)).findFirst().orElse(null);

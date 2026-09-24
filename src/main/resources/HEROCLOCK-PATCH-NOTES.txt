@@ -1,11 +1,9 @@
-HeroClock 2.2.17 — PunctualBoat
+HeroClock 2.2.18 — PunctualBoat
 
-KubeJS listener registration resumes appending from the last known tail, preserving handler order and dispatch.
-Rhino Java-map enumeration fills the returned ID array directly, avoiding the intermediate list and copy.
-Both optimizations use audited code/field contracts; changed targets retain stock behavior independently.
-Optional guarded Rhino/KubeJS boundary counters and timings are disabled by default.
-Embedded HeroScriptAPI provides bounded iterator batches, namespace cancellation and immutable profiling snapshots.
-Retains the validated 2.2.16 runtime and inert embedded compile-only API packaging.
+Defers per-method overload-cache allocation until Rhino's stock resolver actually needs it.
+Publishes independent caches atomically; receiver wrappers, live field values, scope/prototype behavior and overload semantics remain unchanged.
+Pre-sizes receiver-bound field/method maps to avoid growth during population.
+Both fixes are independently code-guarded; changed targets retain stock behavior. Private-cache changes also reject new methods/nestmates.
+Retains the KubeJS/Rhino integration, bounded-work developer API and inert embedded compile-only API from 2.2.17.
 
-No arbitrary script callbacks are skipped, delayed or cached. Native KubeJS scheduling is unchanged.
-Target-pack before/after performance validation remains required.
+Targets measured wrapper-initialization work. Matched real-pack performance validation remains required.

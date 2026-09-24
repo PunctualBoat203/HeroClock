@@ -61,3 +61,16 @@ Map enumeration accounts for only 40 inclusive weight units in this capture; lis
 CI fetches the exact supplied KubeJS/Rhino binaries by hash. Runtime checks cover these inputs, synthetic changed version labels and incompatible field/method names. Modified dependency fixtures are never distributed with HeroClock. The full mod must still pass existing base/Palladium/Curios tests and verify byte-identical standalone/embedded API artifacts.
 
 Disable scripting patches independently with `-Dheroclock.disableKubeJSOptimizations=true` or `-Dheroclock.disableRhinoOptimizations=true`. Public API support and other matching optimization contracts remain available.
+
+## 2.2.18 wrapper-initialization fixes
+
+The new pass targets the wrapper-initialization path identified in [the latest capture](SCRIPTING_PROFILE_2026-09-24.md).
+
+- **Deferred overload storage:** Rhino creates an empty CopyOnWriteArrayList for every NativeJavaMethod, including each receiver-bound FieldAndMethods wrapper. HeroClock uses an empty marker until stock overload resolution actually reads the cache. First use atomically publishes a separate ordinary CopyOnWriteArrayList for that method instance. No resolved entries are shared. Single-method calls still follow Rhino's original uncached path. The private stock field is updated when its real cache is created.
+- **Member-map sizing:** Rhino's receiver-bound field/method map is sized for its known entry count at HashMap's normal load factor, avoiding growth while stock code populates it. Each receiver still receives a fresh mutable map and fresh FieldAndMethods wrappers.
+
+These patches do not reuse Java receivers, cache property values, pre-resolve prototypes, change callback ordering, remove Rhino synchronization or change overload selection. The deferred-cache initialization uses atomic publication and adds no per-instance initialization monitor. Its global empty marker is never passed to stock cache mutation code.
+
+The lazy-cache contract is deliberately stricter than a single-method check: it fingerprints the entire NativeJavaMethod method set and validates its relevant fields. Added/changed methods, new nestmates or reserved-field collisions disable it, since they could introduce additional access to the private cache. The map-sizing patch has an independent method/field contract. Both obey the existing Rhino disable switch and expose their decisions through the existing diagnostics API.
+
+The existing seven-environment CI matrix now also checks receiver isolation, live field values, zero/one-argument overloads, untouched single-method storage, concurrent first-use publication, scope/prototype mutation and deliberately incompatible cache/map fields. Packaging continues to include the inert embedded developer API. Real-pack CPU/MSPT gains still require a matched before/after capture; these changes specifically remove allocation/setup work on the measured path, not all time attributed to that path.

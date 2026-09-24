@@ -1,6 +1,6 @@
 # HeroClock scripting development handoff
 
-Author: PunctualBoat. Development version: **2.2.17** on `improve-clock-runtime`.
+Author: PunctualBoat. Development version: **2.2.18** on `improve-clock-runtime`.
 
 This pass starts from the pushed 2.2.16 embedded-API baseline (`20a3411`, with runtime packaging introduced in `bd8a777`). The previous release artifact and real-pack findings remain in [the archived handoff](archive/2.2.16-HANDOFF.md). This pass changes only KubeJS/Rhino integration and its shared compatibility/API/test infrastructure.
 
@@ -20,3 +20,5 @@ CI builds the runtime and embedded API, then tests base Forge, existing Palladiu
 Keep the 2.2.16 baseline for a matched real-pack comparison. Client gameplay, reload behavior in actual addon scripts and TPS/FPS improvement require a representative pack run; the repository tests do not replace that evidence.
 
 The supplied 2026-09-24 capture has now been cross-referenced at [SCRIPTING_PROFILE_2026-09-24.md](SCRIPTING_PROFILE_2026-09-24.md). It prioritizes wrapper/member initialization and source-attributed callbacks for the requested scripting-first pass, with RAM tuning outside scope.
+
+The 2.2.18 follow-up defers unused Rhino overload caches and pre-sizes receiver-bound member maps. It preserves per-receiver wrappers and stock resolution, with independent guards and stricter full-method-set checks for the private-cache transformation. See the 2.2.18 section of [SCRIPTING.md](SCRIPTING.md).

@@ -80,5 +80,8 @@ class CompatibilityContractTest {
         node.methods.remove(1);
         node.nestHostClass = "example/NewHost";
         assertEquals("nest members changed", complete.mismatch(node, MethodFingerprint.IDENTITY));
+        node.nestHostClass = null;
+        node.fields.add(new FieldNode(Opcodes.ACC_PRIVATE, "heroclock$resolvedCache", "Ljava/lang/Object;", null, null));
+        assertEquals("reserved field collision", complete.mismatch(node, MethodFingerprint.IDENTITY));
     }
 }
