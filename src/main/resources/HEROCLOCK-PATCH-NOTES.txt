@@ -1,10 +1,11 @@
-HeroClock 2.2.16 — PunctualBoat
+HeroClock 2.2.17 — PunctualBoat
 
-Optional Palladium and Curios optimizations check audited method bodies and required fields instead of exact version labels. Incompatible targets keep base behavior independently.
-Satsu validates the effective loaded function and rechecks after reload.
-Property lookups invalidate on registration/reload and stop caching after mutable storage is exposed. Curios views track backing-map replacement.
-API v1 provides persistent timers, bounded work, deferred functions and immutable diagnostics through a separate compile-only API artifact.
-Datapack commands expose timer operations, keyed deferred functions and compatibility status.
-Retains persistent game-tick deadlines, cooperative work budgets and targeted lifecycle cleanup.
+KubeJS listener registration resumes appending from the last known tail, preserving handler order and dispatch.
+Rhino Java-map enumeration fills the returned ID array directly, avoiding the intermediate list and copy.
+Both optimizations use audited code/field contracts; changed targets retain stock behavior independently.
+Optional guarded Rhino/KubeJS boundary counters and timings are disabled by default.
+Embedded HeroScriptAPI provides bounded iterator batches, namespace cancellation and immutable profiling snapshots.
+Retains the validated 2.2.16 runtime and inert embedded compile-only API packaging.
 
-Requires target-pack persistence, gameplay and performance validation before production use.
+No arbitrary script callbacks are skipped, delayed or cached. Native KubeJS scheduling is unchanged.
+Target-pack before/after performance validation remains required.

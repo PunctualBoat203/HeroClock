@@ -37,7 +37,8 @@ public final class ScriptingChecks {
         child.setAccessible(true);
         ((EventHandlerContainer) child.get(root)).add(null, event -> seen.add(1001), "test", 1001);
         root.add(null, event -> seen.add(1002), "test", 1002);
-        root.handle(new EventJS(), null);
+        try { root.handle(new EventJS(), null); }
+        catch (dev.latvian.mods.kubejs.event.EventExit unexpected) { throw new AssertionError(unexpected); }
         helper.assertTrue(seen.equals(java.util.stream.IntStream.rangeClosed(0, 1002).boxed().toList()),
                 "Listener append changed order or lost descendant appends");
         if (!changed) {

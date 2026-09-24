@@ -2,7 +2,7 @@
 
 Author: PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
-Use `HeroClock-2.2.16-api.jar` as a compile-only dependency and install the full HeroClock mod at runtime. The standalone API artifact is also embedded inside the normal runtime JAR at `META-INF/heroclock/HeroClock-2.2.16-api.jar` so developers can extract it directly from the distributed mod. The embedded copy is an inert resource, not a Forge JarJar dependency, and is byte-for-byte identical to the separately produced API JAR. Do not install the API JAR as a mod and do not bundle/shade it into another mod.
+Use `HeroClock-2.2.17-api.jar` as a compile-only dependency and install the full HeroClock mod at runtime. The standalone API artifact is also embedded inside the normal runtime JAR at `META-INF/heroclock/HeroClock-2.2.17-api.jar` so developers can extract it directly from the distributed mod. The embedded copy is an inert resource, not a Forge JarJar dependency, and is byte-for-byte identical to the separately produced API JAR. Do not install the API JAR as a mod and do not bundle/shade it into another mod.
 
 The API artifact contains only supported API facades and value records, not the scheduler, compatibility inspectors, cleanup implementations or mixins. The implementation stays outside the supported integration contract. Existing All Rights Reserved licensing is unchanged. A small API artifact is not a copy-protection mechanism for the separately distributed runtime or public repository.
 
@@ -49,3 +49,7 @@ heroclock status
 Create the `cooldown` objective yourself if you want that explicit scoreboard export; HeroClock does not maintain a scoreboard clock. Remaining results clamp to the command system's maximum integer. Supported commands are `timer set`, `timer add`, `timer remaining`, `timer clear`, `work schedule`, `work cancel` and `status`. Command keys are resource-location names up to 96 characters using letters, digits, `_`, `.`, `:`, and `-`.
 
 Function jobs retain command permissions, executor, position and dimension. The same executor/key replaces a pending function job. Entity work is cancelled on unload; console/level work is scoped to the dimension. At execution, the function is resolved again, so reloads use the current function body and removed functions are safely dropped. Scheduled functions are not persisted through server restarts. Splitting expensive work into separate small functions is the pack author's responsibility.
+
+## Scripting support
+
+The runtime and embedded API now also provide `HeroScriptAPI` for bounded batches and opt-in boundary diagnostics. See [SCRIPTING.md](SCRIPTING.md). Automatic scripting patches remain independent of API availability.
