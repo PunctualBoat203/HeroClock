@@ -214,5 +214,67 @@
       }
     ],
     "minecraftMembers": []
+  },
+  {
+    "mixin": "KubeEventContainerMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandlerContainer",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "child",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/EventHandlerContainer;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/kubejs/event/IEventHandler;Ljava/lang/String;I)V",
+        "fingerprint": "321542cc4445296b72531c8af3f5604d4cd1df04f7f5e02a599f4d1c85196869"
+      },
+      {
+        "name": "handle",
+        "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
+        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+      },
+      {
+        "name": "add",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/kubejs/event/IEventHandler;Ljava/lang/String;I)V",
+        "fingerprint": "45ad8796fd71cbfeebe513df10bd4727e3598a849d5fba5896a3155be3d38c22"
+      }
+    ],
+    "minecraftMembers": []
+  },
+  {
+    "mixin": "RhinoMapIdsMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.NativeJavaMap",
+    "parent": "dev/latvian/mods/rhino/NativeJavaObject",
+    "fields": [
+      {
+        "name": "map",
+        "descriptor": "Ljava/util/Map;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/util/Map;Ljava/lang/Class;Ldev/latvian/mods/rhino/util/ValueUnwrapper;)V",
+        "fingerprint": "874425f8e8ccb8c37b9908869a99604907c2e329be3502e2eef200c66694de19"
+      },
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/util/Map;)V",
+        "fingerprint": "44a3ff94dafcd51584b91c2db9e0c319d01cb922f15002ba7350db83ccfc0406"
+      },
+      {
+        "name": "getIds",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;)[Ljava/lang/Object;",
+        "fingerprint": "144c5b6c912bc44cf4688595e5c4b469d5b01d355e3df792da22f12e603dbce4"
+      }
+    ],
+    "minecraftMembers": []
   }
 ]

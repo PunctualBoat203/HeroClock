@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '2.2.16'
+version = '2.2.17'
 group = 'com.heroclock'
 base { archivesName = 'HeroClock' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -60,6 +60,7 @@ dependencies {
         }
     }
     if (project.hasProperty('withCurios')) { runtimeOnly fg.deobf('heroclock.test:curios:5.14.1') }
+    compileOnly files('build/test-dependencies/kubejs-2001.6.5-build.26.jar', 'build/test-dependencies/rhino-2001.2.3-build.10.jar')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testImplementation platform('org.junit:junit-bom:5.10.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'

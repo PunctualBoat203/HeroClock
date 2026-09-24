@@ -22,7 +22,12 @@ public final class CompatibilityGate {
     public static boolean allows(String mixin, String target) {
         CompatibilityContract contract = CONTRACTS.get(mixin);
         if (contract == null || !contract.target().equals(target)) return reject(mixin, "no audited contract");
-        if (Boolean.getBoolean("heroclock.disable" + (contract.mod().equals("curios") ? "Curios" : "Palladium") + "Optimizations")) {
+        if (Boolean.getBoolean("heroclock.disable" + (switch (contract.mod()) {
+            case "curios" -> "Curios";
+            case "kubejs" -> "KubeJS";
+            case "rhino" -> "Rhino";
+            default -> "Palladium";
+        }) + "Optimizations")) {
             return reject(mixin, "disabled by configuration");
         }
         var mods = LoadingModList.get();
