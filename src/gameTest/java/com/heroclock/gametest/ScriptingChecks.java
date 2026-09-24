@@ -90,16 +90,15 @@ public final class ScriptingChecks {
         context.addToScope(scope, "HeroScript", HeroScriptAPI.class);
         Object visible = context.evaluateString(scope, "HeroScript.profilingEnabled() === false", "heroclock-api-test", 1, null);
         helper.assertTrue(Boolean.TRUE.equals(visible), "Embedded API is not callable from Rhino");
-        var sum = new java.util.concurrent.atomic.AtomicInteger();
         context.addToScope(scope, "server", helper.getLevel().getServer());
         context.addToScope(scope, "items", new ArrayList<>(List.of(1, 2, 3)).iterator());
-        context.addToScope(scope, "sum", sum);
         Object accepted = context.evaluateString(scope,
-                "HeroScript.batch(server, 'rhino_test', 'callback', items, 1, value => { sum.addAndGet(value); })",
+                "var receivedTotal = 0; HeroScript.batch(server, 'rhino_test', 'callback', items, 1, value => { receivedTotal += Number(value); })",
                 "heroclock-batch-test", 1, null);
         helper.assertTrue(Boolean.TRUE.equals(accepted), "Rhino callback batch rejected");
         helper.runAfterDelay(10, () -> {
-            helper.assertTrue(sum.get() == 6, "Rhino callback lost items or failed Java adaptation");
+            helper.assertTrue(Boolean.TRUE.equals(context.evaluateString(scope, "receivedTotal === 6",
+                    "heroclock-batch-result", 1, null)), "Rhino callback lost items or failed Java adaptation");
             helper.succeed();
         });
     }
