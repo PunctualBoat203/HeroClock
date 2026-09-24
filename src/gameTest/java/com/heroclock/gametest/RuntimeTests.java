@@ -230,8 +230,8 @@ public final class RuntimeTests {
     public static void scriptingCompatibility(GameTestHelper helper) throws Exception {
         if (!net.minecraftforge.fml.ModList.get().isLoaded("kubejs")) {
             helper.assertTrue(!Boolean.getBoolean("heroclock.testScripting"), "Expected KubeJS was not loaded");
+            helper.succeed();
         } else ScriptingChecks.run(helper);
-        helper.succeed();
     }
 
     @GameTest(template = "empty", timeoutTicks = 60)
