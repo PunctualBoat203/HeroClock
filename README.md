@@ -9,10 +9,11 @@ This source tree was originally recovered from the supplied 2.2.10 JAR. The rele
 Build with Java 17:
 
 ```sh
+python tools/prepare_scripting_test.py
 ./gradlew test build
 ```
 
-The reobfuscated mod is `build/libs/HeroClock-2.2.17.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. No Palladium classes or JARs are redistributed inside HeroClock.
+The reobfuscated mod is `build/libs/HeroClock-2.2.17.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
 
 ## Changes
 
