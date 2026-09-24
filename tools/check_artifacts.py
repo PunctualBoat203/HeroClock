@@ -15,7 +15,7 @@ def check():
         classes = {name for name in names if name.endswith(".class")}
         assert classes and all(name.startswith("com/heroclock/api/") for name in classes)
         assert names == classes | {"META-INF/MANIFEST.MF"}, "Implementation or mod resources leaked into API artifact"
-        for name in ("HeroClockAPI", "HeroWorkAPI", "HeroFunctionAPI", "HeroIntegrationAPI"):
+        for name in ("HeroClockAPI", "HeroWorkAPI", "HeroFunctionAPI", "HeroIntegrationAPI", "HeroScriptAPI"):
             assert f"com/heroclock/api/{name}.class" in classes
         runtime_names = set(runtime.namelist())
         assert classes <= runtime_names, "Runtime does not provide the advertised API"

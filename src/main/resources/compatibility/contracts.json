@@ -276,5 +276,41 @@
       }
     ],
     "minecraftMembers": []
+  },
+  {
+    "mixin": "KubeBoundaryMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandler",
+    "parent": "dev/latvian/mods/rhino/BaseFunction",
+    "fields": [],
+    "methods": [
+      {
+        "name": "postToHandlers",
+        "descriptor": "(Ldev/latvian/mods/kubejs/script/ScriptType;[Ldev/latvian/mods/kubejs/event/EventHandlerContainer;Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)V",
+        "fingerprint": "0bf41ae59bfc3435e551e9bb983ff1ab0a65d4cbbed4b1e485055bcb0fbb84c8"
+      }
+    ],
+    "minecraftMembers": []
+  },
+  {
+    "mixin": "RhinoBoundaryMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.Context",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "lock",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 17
+      }
+    ],
+    "methods": [
+      {
+        "name": "callSync",
+        "descriptor": "(Ldev/latvian/mods/rhino/Callable;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "8bc10251ddae19abc0d29b7533211a8a796a19f85edfef93cf2cf5f3aac21c2f"
+      }
+    ],
+    "minecraftMembers": []
   }
 ]

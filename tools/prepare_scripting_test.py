@@ -1,4 +1,7 @@
 import hashlib
+import copy
+import zipfile
+from prepare_palladium_test import rename_constant
 from pathlib import Path
 import urllib.request
 
@@ -23,5 +26,30 @@ def prepare():
         target.write_bytes(data)
 
 
+def variants():
+    for name, _, _ in INPUTS[:2]:
+        with zipfile.ZipFile(TARGET / name) as source:
+            for variant in ('relabeled', 'changed'):
+                output = TARGET / name.replace('-', '-' + variant + '-', 1)
+                with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as target:
+                    for entry in source.infolist():
+                        data = source.read(entry)
+                        if variant == 'relabeled' and entry.filename == 'META-INF/mods.toml':
+                            version = '2001.6.5-build.26' if name.startswith('kubejs') else '2001.2.3-build.10'
+                            data = data.replace(('version = "' + version + '"').encode(), b'version = "9999.0.0"', 1)
+                        if variant == 'changed':
+                            changes = {
+                                'dev/latvian/mods/kubejs/event/EventHandlerContainer.class': (b'child', b'fixture_child'),
+                                'dev/latvian/mods/kubejs/event/EventHandler.class': (b'postToHandlers', b'fixture_postToHandlers'),
+                                'dev/latvian/mods/rhino/NativeJavaMap.class': (b'map', b'fixture_map'),
+                            }
+                            if entry.filename in changes:
+                                data = rename_constant(data, *changes[entry.filename])
+                            if entry.filename == "dev/latvian/mods/kubejs/event/EventHandler.class":
+                                data = rename_constant(data, b"child", b"fixture_child")
+                        target.writestr(copy.copy(entry), data)
+
+
 if __name__ == '__main__':
     prepare()
+    variants()

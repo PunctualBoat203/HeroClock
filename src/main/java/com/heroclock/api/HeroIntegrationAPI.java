@@ -14,7 +14,7 @@ public final class HeroIntegrationAPI {
     public static int apiVersion() { return 1; }
     public static String version() { return HeroClock.VERSION; }
     public static Set<String> capabilities() {
-        return Set.of("deadlines", "bounded_work", "deferred_functions", "compatibility_status");
+        return Set.of("deadlines", "bounded_work", "deferred_functions", "compatibility_status", "script_batches", "script_boundary_profiling");
     }
     public static Map<String, String> compatibility() { return CompatibilityGate.decisions(); }
     public static WorkStatus workStatus(MinecraftServer server) {

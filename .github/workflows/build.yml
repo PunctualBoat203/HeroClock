@@ -24,24 +24,39 @@ jobs:
         run: |
           set -o pipefail
           gradle --no-daemon runGameTestServer | tee gametest-base.log
-          grep -F 'All 10 required tests passed' gametest-base.log
+          grep -F 'All 12 required tests passed' gametest-base.log
       - name: Prepare audited Palladium test dependencies
         run: python tools/prepare_palladium_test.py
       - name: Test Palladium runtime
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PwithCurios runGameTestServer | tee gametest-palladium.log
-          grep -F 'All 10 required tests passed' gametest-palladium.log
+          grep -F 'All 12 required tests passed' gametest-palladium.log
       - name: Test unchanged code with a different version label
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PalternateVersion runGameTestServer | tee gametest-new-version.log
-          grep -F 'All 10 required tests passed' gametest-new-version.log
+          grep -F 'All 12 required tests passed' gametest-new-version.log
       - name: Test incompatible target falls back without crashing
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PchangedTarget runGameTestServer | tee gametest-changed-target.log
-          grep -F 'All 10 required tests passed' gametest-changed-target.log
+          grep -F 'All 12 required tests passed' gametest-changed-target.log
+      - name: Test supplied KubeJS and Rhino
+        run: |
+          set -o pipefail
+          gradle --no-daemon -PwithScripting runGameTestServer | tee gametest-scripting.log
+          grep -F 'All 12 required tests passed' gametest-scripting.log
+      - name: Test unchanged scripting code with different versions
+        run: |
+          set -o pipefail
+          gradle --no-daemon -PwithScripting -PrelabeledScripts runGameTestServer | tee gametest-scripting-version.log
+          grep -F 'All 12 required tests passed' gametest-scripting-version.log
+      - name: Test changed scripting targets retain stock behavior
+        run: |
+          set -o pipefail
+          gradle --no-daemon -PwithScripting -PchangedScripts runGameTestServer | tee gametest-scripting-fallback.log
+          grep -F 'All 12 required tests passed' gametest-scripting-fallback.log
       - uses: actions/upload-artifact@v4
         with:
           name: HeroClock-2.2.17

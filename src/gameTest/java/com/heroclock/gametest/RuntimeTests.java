@@ -225,4 +225,29 @@ public final class RuntimeTests {
         entity.discard();
         helper.succeed();
     }
+
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void scriptingCompatibility(GameTestHelper helper) throws Exception {
+        if (!net.minecraftforge.fml.ModList.get().isLoaded("kubejs")) {
+            helper.assertTrue(!Boolean.getBoolean("heroclock.testScripting"), "Expected KubeJS was not loaded");
+        } else ScriptingChecks.run(helper);
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void scriptBatches(GameTestHelper helper) {
+        var server = helper.getLevel().getServer();
+        java.util.List<Integer> seen = new java.util.ArrayList<>();
+        var input = java.util.stream.IntStream.range(0, 20).boxed().toList();
+        helper.assertTrue(com.heroclock.api.HeroScriptAPI.batch(server, "test_batch", "ordered", input.iterator(), 2,
+                value -> seen.add((Integer) value)), "Script batch rejected");
+        com.heroclock.api.HeroScriptAPI.batch(server, "test_cancel", "cancelled", input.iterator(), 1,
+                value -> { throw new AssertionError("Cancelled script batch executed"); });
+        com.heroclock.api.HeroScriptAPI.cancelNamespace(server, "test_cancel");
+        helper.runAfterDelay(3, () -> helper.assertTrue(seen.size() <= 8, "Batch exceeded per-tick limit"));
+        helper.runAfterDelay(25, () -> {
+            helper.assertTrue(seen.equals(input), "Script batches lost order or repeated items");
+            helper.succeed();
+        });
+    }
 }

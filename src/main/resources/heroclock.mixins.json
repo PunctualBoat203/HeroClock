@@ -8,6 +8,8 @@
     "CuriosInventoryMixin",
     "KubeEventContainerMixin",
     "RhinoMapIdsMixin",
+    "KubeBoundaryMixin",
+    "RhinoBoundaryMixin",
     "EntityPropertyHandlerMixin",
     "PropertyManagerMixin",
     "PowerHandlerMixin",

@@ -23,6 +23,8 @@ minecraft {
             workingDirectory project.file('run-gametest')
             property 'forge.enabledGameTestNamespaces', 'heroclock'
             property 'heroclock.testPalladium', project.hasProperty('withPalladium').toString()
+            property 'heroclock.testScripting', project.hasProperty('withScripting').toString()
+            property 'heroclock.testChangedScripts', project.hasProperty('changedScripts').toString()
             property 'heroclock.testCurios', project.hasProperty('withCurios').toString()
             property 'heroclock.testChangedTarget', project.hasProperty('changedTarget').toString()
             mods {
@@ -60,6 +62,13 @@ dependencies {
         }
     }
     if (project.hasProperty('withCurios')) { runtimeOnly fg.deobf('heroclock.test:curios:5.14.1') }
+    if (project.hasProperty('withScripting')) {
+        def suffix = project.hasProperty('changedScripts') ? '-changed' : project.hasProperty('relabeledScripts') ? '-relabeled' : ''
+        runtimeOnly fg.deobf("heroclock.test:kubejs${suffix}:2001.6.5-build.26")
+        runtimeOnly fg.deobf("heroclock.test:rhino${suffix}:2001.2.3-build.10")
+        runtimeOnly fg.deobf('heroclock.test:architectury:9.2.14')
+    }
+    gameTestCompileOnly files('build/test-dependencies/kubejs-2001.6.5-build.26.jar', 'build/test-dependencies/rhino-2001.2.3-build.10.jar')
     compileOnly files('build/test-dependencies/kubejs-2001.6.5-build.26.jar', 'build/test-dependencies/rhino-2001.2.3-build.10.jar')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testImplementation platform('org.junit:junit-bom:5.10.3')

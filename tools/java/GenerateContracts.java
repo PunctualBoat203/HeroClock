@@ -48,7 +48,9 @@ public final class GenerateContracts {
             contract(args[0], "PropertyManagerMixin", "palladium", "net.threetag.palladium.util.property.PropertyManager", Set.of(), Set.of("getPropertyByName", "register", "fromNBT", "fromBuffer", "fromJSON", "values")),
             contract(args[1], "CuriosInventoryMixin", "curios", "top.theillusivec4.curios.common.capability.CurioInventoryCapability$CurioInventoryWrapper", Set.of("curios"), Set.of("getCurios")),
             contract(args[2], "KubeEventContainerMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandlerContainer", Set.of("child"), Set.of("<init>", "add", "handle")),
-            contract(args[3], "RhinoMapIdsMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaMap", Set.of("map"), Set.of("<init>", "getIds"))
+            contract(args[3], "RhinoMapIdsMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaMap", Set.of("map"), Set.of("<init>", "getIds")),
+            contract(args[2], "KubeBoundaryMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandler", Set.of(), Set.of("postToHandlers")),
+            contract(args[3], "RhinoBoundaryMixin", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync"))
         );
         Files.writeString(Path.of(args[4]), new GsonBuilder().setPrettyPrinting().create().toJson(contracts) + "\n");
     }
