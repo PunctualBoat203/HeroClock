@@ -18,3 +18,5 @@ Read [SCRIPTING.md](SCRIPTING.md) for behavior, profile evidence and limitations
 CI builds the runtime and embedded API, then tests base Forge, existing Palladium/Curios cases, the supplied scripting stack, unchanged scripting code with altered version labels and intentionally incompatible scripting targets. Scripting checks cover listener order, descendant appends, clearing/re-registration, map enumeration, nested calls, original exceptions/locking, API access from Rhino and bounded batches. Confirm the final CI result before using an artifact.
 
 Keep the 2.2.16 baseline for a matched real-pack comparison. Client gameplay, reload behavior in actual addon scripts and TPS/FPS improvement require a representative pack run; the repository tests do not replace that evidence.
+
+The supplied 2026-09-24 capture has now been cross-referenced at [SCRIPTING_PROFILE_2026-09-24.md](SCRIPTING_PROFILE_2026-09-24.md). It prioritizes wrapper/member initialization and source-attributed callbacks for the requested scripting-first pass, with RAM tuning outside scope.
