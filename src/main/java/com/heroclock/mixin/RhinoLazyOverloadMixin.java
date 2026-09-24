@@ -22,7 +22,10 @@ abstract class RhinoLazyOverloadMixin {
     @Unique private transient volatile CopyOnWriteArrayList<?> heroclock$resolvedCache;
     @Shadow @Final @Mutable private CopyOnWriteArrayList<?> overloadCache;
 
-    @Redirect(method = "<init>", at = @At(value = "NEW", target = "java/util/concurrent/CopyOnWriteArrayList"), require = 3, allow = 3)
+    @Redirect(method = {"<init>([Ldev/latvian/mods/rhino/MemberBox;)V",
+            "<init>([Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V",
+            "<init>(Ldev/latvian/mods/rhino/MemberBox;Ljava/lang/String;)V"},
+            at = @At(value = "NEW", target = "java/util/concurrent/CopyOnWriteArrayList"), require = 3, allow = 3)
     private CopyOnWriteArrayList<?> heroclock$deferOverloads() {
         return heroclock$emptyOverloads;
     }

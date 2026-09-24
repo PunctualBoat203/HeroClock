@@ -37,6 +37,13 @@ public final class RhinoHotspotChecks {
         var cacheField = NativeJavaMethod.class.getDeclaredField(changed ? "fixture_overloadCache" : "overloadCache");
         cacheField.setAccessible(true);
         Object initial = cacheField.get(firstMethod);
+        Object members = NativeJavaMethod.class.getField("methods").get(firstMethod);
+        var arrayConstructor = NativeJavaMethod.class.getDeclaredConstructor(members.getClass());
+        arrayConstructor.setAccessible(true);
+        Object arrayMethod = arrayConstructor.newInstance(members);
+        var reflectedMethod = new NativeJavaMethod(Receiver.class.getMethod("value"), "value");
+        helper.assertTrue((cacheField.get(arrayMethod) == initial) == !changed, "Array constructor cache behavior changed");
+        helper.assertTrue((cacheField.get(reflectedMethod) == initial) == !changed, "Reflected constructor cache behavior changed");
         helper.assertTrue((initial == cacheField.get(secondMethod)) == !changed, "Unused overload storage was not deferred/fell back incorrectly");
         helper.assertTrue(firstMethod != secondMethod, "Receiver-bound wrappers were shared");
         helper.assertTrue(((Number) firstMethod.getDefaultValue(context, Number.class)).intValue() == 7, "Field receiver changed");
