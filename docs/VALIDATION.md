@@ -47,3 +47,9 @@ No live target-pack benchmark or in-game validation is claimed by the repository
 An earlier candidate failed its constructor injection count; explicit audited constructor signatures corrected that failure, and runtime checks now exercise every allocation path. The scripting startup step has a diagnostic timeout so a Forge startup failure cannot hang indefinitely.
 
 [Runtime and developer API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/35982475439/artifacts/10801266073) are development candidates. This establishes tested behavior in the fixtures, not target-pack TPS/FPS gains.
+
+## 2.2.19 attribution checkpoint
+
+[CI run 36290064908](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908) passed at `62727337bc14065667587afe41ff7b0f500f7ff9`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Detail hooks enabled on matching and relabeled scripting code, rejected the incompatible fixtures, and were omitted without the startup switch.
+
+Tests cover receiver/collision counts, property labels, listener source attribution, original handled exceptions and event exits, disabled collection, immutable snapshots, bounded label cardinality/length and concurrent updates. [Runtime and API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908/artifacts/10921954054). This is a diagnostic checkpoint retaining the 2.2.18 optimizations, not evidence of additional performance gains.
