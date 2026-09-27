@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft_mobs:carrot_of_knowledge"
+    },
+    "title": {
+      "translate": "Huh?",
+      "bold": false,
+      "color": "green"
+    },
+    "description": {
+      "translate": "This is an alien?"
+    },
+    "background": "alienevo:textures/gui/power_screen/power_screen.png",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft_mobs_pack:overworld_dna",
+  "criteria": {
+    "heroclock_tag_check": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "heroclock_tag_check"
+    ]
+  ]
+}

@@ -1,0 +1,668 @@
+{
+  "name": "Soul Stone",
+  "background": "minecraft:textures/block/orange_concrete.png",
+  "icon": "infinity:soul_stone",
+  "gui_display_type": "tree",
+  "persistent_data": true,
+  "ability_bar_texture": "infinity:textures/gui/ability_bars/soul_ability_bar.png",
+  "abilities": {
+    "dummy1": {
+      "type": "palladium:dummy",
+      "icon": "infinity:textures/icon/nothing.png",
+      "title": " ",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "gui_position": [
+        0.5,
+        -2
+      ]
+    },
+    "dummy2": {
+      "type": "palladium:dummy",
+      "icon": "infinity:textures/icon/nothing.png",
+      "title": " ",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "gui_position": [
+        1,
+        -2
+      ]
+    },
+    "dummy3": {
+      "type": "palladium:dummy",
+      "icon": "infinity:textures/icon/nothing.png",
+      "title": " ",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "gui_position": [
+        1.5,
+        -2
+      ]
+    },
+    "dummy4": {
+      "type": "palladium:dummy",
+      "icon": "infinity:textures/icon/nothing.png",
+      "title": " ",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "gui_position": [
+        2,
+        -2
+      ]
+    },
+    "glow": {
+      "type": "palladium:entity_glow",
+      "icon": "minecraft:textures/mob_effect/glowing.png",
+      "persistent_data": true,
+      "title": "Glow",
+      "color": "#ff8800",
+      "bar_color": "orange",
+      "description": {
+        "translate": "ability.infinity.soul_stone.glow.description"
+      },
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": 0,
+      "mode": "others",
+      "gui_position": [
+        1,
+        0
+      ],
+      "distance": 100,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "vibrate_sound": {
+      "type": "palladium:command",
+      "persistent_data": true,
+      "icon": "minecraft:player_head",
+      "title": "Passive",
+      "bar_color": "yellow",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": [
+        0,
+        -1
+      ],
+      "description": "Pacify hostile mobs around you",
+      "first_tick_commands": [
+        "playsound infinity:soul_stone block @s"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "ability": "glow"
+          }
+        ]
+      }
+    },
+    "immortal": {
+      "type": "palladium:immortality",
+      "icon": "minecraft:totem_of_undying",
+      "title": "null",
+      "persistent_data": true,
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0.5,
+        -1
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.immortal.description"
+      },
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "burn"
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 128
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "health"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:mind_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:power_stone_passive"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:space_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:reality_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:time_stone"
+          }
+        ]
+      }
+    },
+    "saturation": {
+      "type": "palladium:command",
+      "icon": "minecraft:textures/mob_effect/saturation.png",
+      "title": "Saturation",
+      "bar_color": "orange",
+      "persistent_data": true,
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        0
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.saturation.description"
+      },
+      "first_tick_commands": [
+        "effect give @s minecraft:saturation infinite 20 true"
+      ],
+      "last_tick_commands": [
+        "effect clear @s"
+      ],
+      "commands": [],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "glow"
+          }
+        ]
+      }
+    },
+    "effect_immune": {
+      "type": "palladium:command",
+      "icon": "minecraft:barrier",
+      "title": "Effect Immunity",
+      "bar_color": "orange",
+      "persistent_data": true,
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        2,
+        -0.5
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.effect_immune.description"
+      },
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "effect clear @s minecraft:unluck",
+        "effect clear @s minecraft:bad_omen",
+        "effect clear @s minecraft:blindness",
+        "effect clear @s minecraft:darkness",
+        "effect clear @s minecraft:hunger",
+        "effect clear @s minecraft:mining_fatigue",
+        "effect clear @s minecraft:nausea",
+        "effect clear @s minecraft:poison",
+        "effect clear @s minecraft:slowness",
+        "effect clear @s minecraft:weakness",
+        "effect clear @s minecraft:wither"
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "saturation"
+          }
+        ]
+      }
+    },
+    "invulnerability": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "invulnerability",
+      "persistent_data": true,
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        -5
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.invulnerability.description"
+      },
+      "damage_sources": [
+        "minecraft:bypasses_invulnerability",
+        "minecraft:no_impact"
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "burn"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "immortal"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:mind_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:power_stone_passive"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:space_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:reality_stone"
+          },
+          {
+            "type": "palladium:has_power",
+            "power": "infinity:time_stone"
+          }
+        ]
+      }
+    },
+    "summon_zombie": {
+      "type": "palladium:command",
+      "icon": "minecraft:zombie_head",
+      "persistent_data": true,
+      "title": "Summon Zombie",
+      "bar_color": "orange",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": [
+        0,
+        0
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.summon_zombie.description"
+      },
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "function infinity:zombies"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:textures/mob_effect/health_boost.png",
+      "title": "Health",
+      "persistent_data": true,
+      "bar_color": "orange",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1,
+        -1
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.health.description"
+      },
+      "attribute": "minecraft:generic.max_health",
+      "amount": 1980,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "burn"
+              }
+            ]
+          },
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 64
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "regen"
+          }
+        ]
+      }
+    },
+    "enter_soulworld": {
+      "type": "palladium:command",
+      "icon": "infinity:soul_stone",
+      "title": "Enter Soulworld",
+      "bar_color": "orange",
+      "hidden": false,
+      "persistent_data": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": [
+        0,
+        -1.5
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.enter_soulworld.description"
+      },
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "tag @s remove in_soul",
+        "execute as @e[distance=..5] run execute in infinity:soulworld run tp @s ~ 72 ~",
+        "tag @s add in_soul"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "in_soul"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exit_soulworld": {
+      "type": "palladium:command",
+      "icon": "minecraft:barrier",
+      "persistent_data": true,
+      "title": "Exit Soulworld",
+      "bar_color": "orange",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": [
+        2,
+        -3
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.exit_soulworld.description"
+      },
+      "first_tick_commands": [
+        "effect give @s minecraft:slow_falling 20 1 true"
+      ],
+      "last_tick_commands": [],
+      "commands": [
+        "execute as @e[distance=..5] run effect give @e[distance=..5] minecraft:slow_falling 20 1 true",
+        "effect give @s minecraft:slow_falling 20 1 true",
+        "execute as @e[distance=..5] run execute in minecraft:overworld run tp @s ~ 72 ~",
+        "tag @s remove in_soul"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "in_soul"
+          }
+        ]
+      }
+    },
+    "regen": {
+      "type": "palladium:command",
+      "icon": "minecraft:textures/mob_effect/regeneration.png",
+      "persistent_data": true,
+      "title": "Regeneration",
+      "bar_color": "orange",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        -1
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.regen.description"
+      },
+      "first_tick_commands": [
+        "effect give @s minecraft:regeneration infinite 20 true",
+        "effect give @s minecraft:instant_health 1 20 true"
+      ],
+      "last_tick_commands": [
+        "effect clear @s"
+      ],
+      "commands": [],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:objective_score",
+                "objective": "powerborne.stormbreaker_projectile_distance",
+                "min_score": 1,
+                "max_score": 1
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "burn"
+              }
+            ]
+          },
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 16
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "saturation"
+          }
+        ]
+      }
+    },
+    "locateplayer_command": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:recovery_compass",
+      "title": "Locate Entity Command",
+      "bar_color": "light_blue",
+      "persistent_data": true,
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0.5,
+        0
+      ],
+      "description": {
+        "translate": "ability.infinity.soul_stone.locateplayer_command.description"
+      },
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        ""
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:item_buyable",
+            "ingredient": {
+              "item": "infinity:aspects_of_existance"
+            },
+            "amount": 1
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "glow"
+          }
+        ]
+      }
+    }
+  }
+}

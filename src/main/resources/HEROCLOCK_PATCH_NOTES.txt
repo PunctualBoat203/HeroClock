@@ -1,0 +1,18 @@
+HeroClock 2.2.10
+
+Stock-addon registry safety:
+- Removed HeroClock addon-layer startup registrations already owned by the original hero JARs.
+- Prevents duplicate Palladium ability/block registrations with stock AlienEvo, Satsu, CelestialSapien, and Infinity.
+- Persistence prevention/cleanup resources from 2.2.9 remain intact.
+- Patch payload copies under patches/ remain inert reference payloads; runtime JAR rewriting stays disabled.
+
+HeroClock 2.2.8
+
+- Prevents the Galvanic Rod Lightning Wave persistent tagged-projectile lightning loop.
+- Lightning Wave now produces lightning once on projectile impact; historical lightningpro IDs remain inert for saved Palladium-state compatibility.
+- Keeps Lightning Storm at one 26-bolt AoE execution per activation.
+- Adds targeted stale-lightning cleanup at Galvanic Mechamorph lifecycle boundaries and before Lightning Storm activation.
+- Extends detransform cleanup to stale tagged Lightning Wave projectiles and Overworld DNA web timers.
+- Bounds shared AlienEvo flying-block helper processing around the active power holder.
+- Retains the known-good Big Chill, Echo Echo/helper, Overworld DNA advancement, Omni Evo, Infinity, Satsu, Soul Stone, snap, Power Stone, and OmniOptimizer compatibility resources.
+- No global entity wipe or broad per-tick cleanup scanner is used.

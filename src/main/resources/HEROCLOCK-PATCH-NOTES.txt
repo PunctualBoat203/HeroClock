@@ -1,0 +1,6 @@
+HeroClock 2.2.19 — PunctualBoat
+
+Adds bounded opt-in receiver/member and individual KubeJS listener attribution to the embedded developer API.
+Detailed hooks require an explicit startup switch and matching code contracts; normal startup does not install them.
+Preserves stock callback ordering, errors and cancellation. Snapshots retain labels and counters, not world objects.
+Retains the validated 2.2.18 Rhino allocation optimizations. This diagnostic checkpoint makes no new performance-gain claim.
