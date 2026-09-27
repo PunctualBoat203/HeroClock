@@ -1,6 +1,6 @@
 # HeroClock scripting development handoff
 
-Author: PunctualBoat. Development version: **2.2.18** on `improve-clock-runtime`.
+Author: PunctualBoat. Development version: **2.2.19** on `improve-clock-runtime`.
 
 This pass starts from the pushed 2.2.16 embedded-API baseline (`20a3411`, with runtime packaging introduced in `bd8a777`). The previous release artifact and real-pack findings remain in [the archived handoff](archive/2.2.16-HANDOFF.md). This pass changes only KubeJS/Rhino integration and its shared compatibility/API/test infrastructure.
 
@@ -24,3 +24,6 @@ The supplied 2026-09-24 capture has now been cross-referenced at [SCRIPTING_PROF
 The 2.2.18 follow-up defers unused Rhino overload caches and pre-sizes receiver-bound member maps. It preserves per-receiver wrappers and stock resolution, with independent guards and stricter full-method-set checks for the private-cache transformation. See the 2.2.18 section of [SCRIPTING.md](SCRIPTING.md).
 
 The completed 2.2.18 candidate passed CI run `35982475439` at `bcb3b713` across all seven environments. See [VALIDATION.md](VALIDATION.md) for evidence and artifacts. Subsequent checkpoint documentation does not change the tested runtime.
+
+
+The 2.2.19 follow-up adds bounded, startup-opt-in receiver/member and KubeJS listener attribution through the embedded API. Normal startup omits these detail hooks; the existing 2.2.18 optimizations remain the performance baseline. See SCRIPTING.md for capture instructions and the HeroClock-owned integration direction. This pass does not introduce a replacement engine or claim a new speedup. Runtime validation must complete before this candidate is used.

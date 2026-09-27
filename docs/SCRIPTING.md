@@ -1,6 +1,6 @@
 # KubeJS and Rhino support
 
-HeroClock 2.2.18 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
+HeroClock 2.2.19 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
 ## Automatic optimizations
 
@@ -14,7 +14,7 @@ Each optimization is checked separately against audited executable method bodies
 
 The embedded API is an integration surface for mod/addon developers; datapack developers use HeroClock commands for the systems exposed to functions. Automatic optimizations run independently of this API and require no developer calls.
 
-`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.18-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
+`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.19-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
 
 ```javascript
 const HeroScript = Java.loadClass('com.heroclock.api.HeroScriptAPI');
@@ -74,3 +74,42 @@ These patches do not reuse Java receivers, cache property values, pre-resolve pr
 The lazy-cache contract is deliberately stricter than a single-method check: it fingerprints the entire NativeJavaMethod method set and validates its relevant fields. Added/changed methods, new nestmates or reserved-field collisions disable it, since they could introduce additional access to the private cache. The map-sizing patch has an independent method/field contract. Both obey the existing Rhino disable switch and expose their decisions through the existing diagnostics API.
 
 The existing seven-environment CI matrix now also checks receiver isolation, live field values, zero/one-argument overloads, untouched single-method storage, concurrent first-use publication, scope/prototype mutation and deliberately incompatible cache/map fields. Packaging continues to include the inert embedded developer API. Real-pack CPU/MSPT gains still require a matched before/after capture; these changes specifically remove allocation/setup work on the measured path, not all time attributed to that path.
+
+## 2.2.19: bounded hotspot attribution
+
+This checkpoint adds diagnostic attribution required by the handoff before attempting broader engine replacements. It retains the 2.2.18 optimizations and does not claim an additional automatic performance improvement.
+
+Detailed hooks are omitted from normal startup. To install them for a diagnostic run, add the JVM option `-Dheroclock.enableDetailedScriptingProfiling=true`. Each hook must also match its audited code contract and its mod's optimization disable switch. This avoids adding detail-profiling branches to normal hot paths. Once installed, collection remains off until requested through the embedded API:
+
+```javascript
+const HeroScript = Java.loadClass('com.heroclock.api.HeroScriptAPI');
+HeroScript.resetHotspots();
+HeroScript.setHotspotProfilingEnabled(true);
+// Exercise a short, representative workload, then stop collection:
+HeroScript.setHotspotProfilingEnabled(false);
+const snapshot = HeroScript.hotspots();
+snapshot.entries().forEach((key, stats) => {
+    console.info(key.kind() + ' | ' + key.owner() + ' | ' + key.detail()
+        + ' | calls=' + stats.calls() + ' units=' + stats.units()
+        + ' inclusive_ns=' + stats.inclusiveNanos());
+});
+console.info('Dropped new-label observations: ' + snapshot.dropped());
+```
+
+- `wrapper_init`: completed NativeJavaObject member initializations by receiver class. `units` counts constructed field/method-collision wrappers; `calls` counts initializations.
+- `member_read`: string-property reads through NativeJavaObject.get, grouped by receiver class and member name. These are attempts, including missing properties; results are never cached or retained.
+- `kubejs_listener`: individual listeners by registered source, line and event Java class. Timing includes downstream gameplay, handled failures and event exits. Nested listener timings overlap and must not be summed as exclusive CPU time.
+
+Overrides that do not call these audited base methods are outside the receiver/member counts. Source labels do not automatically identify an addon namespace. Receiver class names, member names and source labels are retained as strings; receivers, events, functions and script return values are not retained.
+
+Snapshots are immutable. Collection is synchronized and limited to 256 distinct keys, with each label limited to 256 characters. Longer labels merge under their common prefix. Once full, existing keys continue accumulating while observations of new keys increment `dropped`; reset between focused captures. Reset does not cancel an in-flight listener, which can finish recording afterward. Profiling adds overhead when enabled, including a temporary callback adapter per listener; use it for attribution, and disable it for performance comparisons.
+
+The previous aggregate boundary profiler is independent of this detail profiler. Check `HeroIntegrationAPI.compatibility()` for `RhinoHotspotMixin` and `KubeListenerProfileMixin`: an empty snapshot alone does not prove that no scripts ran.
+
+## HeroClock-owned scripting integration direction
+
+HeroClock can own its developer API, explicit bounded-work scheduler, dispatch adapters, diagnostics and guarded fast paths while using Rhino as an execution dependency. This does not make Rhino or KubeJS HeroClock implementations.
+
+A full engine replacement is a separate compatibility project. It must preserve JavaScript evaluation, closures, prototypes/accessors, Java overload/coercion behavior, wrapper providers, exceptions, context locking, event order/cancellation, script reloads and client/server lifecycles. Existing scripts need differential tests against the stock engine before migration.
+
+Choose an optimized or stock path before a callback executes. Never catch a callback failure and rerun it through another backend: the first attempt may already have changed the world. Keep integration adapters optional and select them only when their complete code/lifecycle contracts match. No replacement engine or automatic callback migration is introduced by 2.2.19.
