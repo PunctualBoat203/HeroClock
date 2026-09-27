@@ -20,6 +20,7 @@ public final class ScriptingChecks {
     public static void run(GameTestHelper helper) throws Exception {
         boolean changed = Boolean.getBoolean("heroclock.testChangedScripts");
         RhinoHotspotChecks.run(helper, changed);
+        ScriptingHotspotChecks.run(helper, changed);
         var decisions = HeroIntegrationAPI.compatibility();
         for (String patch : List.of("KubeEventContainerMixin", "RhinoMapIdsMixin", "KubeBoundaryMixin")) {
             helper.assertTrue(decisions.getOrDefault(patch, "missing").startsWith(changed ? "disabled:" : "enabled:"),

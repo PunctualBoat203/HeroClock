@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '2.2.18'
+version = '2.2.19'
 group = 'com.heroclock'
 base { archivesName = 'HeroClock' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -23,6 +23,7 @@ minecraft {
             workingDirectory project.file('run-gametest')
             property 'forge.enabledGameTestNamespaces', 'heroclock'
             property 'heroclock.testPalladium', project.hasProperty('withPalladium').toString()
+            property 'heroclock.enableDetailedScriptingProfiling', project.hasProperty('withScripting').toString()
             property 'heroclock.testScripting', project.hasProperty('withScripting').toString()
             property 'heroclock.testChangedScripts', project.hasProperty('changedScripts').toString()
             property 'heroclock.testCurios', project.hasProperty('withCurios').toString()

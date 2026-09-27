@@ -5,6 +5,8 @@
   "plugin": "com.heroclock.mixin.PalladiumPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "RhinoHotspotMixin",
+    "KubeListenerProfileMixin",
     "CuriosInventoryMixin",
     "KubeEventContainerMixin",
     "RhinoMapIdsMixin",

@@ -30,6 +30,10 @@ public final class CompatibilityGate {
         }) + "Optimizations")) {
             return reject(mixin, "disabled by configuration");
         }
+        if ((mixin.equals("RhinoHotspotMixin") || mixin.equals("KubeListenerProfileMixin"))
+                && !Boolean.getBoolean("heroclock.enableDetailedScriptingProfiling")) {
+            return reject(mixin, "detailed profiling not enabled at startup");
+        }
         var mods = LoadingModList.get();
         if (mods == null || mods.getModFileById(contract.mod()) == null) return reject(mixin, "target mod not loaded");
         try {

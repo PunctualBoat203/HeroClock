@@ -43,6 +43,7 @@ def variants():
                                 'dev/latvian/mods/kubejs/event/EventHandler.class': (b'postToHandlers', b'fixture_postToHandlers'),
                                 'dev/latvian/mods/rhino/NativeJavaMethod.class': (b'overloadCache', b'fixture_overloadCache'),
                                 'dev/latvian/mods/rhino/JavaMembers.class': (b'fieldAndMethods', b'fixture_fieldAndMethods'),
+                                'dev/latvian/mods/rhino/NativeJavaObject.class': (b'customMembers', b'fixture_customMembers'),
                                 'dev/latvian/mods/rhino/NativeJavaMap.class': (b'map', b'fixture_map'),
                             }
                             if entry.filename in changes:

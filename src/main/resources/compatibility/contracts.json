@@ -430,5 +430,94 @@
     ],
     "minecraftMembers": [],
     "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoHotspotMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.NativeJavaObject",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "javaObject",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 132
+      },
+      {
+        "name": "staticType",
+        "descriptor": "Ljava/lang/Class;",
+        "access": 132
+      },
+      {
+        "name": "fieldAndMethods",
+        "descriptor": "Ljava/util/Map;",
+        "access": 132
+      },
+      {
+        "name": "customMembers",
+        "descriptor": "Ljava/util/Map;",
+        "access": 132
+      }
+    ],
+    "methods": [
+      {
+        "name": "initMembers",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;)V",
+        "fingerprint": "063ba71b417296bf6a8278555bb301383e0066f908ae4120b4f97b2b263f3f59"
+      },
+      {
+        "name": "get",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ljava/lang/String;Ldev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;",
+        "fingerprint": "224be019e5ae93678a7d788e72a6c7d471b8be284df202ebe0d0ccfd8ee2ba29"
+      },
+      {
+        "name": "get",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Symbol;Ldev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;",
+        "fingerprint": "87b2f3410d1649cda758553bb613a23c2b9fc8a90e55094719feb0b8319d2ce8"
+      },
+      {
+        "name": "get",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;ILdev/latvian/mods/rhino/Scriptable;)Ljava/lang/Object;",
+        "fingerprint": "add007f0e83c272474d34a8027b5a13151dd16bbbb8db39b7296a6b472e5ced9"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeListenerProfileMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandlerContainer",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "handler",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/IEventHandler;",
+        "access": 17
+      },
+      {
+        "name": "source",
+        "descriptor": "Ljava/lang/String;",
+        "access": 17
+      },
+      {
+        "name": "line",
+        "descriptor": "I",
+        "access": 17
+      },
+      {
+        "name": "child",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/EventHandlerContainer;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "handle",
+        "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
+        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   }
 ]

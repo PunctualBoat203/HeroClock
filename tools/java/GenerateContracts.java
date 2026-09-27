@@ -57,7 +57,9 @@ public final class GenerateContracts {
             contract(args[2], "KubeBoundaryMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandler", Set.of(), Set.of("postToHandlers")),
             contract(args[3], "RhinoBoundaryMixin", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync")),
             contract(args[3], "RhinoLazyOverloadMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaMethod", Set.of("overloadCache", "methods"), Set.of("*")),
-            contract(args[3], "RhinoMemberMapMixin", "rhino", "dev.latvian.mods.rhino.JavaMembers", Set.of("fieldAndMethods", "staticFieldAndMethods"), Set.of("getFieldAndMethodsObjects"))
+            contract(args[3], "RhinoMemberMapMixin", "rhino", "dev.latvian.mods.rhino.JavaMembers", Set.of("fieldAndMethods", "staticFieldAndMethods"), Set.of("getFieldAndMethodsObjects")),
+            contract(args[3], "RhinoHotspotMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaObject", Set.of("javaObject", "staticType", "fieldAndMethods", "customMembers"), Set.of("initMembers", "get")),
+            contract(args[2], "KubeListenerProfileMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandlerContainer", Set.of("handler", "source", "line", "child"), Set.of("handle"))
         );
         Files.writeString(Path.of(args[4]), new GsonBuilder().setPrettyPrinting().create().toJson(contracts) + "\n");
     }
