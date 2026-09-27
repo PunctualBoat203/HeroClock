@@ -39,6 +39,7 @@ def variants():
                             data = data.replace(('version = "' + version + '"').encode(), b'version = "9999.0.0"', 1)
                         if variant == 'changed':
                             changes = {
+                                'dev/latvian/mods/kubejs/script/ScriptManager.class': (b'javaClassCache', b'fixture_javaClassCache'),
                                 'dev/latvian/mods/kubejs/event/EventHandlerContainer.class': (b'child', b'fixture_child'),
                                 'dev/latvian/mods/kubejs/event/EventHandler.class': (b'postToHandlers', b'fixture_postToHandlers'),
                                 'dev/latvian/mods/rhino/NativeJavaMethod.class': (b'overloadCache', b'fixture_overloadCache'),

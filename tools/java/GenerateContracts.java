@@ -60,6 +60,10 @@ public final class GenerateContracts {
             contract(args[3], "RhinoMemberMapMixin", "rhino", "dev.latvian.mods.rhino.JavaMembers", Set.of("fieldAndMethods", "staticFieldAndMethods"), Set.of("getFieldAndMethodsObjects")),
             contract(args[3], "RhinoHotspotMixin", "rhino", "dev.latvian.mods.rhino.NativeJavaObject", Set.of("javaObject", "staticType", "fieldAndMethods", "customMembers"), Set.of("initMembers", "get")),
             contract(args[2], "KubeListenerProfileMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandlerContainer", Set.of("handler", "source", "line", "child"), Set.of("handle"))
+,
+            contract(args[2], "KubeRuntimeMixin", "kubejs", "dev.latvian.mods.kubejs.script.ScriptManager", Set.of("scriptType", "context", "topLevelScope", "javaClassCache"), Set.of("load", "unload")),
+            contract(args[3], "RhinoRuntimeContext", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync", "getWrapFactory", "addToScope")),
+            contract(args[3], "RhinoRuntimeWrapping", "rhino", "dev.latvian.mods.rhino.WrapFactory", Set.of(), Set.of("wrap", "wrapAsJavaObject"))
         );
         Files.writeString(Path.of(args[4]), new GsonBuilder().setPrettyPrinting().create().toJson(contracts) + "\n");
     }

@@ -47,6 +47,10 @@ public final class CompatibilityGate {
             String mismatch = contract.mismatch(node, (method, owner, name, descriptor) ->
                     aliases.getOrDefault(key(method, owner, name, descriptor), name));
             if (mismatch != null) return reject(mixin, mismatch);
+            if (mixin.equals("KubeRuntimeMixin")
+                    && (!allows("RhinoRuntimeContext", "dev.latvian.mods.rhino.Context")
+                    || !allows("RhinoRuntimeWrapping", "dev.latvian.mods.rhino.WrapFactory")))
+                return reject(mixin, "Rhino runtime adapter contract unavailable");
             DECISIONS.put(mixin, "enabled: audited code contract matches");
             LogUtils.getLogger().info("HeroClock {} enabled: audited code contract matches", mixin);
             return true;

@@ -3,6 +3,7 @@ package com.heroclock.api;
 import com.heroclock.runtime.ScriptTasks;
 import com.heroclock.runtime.ScriptTelemetry;
 import com.heroclock.runtime.ScriptHotspots;
+import com.heroclock.runtime.ScriptRuntimes;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,6 +15,11 @@ public final class HeroScriptAPI {
     public record HotspotStats(long calls, long units, long inclusiveNanos) {}
     public record HotspotSnapshot(Map<HotspotKey, HotspotStats> entries, long dropped) {}
     private HeroScriptAPI() {}
+
+    public static HeroScriptRuntime openRuntime(MinecraftServer server, String namespace) { return ScriptRuntimes.open(server, namespace); }
+    public static int emit(MinecraftServer server, String namespace, String event, Object... arguments) {
+        return ScriptRuntimes.emit(server, namespace, event, arguments);
+    }
 
     public static boolean batch(MinecraftServer server, String namespace, String key, Iterator<?> items,
                                 int itemsPerTick, Consumer<Object> action) {

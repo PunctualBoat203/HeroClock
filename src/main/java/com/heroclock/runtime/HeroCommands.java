@@ -4,6 +4,8 @@ import com.heroclock.HeroClock;
 import com.heroclock.api.HeroClockAPI;
 import com.heroclock.api.HeroFunctionAPI;
 import com.heroclock.api.HeroIntegrationAPI;
+import com.heroclock.api.HeroScriptAPI;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -57,6 +59,11 @@ public final class HeroCommands {
                         })))))
                     .then(literal("cancel").then(argument("key", ResourceLocationArgument.id())
                         .executes(context -> HeroFunctionAPI.cancel(context.getSource(), key(context)) ? 1 : 0))))
+                .then(literal("script").then(literal("emit")
+                    .then(argument("namespace", StringArgumentType.word())
+                    .then(argument("event", ResourceLocationArgument.id()).executes(context ->
+                        HeroScriptAPI.emit(context.getSource().getServer(), StringArgumentType.getString(context, "namespace"),
+                                ResourceLocationArgument.getId(context, "event").toString(), context.getSource()))))))
                 .then(literal("status").executes(context -> {
                     var source = context.getSource();
                     var status = HeroIntegrationAPI.workStatus(source.getServer());

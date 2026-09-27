@@ -250,4 +250,11 @@ public final class RuntimeTests {
             helper.succeed();
         });
     }
+    @GameTest(template = "empty", timeoutTicks = 60)
+    public static void ownedScriptRuntime(GameTestHelper helper) { OwnedRuntimeChecks.run(helper); }
+    @GameTest(template = "empty", timeoutTicks = 80)
+    public static void ownedRhinoRuntime(GameTestHelper helper) {
+        if (!Boolean.getBoolean("heroclock.testScripting")) { helper.succeed(); return; }
+        RhinoOwnedRuntimeChecks.run(helper);
+    }
 }

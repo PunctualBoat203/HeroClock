@@ -519,5 +519,119 @@
     ],
     "minecraftMembers": [],
     "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeRuntimeMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.script.ScriptManager",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "scriptType",
+        "descriptor": "Ldev/latvian/mods/kubejs/script/ScriptType;",
+        "access": 17
+      },
+      {
+        "name": "context",
+        "descriptor": "Ldev/latvian/mods/rhino/Context;",
+        "access": 1
+      },
+      {
+        "name": "topLevelScope",
+        "descriptor": "Ldev/latvian/mods/rhino/Scriptable;",
+        "access": 1
+      },
+      {
+        "name": "javaClassCache",
+        "descriptor": "Ljava/util/Map;",
+        "access": 2
+      }
+    ],
+    "methods": [
+      {
+        "name": "unload",
+        "descriptor": "()V",
+        "fingerprint": "860d064e9b280e3ab92a65ee72c323cf11574e1a3ed21c0b08665502b472bfa3"
+      },
+      {
+        "name": "load",
+        "descriptor": "()V",
+        "fingerprint": "e451d4ba8ea8b12a358340be04a5f3d6a7fb72203a67d1e47d477ae6f693c690"
+      }
+    ],
+    "minecraftMembers": [
+      {
+        "method": false,
+        "owner": "net/minecraft/core/registries/BuiltInRegistries",
+        "name": "f_257047_",
+        "descriptor": "Lnet/minecraft/core/Registry;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/core/Registry",
+        "name": "m_214010_",
+        "descriptor": "()Ljava/util/Set;"
+      },
+      {
+        "method": true,
+        "owner": "net/minecraft/resources/ResourceKey",
+        "name": "m_135782_",
+        "descriptor": "()Lnet/minecraft/resources/ResourceLocation;"
+      }
+    ],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoRuntimeContext",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.Context",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "lock",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 17
+      }
+    ],
+    "methods": [
+      {
+        "name": "addToScope",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;Ljava/lang/Object;)V",
+        "fingerprint": "b90f3377232ac1adb6bd3c3f0baa9c50095586e89552eb21c618102c3685f92f"
+      },
+      {
+        "name": "getWrapFactory",
+        "descriptor": "()Ldev/latvian/mods/rhino/WrapFactory;",
+        "fingerprint": "f5054b13ecf1b1a2ba9f98406eacb80dd77007d5c7faee49d9a22fe74105ecb6"
+      },
+      {
+        "name": "callSync",
+        "descriptor": "(Ldev/latvian/mods/rhino/Callable;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "8bc10251ddae19abc0d29b7533211a8a796a19f85edfef93cf2cf5f3aac21c2f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoRuntimeWrapping",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.WrapFactory",
+    "parent": "java/lang/Object",
+    "fields": [],
+    "methods": [
+      {
+        "name": "wrap",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",
+        "fingerprint": "7b3d4f977c8d09897995f24187f93b06af275585258303e640cd3fd035347254"
+      },
+      {
+        "name": "wrapAsJavaObject",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/Class;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "5cb63e51890fe7c90cf381d5da4afe29eabeb79d91ff3d7be42c3fe5678f3c81"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
   }
 ]
