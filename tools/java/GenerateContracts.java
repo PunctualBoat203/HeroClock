@@ -66,7 +66,7 @@ public final class GenerateContracts {
             contract(args[2], "KubeRuntimeMixin", "kubejs", "dev.latvian.mods.kubejs.script.ScriptManager", Set.of("scriptType", "context", "topLevelScope", "javaClassCache"), Set.of("load", "unload")),
             contract(args[3], "RhinoRuntimeContext", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync", "getWrapFactory", "addToScope")),
             contract(args[3], "RhinoStandaloneContext", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("enter", "initStandardObjects", "newObject", "evaluateString", "callSync", "getWrapFactory", "addToScope")),
-            contract(args[3], "RhinoRuntimeWrapping", "rhino", "dev.latvian.mods.rhino.WrapFactory", Set.of(), Set.of("wrap", "wrapAsJavaObject"))
+            contract(args[3], "RhinoRuntimeWrapping", "rhino", "dev.latvian.mods.rhino.WrapFactory", Set.of(), Set.of("wrap", "wrapAsJavaObject", "wrapJavaClass"))
         );
         Files.writeString(Path.of(args[4]), new GsonBuilder().setPrettyPrinting().create().toJson(contracts) + "\n");
     }

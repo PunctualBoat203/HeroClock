@@ -796,6 +796,11 @@
         "name": "wrapAsJavaObject",
         "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/Class;)Ldev/latvian/mods/rhino/Scriptable;",
         "fingerprint": "5cb63e51890fe7c90cf381d5da4afe29eabeb79d91ff3d7be42c3fe5678f3c81"
+      },
+      {
+        "name": "wrapJavaClass",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Class;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "49705a264ae46f1cc4ede810bd5af64d9112983b197f6ed2722ac0b74221cb9a"
       }
     ],
     "minecraftMembers": [],

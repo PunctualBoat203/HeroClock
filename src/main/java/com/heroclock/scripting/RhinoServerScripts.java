@@ -41,6 +41,7 @@ public final class RhinoServerScripts implements ServerScripts.Engine {
         if (files.isEmpty()) return new HeroScriptAPI.ScriptLoadStatus("rhino", 0, 0);
         Context context = Context.enter();
         var root = context.initStandardObjects();
+        context.addToScope(root, "Java", new ScriptJavaClasses(context, root));
         context.addToScope(root, "HeroClock", HeroClockAPI.class);
         context.addToScope(root, "HeroScript", HeroScriptAPI.class);
         context.addToScope(root, "HeroWork", HeroWorkAPI.class);

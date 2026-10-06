@@ -32,7 +32,8 @@ public final class StandaloneScriptChecks {
                 runtime.on('test:command', 'command', source => HeroClock.set(HeroScript.executor(source), 'test:standalone', 20));
                 runtime.schedule('initial', 0, () => { total += 3; });
                 runtime.schedule('stale', 100, () => { throw new Error('old file ran'); });
-                var values = new java.util.ArrayList();
+                var ArrayList = Java.loadClass('java.util.ArrayList');
+                var values = new ArrayList();
                 values.add(1);
                 HeroScript.batch(server, 'standalone_batch', 'sum', values.iterator(), 1, value => { total += Number(value); });
                 console.info('Standalone script loaded');
