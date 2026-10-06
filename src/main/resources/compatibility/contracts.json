@@ -521,6 +521,101 @@
     "exhaustiveMethods": false
   },
   {
+    "mixin": "RhinoNativeCallbackMixin",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.VMBridge",
+    "parent": "java/lang/Object",
+    "fields": [],
+    "methods": [
+      {
+        "name": "getInterfaceProxyHelper",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;[Ljava/lang/Class;)Ljava/lang/Object;",
+        "fingerprint": "ef8ee8436f6ee562850f306d0fa5e5be2d8d0388d564576e6048d2795a0cdf97"
+      },
+      {
+        "name": "newInterfaceProxy",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/rhino/InterfaceAdapter;Ljava/lang/Object;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Context;)Ljava/lang/Object;",
+        "fingerprint": "47401f93fda394467857766dc8ba10bb4792e8ae7a6f394c0d586f6b7cf598d9"
+      },
+      {
+        "name": "lambda$newInterfaceProxy$0",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/rhino/InterfaceAdapter;Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "9b45c94abbedff86e5544a6bdd36b86d307f4b6b21deffda0e3e999f5fff007f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoNativeInterface",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.InterfaceAdapter",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "proxyHelper",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "create",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ljava/lang/Class;Ldev/latvian/mods/rhino/ScriptableObject;)Ljava/lang/Object;",
+        "fingerprint": "bf0553279bef188bc9c3f896f85504444e6582ddc54c791e044be27c5d146d33"
+      },
+      {
+        "name": "invoke",
+        "descriptor": "(Ldev/latvian/mods/rhino/Context;Ljava/lang/Object;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "d46b1fcf6a24667127096515d32a31821e994412b58a140e469f714ba86a1ddc"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeNativeDispatchMixin",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.EventHandlerContainer",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "handler",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/IEventHandler;",
+        "access": 17
+      },
+      {
+        "name": "source",
+        "descriptor": "Ljava/lang/String;",
+        "access": 17
+      },
+      {
+        "name": "line",
+        "descriptor": "I",
+        "access": 17
+      },
+      {
+        "name": "child",
+        "descriptor": "Ldev/latvian/mods/kubejs/event/EventHandlerContainer;",
+        "access": 0
+      }
+    ],
+    "methods": [
+      {
+        "name": "\u003cinit\u003e",
+        "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/kubejs/event/IEventHandler;Ljava/lang/String;I)V",
+        "fingerprint": "321542cc4445296b72531c8af3f5604d4cd1df04f7f5e02a599f4d1c85196869"
+      },
+      {
+        "name": "handle",
+        "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
+        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
     "mixin": "KubeRuntimeMixin",
     "mod": "kubejs",
     "target": "dev.latvian.mods.kubejs.script.ScriptManager",
@@ -594,6 +689,78 @@
       }
     ],
     "methods": [
+      {
+        "name": "addToScope",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;Ljava/lang/Object;)V",
+        "fingerprint": "b90f3377232ac1adb6bd3c3f0baa9c50095586e89552eb21c618102c3685f92f"
+      },
+      {
+        "name": "getWrapFactory",
+        "descriptor": "()Ldev/latvian/mods/rhino/WrapFactory;",
+        "fingerprint": "f5054b13ecf1b1a2ba9f98406eacb80dd77007d5c7faee49d9a22fe74105ecb6"
+      },
+      {
+        "name": "callSync",
+        "descriptor": "(Ldev/latvian/mods/rhino/Callable;Ldev/latvian/mods/rhino/Scriptable;Ldev/latvian/mods/rhino/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "8bc10251ddae19abc0d29b7533211a8a796a19f85edfef93cf2cf5f3aac21c2f"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
+    "mixin": "RhinoStandaloneContext",
+    "mod": "rhino",
+    "target": "dev.latvian.mods.rhino.Context",
+    "parent": "java/lang/Object",
+    "fields": [
+      {
+        "name": "lock",
+        "descriptor": "Ljava/lang/Object;",
+        "access": 17
+      }
+    ],
+    "methods": [
+      {
+        "name": "enter",
+        "descriptor": "()Ldev/latvian/mods/rhino/Context;",
+        "fingerprint": "186d6adcbf23963768aaa797757e1625d262996979583f5831d5dc6c7336c9b8"
+      },
+      {
+        "name": "initStandardObjects",
+        "descriptor": "()Ldev/latvian/mods/rhino/ScriptableObject;",
+        "fingerprint": "285d2398eb4c386929f4f038f5ba88b4c6d1b5a02202efb24ed089e96d56fa0b"
+      },
+      {
+        "name": "initStandardObjects",
+        "descriptor": "(Ldev/latvian/mods/rhino/ScriptableObject;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "5bbef849ae0cd6828939a41f38de19c4c1fec43e29272dc5af3c658908b7b709"
+      },
+      {
+        "name": "initStandardObjects",
+        "descriptor": "(Ldev/latvian/mods/rhino/ScriptableObject;Z)Ldev/latvian/mods/rhino/ScriptableObject;",
+        "fingerprint": "568e434de5c94037f6d3abd4c6b59a602492eb723243b12dce19a96cb81713e3"
+      },
+      {
+        "name": "evaluateString",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Object;",
+        "fingerprint": "3357497b35fee7be7ee90a5fa54ff1adaf5b655742dcfe6be0b1de58936698d2"
+      },
+      {
+        "name": "newObject",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "a2ff1ca59d1c3893ca8a79dfb186f3b139151e351d36f0b8947e80135f0aa483"
+      },
+      {
+        "name": "newObject",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "eaeee767abc8be2bfe914404db6f9b485c659af1c704ba4bdc8372e3b741983c"
+      },
+      {
+        "name": "newObject",
+        "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;[Ljava/lang/Object;)Ldev/latvian/mods/rhino/Scriptable;",
+        "fingerprint": "0caf6923cfe6972f89a349936afed72d095682d4c6ec4429a0519cc1e1e43a04"
+      },
       {
         "name": "addToScope",
         "descriptor": "(Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/String;Ljava/lang/Object;)V",

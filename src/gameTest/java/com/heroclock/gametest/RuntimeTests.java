@@ -257,4 +257,13 @@ public final class RuntimeTests {
         if (!Boolean.getBoolean("heroclock.testScripting")) { helper.succeed(); return; }
         RhinoOwnedRuntimeChecks.run(helper);
     }
+
+    @GameTest(template = "empty", timeoutTicks = 80)
+    public static void automaticScriptingTakeover(GameTestHelper helper) throws Exception {
+        if (!Boolean.getBoolean("heroclock.testScripting")) { helper.succeed(); return; }
+        NativeTakeoverChecks.run(helper);
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 80)
+    public static void standaloneScripts(GameTestHelper helper) throws Exception { StandaloneScriptChecks.run(helper); }
 }

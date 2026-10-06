@@ -29,7 +29,7 @@ def prepare():
 def variants():
     for name, _, _ in INPUTS[:2]:
         with zipfile.ZipFile(TARGET / name) as source:
-            for variant in ('relabeled', 'changed'):
+            for variant in (('relabeled', 'changed', 'callback-changed') if name.startswith('rhino') else ('relabeled', 'changed')):
                 output = TARGET / name.replace('-', '-' + variant + '-', 1)
                 with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as target:
                     for entry in source.infolist():
@@ -51,6 +51,8 @@ def variants():
                                 data = rename_constant(data, *changes[entry.filename])
                             if entry.filename == "dev/latvian/mods/kubejs/event/EventHandler.class":
                                 data = rename_constant(data, b"child", b"fixture_child")
+                        if variant in ('changed', 'callback-changed') and entry.filename == 'dev/latvian/mods/rhino/VMBridge.class':
+                            data = rename_constant(data, b'lambda$newInterfaceProxy$0', b'fixture_callback_bridge')
                         target.writestr(copy.copy(entry), data)
 
 

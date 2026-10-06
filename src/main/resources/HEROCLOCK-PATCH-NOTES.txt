@@ -1,8 +1,9 @@
-HeroClock 2.2.20 — PunctualBoat
+HeroClock 2.2.21 — PunctualBoat
 
-Adds an opt-in HeroClock-owned server scripting integration around Rhino with keyed event dispatch, coalesced scheduling and bounded iterator batches.
-Matching KubeJS server scopes receive HeroRuntime. Changed integration contracts leave native KubeJS behavior intact.
-Reload/unload cancels owned listeners, jobs and pending setup. Failed setup closes its partial runtime without retrying callbacks.
-The embedded developer API exposes HeroScriptRuntime and namespaced event emission; datapack functions can use heroclock script emit.
-Retains the existing guarded Rhino allocation fixes and opt-in diagnostics. Existing scripts and native KubeJS timers are not migrated.
-This is a development integration checkpoint. Target-pack TPS/FPS gains require a matched gameplay profile.
+Automatically routes compatible native Rhino interface callbacks through HeroClock while preserving proxy receivers, custom wrapping, return conversion, default methods and errors.
+Existing compatible KubeJS listeners use cached direct adapters without script edits. Original registration order, chain mutation, cancellation and error handling remain intact.
+Adds a standalone server-script loader at config/heroclock/server_scripts that requires Rhino and works without KubeJS.
+Use heroclock script reload/status for owned files. The embedded API exposes loader status and cumulative takeover registration counts.
+Code contracts and an independent takeover switch preserve stock paths for changed or disabled integrations. Callback failures are never retried through another backend.
+Legacy KubeJS loading, recipes, plugins, bindings and native timers still require their KubeJS implementations. This checkpoint is not a complete KubeJS or Rhino replacement.
+Target-pack TPS/FPS gains still require a matched gameplay profile.

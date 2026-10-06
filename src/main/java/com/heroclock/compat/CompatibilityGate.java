@@ -22,6 +22,9 @@ public final class CompatibilityGate {
     public static boolean allows(String mixin, String target) {
         CompatibilityContract contract = CONTRACTS.get(mixin);
         if (contract == null || !contract.target().equals(target)) return reject(mixin, "no audited contract");
+        if ((mixin.equals("RhinoNativeCallbackMixin") || mixin.equals("KubeNativeDispatchMixin"))
+                && Boolean.getBoolean("heroclock.disableNativeScriptingTakeover"))
+            return reject(mixin, "automatic takeover disabled by configuration");
         if (Boolean.getBoolean("heroclock.disable" + (switch (contract.mod()) {
             case "curios" -> "Curios";
             case "kubejs" -> "KubeJS";
@@ -47,6 +50,17 @@ public final class CompatibilityGate {
             String mismatch = contract.mismatch(node, (method, owner, name, descriptor) ->
                     aliases.getOrDefault(key(method, owner, name, descriptor), name));
             if (mismatch != null) return reject(mixin, mismatch);
+            if (mixin.equals("RhinoNativeCallbackMixin")
+                    && (!allows("RhinoNativeInterface", "dev.latvian.mods.rhino.InterfaceAdapter")
+                    || !allows("RhinoRuntimeContext", "dev.latvian.mods.rhino.Context")
+                    || !allows("RhinoRuntimeWrapping", "dev.latvian.mods.rhino.WrapFactory")))
+                return reject(mixin, "native callback dependencies changed");
+            if (mixin.equals("KubeNativeDispatchMixin")
+                    && !allows("RhinoNativeCallbackMixin", "dev.latvian.mods.rhino.VMBridge"))
+                return reject(mixin, "native callback bridge unavailable");
+            if (mixin.equals("KubeListenerProfileMixin")
+                    && allows("KubeNativeDispatchMixin", "dev.latvian.mods.kubejs.event.EventHandlerContainer"))
+                return reject(mixin, "profiling provided by automatic dispatch");
             if (mixin.equals("KubeRuntimeMixin")
                     && (!allows("RhinoRuntimeContext", "dev.latvian.mods.rhino.Context")
                     || !allows("RhinoRuntimeWrapping", "dev.latvian.mods.rhino.WrapFactory")))
