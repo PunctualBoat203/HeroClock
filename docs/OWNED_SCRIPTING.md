@@ -1,8 +1,8 @@
 # HeroClock-owned server scripting
 
-HeroClock 2.2.20 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
+HeroClock 2.2.21 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
-HeroClock owns the namespaced event dispatch, lifecycle and bounded-work integration described here. Rhino still evaluates JavaScript, and KubeJS still loads scripts. Existing KubeJS events and timers keep their behavior. Only callbacks explicitly registered with this API use the new integration.
+HeroClock owns the namespaced event dispatch, lifecycle and bounded-work integration described here. Rhino evaluates JavaScript; scripts can use either HeroClock's standalone loader or the legacy KubeJS loader. Only explicit registrations use these owned events and work queues. Compatible native callbacks also receive [automatic execution adapters](AUTOMATIC_TAKEOVER.md), preserving their native behavior and scheduling.
 
 The direct Rhino adapter retains the original context lock and wrap factory, passes the manager's top-level scope as `this`, and calls `Context.callSync` without a Java functional-interface proxy for each registered JavaScript callback. Listener snapshots rebuild on registration changes, not on each event. Idle namespaces without a tick listener skip tick dispatch. These remove specific integration work; a target-pack profile is still needed to measure the net effect.
 
@@ -12,11 +12,12 @@ On a compatible server script manager, HeroClock adds the `HeroRuntime` global b
 
 ```javascript
 const HeroClock = Java.loadClass('com.heroclock.api.HeroClockAPI');
+const HeroScript = Java.loadClass('com.heroclock.api.HeroScriptAPI');
 
 if (typeof HeroRuntime !== 'undefined') {
     const accepted = HeroRuntime.onServer('myaddon', (runtime, server) => {
         runtime.on('myaddon:cooldown', 'start', source => {
-            const entity = source.getEntity();
+            const entity = HeroScript.executor(source);
             if (entity != null) HeroClock.set(entity, 'myaddon:cooldown', 40);
         });
     });
@@ -28,7 +29,7 @@ if (typeof HeroRuntime !== 'undefined') {
 
 When already on the server thread, `HeroRuntime.forServer(server, namespace)` opens or reuses the same scope-owned runtime immediately. Choose one setup location per namespace. A namespace cannot be shared between different script scopes or between a scope and the Java API; emit events across that boundary instead.
 
-Load/unload invalidates that manager's old runtime handles and cancels its pending setup, listeners and work. Closing a namespace is also explicit through `runtime.close()`. A callback already executing can finish; later listeners and batch items stop, and callbacks still waiting for the context lock recheck validity before entering JavaScript. The new scope can register the namespace again after reload. These hooks cover KubeJS `ScriptManager.load/unload`; custom loaders outside those methods need their own lifecycle integration.
+Load/unload invalidates that manager's old runtime handles and cancels its pending setup, listeners and work. Closing a namespace is also explicit through `runtime.close()`. A callback already executing can finish; later listeners and batch items stop, and callbacks still waiting for the context lock recheck validity before entering JavaScript. The new scope can register the namespace again after reload. These hooks cover KubeJS `ScriptManager.load/unload`. HeroClock's [standalone loader](AUTOMATIC_TAKEOVER.md) creates equivalent ownership per file; other custom loaders need their own lifecycle integration.
 
 ## Events and work
 
@@ -57,7 +58,7 @@ There are at most 128 active namespaces per server, 1,024 listeners per namespac
 
 ## Java addon API
 
-Compile against the standalone or embedded `HeroClock-2.2.20-api.jar`; install the full mod at runtime. No KubeJS or Rhino types appear in this public API, and Java runtime registration also works when those mods are absent.
+Compile against the standalone or embedded `HeroClock-2.2.21-api.jar`; install the full mod at runtime. No KubeJS or Rhino types appear in this public API, and Java runtime registration also works when those mods are absent.
 
 ```java
 HeroScriptRuntime runtime = HeroScriptAPI.openRuntime(server, "myaddon");
@@ -89,4 +90,4 @@ The command requires permission level 2 and passes the current `CommandSourceSta
 
 `KubeRuntimeMixin` checks the audited ScriptManager load/unload bodies and required fields. It also requires matching `RhinoRuntimeContext` and `RhinoRuntimeWrapping` contracts for the adapter's context, lock and wrapping methods. Version-label changes alone do not disable matching code. A changed or unavailable contract omits the binding and leaves KubeJS's own behavior intact; the Java API remains available. An existing `HeroRuntime` global is retained rather than replaced.
 
-Check `HeroIntegrationAPI.compatibility()` and `/heroclock status`. Either scripting disable switch also disables this optional adapter. Scripts that require it should guard `typeof HeroRuntime`; a pack can select its native fallback before registering any callbacks. HeroClock never retries a callback on another backend after it has started. There is no automatic conversion of existing native KubeJS callbacks or timers.
+Check `HeroIntegrationAPI.compatibility()` and `/heroclock status`. Either scripting disable switch also disables this optional adapter. Scripts that require it should guard `typeof HeroRuntime`; a pack can select its native fallback before registering any callbacks. HeroClock never retries a callback on another backend after it has started. Existing KubeJS timers remain native. Automatic callback routing is a separate, independently guarded integration; it does not convert native registrations into owned runtime handles.

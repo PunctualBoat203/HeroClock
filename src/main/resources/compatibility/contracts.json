@@ -241,7 +241,7 @@
       {
         "name": "handle",
         "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
-        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+        "fingerprint": "6589cfc648bb2e2afa93eacff86c9f0219f78319de3276f9a41a1cbbe0d8285b"
       },
       {
         "name": "add",
@@ -294,7 +294,7 @@
       {
         "name": "postToHandlers",
         "descriptor": "(Ldev/latvian/mods/kubejs/script/ScriptType;[Ldev/latvian/mods/kubejs/event/EventHandlerContainer;Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)V",
-        "fingerprint": "0bf41ae59bfc3435e551e9bb983ff1ab0a65d4cbbed4b1e485055bcb0fbb84c8"
+        "fingerprint": "df9eea407f922439e383e4c6da6e747f2ac75cf545e456fb8fbff041b8c5ef8b"
       }
     ],
     "minecraftMembers": [],
@@ -514,7 +514,7 @@
       {
         "name": "handle",
         "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
-        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+        "fingerprint": "6589cfc648bb2e2afa93eacff86c9f0219f78319de3276f9a41a1cbbe0d8285b"
       }
     ],
     "minecraftMembers": [],
@@ -540,7 +540,7 @@
       {
         "name": "lambda$newInterfaceProxy$0",
         "descriptor": "(Ljava/lang/Object;Ldev/latvian/mods/rhino/InterfaceAdapter;Ldev/latvian/mods/rhino/Context;Ldev/latvian/mods/rhino/Scriptable;Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;",
-        "fingerprint": "9b45c94abbedff86e5544a6bdd36b86d307f4b6b21deffda0e3e999f5fff007f"
+        "fingerprint": "74a1e95d46cd4c9a1f24cc40dbda439eb7efde60cce3b91631f7216dbfcb0be7"
       }
     ],
     "minecraftMembers": [],
@@ -609,11 +609,27 @@
       {
         "name": "handle",
         "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;Ldev/latvian/mods/kubejs/event/EventExceptionHandler;)Ldev/latvian/mods/kubejs/event/EventResult;",
-        "fingerprint": "03ae4aa7b2e3fd7c60aac96351f7bda0f35cb637c3f39808a3b0c6caa4fb7014"
+        "fingerprint": "6589cfc648bb2e2afa93eacff86c9f0219f78319de3276f9a41a1cbbe0d8285b"
       }
     ],
     "minecraftMembers": [],
     "exhaustiveMethods": false
+  },
+  {
+    "mixin": "KubeNativeHandler",
+    "mod": "kubejs",
+    "target": "dev.latvian.mods.kubejs.event.IEventHandler",
+    "parent": "java/lang/Object",
+    "fields": [],
+    "methods": [
+      {
+        "name": "onEvent",
+        "descriptor": "(Ldev/latvian/mods/kubejs/event/EventJS;)Ljava/lang/Object;",
+        "fingerprint": "6a66e98a9271c5ca143fa0d371da7a33286daba6bc67b675e64b3e36f031b927"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": true
   },
   {
     "mixin": "KubeRuntimeMixin",

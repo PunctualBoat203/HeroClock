@@ -28,6 +28,9 @@ public final class NativeTakeoverChecks {
         int apply(int number, Object value);
         default int twice(int number) { return apply(number, null) * 2; }
     }
+    public interface DefaultHandler extends IEventHandler {
+        @Override default Object onEvent(EventJS event) { return "java-default"; }
+    }
     private NativeTakeoverChecks() {}
 
     private static <T> T adapt(Context context, Scriptable scope, Class<T> type, ScriptableObject function) {
@@ -102,6 +105,14 @@ public final class NativeTakeoverChecks {
         root.add(null, event -> order.add(2), "last.js", 4);
         root.handle(new EventJS(), null);
         helper.assertTrue(order.equals(List.of(1, 2, 3)), "Dispatch lost listeners appended during the event");
+
+        var beforeCustom = HeroScriptAPI.takeover();
+        var custom = adapt(context, scope, DefaultHandler.class, (ScriptableObject) evaluate(context, scope,
+                "(function(event) { throw new Error('default method bypassed'); })"));
+        helper.assertTrue(custom.onEvent(new EventJS()).equals("java-default"), "Custom interface default changed");
+        new EventHandlerContainer(null, custom, "custom-default.js", 1).handle(new EventJS(), null);
+        helper.assertTrue(HeroScriptAPI.takeover().directListenersCreated() == beforeCustom.directListenersCreated(),
+                "Custom listener interface entered the direct route");
 
         List<Object> wrapping = new ArrayList<>();
         context.setWrapFactory(new WrapFactory() {

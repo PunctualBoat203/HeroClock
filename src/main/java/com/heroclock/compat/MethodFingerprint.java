@@ -24,6 +24,9 @@ public final class MethodFingerprint {
     public static String hash(MethodNode method, Names names) {
         StringBuilder out = new StringBuilder();
         append(out, method.access, method.name, method.desc);
+        if (method.exceptions != null) {
+            for (String exception : method.exceptions) append(out, "throws", exception);
+        }
         Map<LabelNode, Integer> labels = new IdentityHashMap<>();
         int index = 0;
         for (AbstractInsnNode instruction : method.instructions) {

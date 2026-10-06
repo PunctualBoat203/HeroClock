@@ -1,8 +1,8 @@
 # KubeJS and Rhino support
 
-HeroClock 2.2.20 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
+HeroClock 2.2.21 — PunctualBoat. Minecraft 1.20.1 / Forge 47.x.
 
-The opt-in [HeroClock-owned server integration](OWNED_SCRIPTING.md) now provides direct Rhino callbacks, keyed events, scheduling, batches and reload cleanup. Existing KubeJS scripts retain their original registration and execution paths.
+HeroClock now provides [automatic callback takeover and standalone server scripts](AUTOMATIC_TAKEOVER.md), alongside the explicit [owned server integration](OWNED_SCRIPTING.md) for keyed events, scheduling, batches and reload cleanup. Compatible native callbacks use HeroClock adapters without script edits; KubeJS still supplies its legacy registration, loading, recipe, plugin and timer systems.
 
 ## Automatic optimizations
 
@@ -16,7 +16,7 @@ Each optimization is checked separately against audited executable method bodies
 
 The embedded API is an integration surface for mod/addon developers; datapack developers use HeroClock commands for the systems exposed to functions. Automatic optimizations run independently of this API and require no developer calls.
 
-`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.20-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
+`com.heroclock.api.HeroScriptAPI` is callable directly from KubeJS using `Java.loadClass`. Java addons can extract `META-INF/heroclock/HeroClock-2.2.21-api.jar` from the mod as a compile-only dependency. Players install only the full mod. The embedded API is not a Forge nested dependency.
 
 ```javascript
 const HeroScript = Java.loadClass('com.heroclock.api.HeroScriptAPI');
@@ -104,14 +104,22 @@ console.info('Dropped new-label observations: ' + snapshot.dropped());
 
 Overrides that do not call these audited base methods are outside the receiver/member counts. Source labels do not automatically identify an addon namespace. Receiver class names, member names and source labels are retained as strings; receivers, events, functions and script return values are not retained.
 
-Snapshots are immutable and cover all threads/worlds in this process since the last reset. Collection is synchronized and limited to 256 distinct keys, with each label limited to 256 characters. Longer labels merge under their common prefix. Once full, existing keys continue accumulating while observations of new keys increment `dropped`; reset between focused captures. Reset does not cancel an in-flight listener, which can finish recording afterward. Profiling adds overhead when enabled, including a temporary callback adapter per listener; use it for attribution, and disable it for performance comparisons.
+Snapshots are immutable and cover all threads/worlds in this process since the last reset. Collection is synchronized and limited to 256 distinct keys, with each label limited to 256 characters. Longer labels merge under their common prefix. Once full, existing keys continue accumulating while observations of new keys increment `dropped`; reset between focused captures. Reset does not cancel an in-flight listener, which can finish recording afterward. Profiling adds overhead when enabled, including a temporary callback adapter per listener on the fallback profiler; the automatic dispatch route caches its wrapper. Use profiling for attribution and disable it for performance comparisons.
 
-The previous aggregate boundary profiler is independent of this detail profiler. Check `HeroIntegrationAPI.compatibility()` for `RhinoHotspotMixin` and `KubeListenerProfileMixin`: an empty snapshot alone does not prove that no scripts ran.
+The previous aggregate boundary profiler is independent of this detail profiler. Check `HeroIntegrationAPI.compatibility()` for `RhinoHotspotMixin` and the selected listener route: `KubeNativeDispatchMixin` includes cached profiling when active; `KubeListenerProfileMixin` is its separately guarded fallback. An empty snapshot alone does not prove that no scripts ran.
 
 ## 2.2.20: HeroClock-owned scripting integration
 
-HeroClock now owns an explicit server integration around Rhino: namespaced event dispatch, direct callable adapters, bounded scheduling/batches and lifecycle cleanup. `HeroRuntime` is installed only in matching KubeJS server scopes. `HeroScriptRuntime` and `HeroScriptAPI.emit` expose the same systems to Java addons; `/heroclock script emit` exposes registered events to datapack functions. See [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for the supported contract and examples.
+The 2.2.20 checkpoint introduced an explicit server integration around Rhino: namespaced event dispatch, direct callable adapters, bounded scheduling/batches and lifecycle cleanup. `HeroRuntime` was initially installed in matching KubeJS server scopes; 2.2.21 also provides it through the standalone loader. `HeroScriptRuntime` and `HeroScriptAPI.emit` expose the same systems to Java addons; `/heroclock script emit` exposes registered events to datapack functions. See [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for the supported contract and examples.
 
 A full engine replacement is a separate compatibility project. It must preserve JavaScript evaluation, closures, prototypes/accessors, Java overload/coercion behavior, wrapper providers, exceptions, context locking, event order/cancellation, script reloads and client/server lifecycles. Existing scripts need differential tests against the stock engine before migration.
 
-Choose an optimized or stock path before a callback executes. Never catch a callback failure and rerun it through another backend: the first attempt may already have changed the world. Integration adapters remain optional and contract-gated. This step adds no replacement JavaScript engine or automatic migration of existing callbacks. Rhino and KubeJS remain separate dependencies.
+Choose an optimized or stock path before a callback executes. Never catch a callback failure and rerun it through another backend: the first attempt may already have changed the world. Integration adapters remain optional and contract-gated. That checkpoint did not replace the JavaScript engine or migrate existing callbacks. The automatic routing added below retains Rhino as the engine.
+
+## 2.2.21: automatic callback takeover and standalone loading
+
+Matching native Rhino interface callbacks now use a HeroClock invocation handler with cached primary-method metadata. Matching KubeJS listener containers cache a direct adapter at construction, bypassing repeated Proxy/InterfaceAdapter dispatch. Original public handlers, default methods, custom wrapping, callback receivers, live object-member lookup, exception rules and context locking are retained. Detailed listener profiling also caches its wrapper once. No per-callback registration-counter update is added.
+
+HeroClock can now load its own server scripts with Rhino and no KubeJS installed. The standalone loader binds the HeroClock APIs, owned runtime, `Java.loadClass` and a source-labelled console. Per-file ownership handles failed loads, reload and shutdown. The embedded Java API adds loader status/reload, mapped command-executor access and cumulative adapter-registration counts.
+
+See [AUTOMATIC_TAKEOVER.md](AUTOMATIC_TAKEOVER.md) for examples, ownership boundaries and fallback switches. Native KubeJS scheduling and legacy feature APIs still run upstream. This is not a complete KubeJS or Rhino replacement, and target-pack performance gains have not been measured.

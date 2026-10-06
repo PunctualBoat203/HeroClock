@@ -56,8 +56,9 @@ public final class CompatibilityGate {
                     || !allows("RhinoRuntimeWrapping", "dev.latvian.mods.rhino.WrapFactory")))
                 return reject(mixin, "native callback dependencies changed");
             if (mixin.equals("KubeNativeDispatchMixin")
-                    && !allows("RhinoNativeCallbackMixin", "dev.latvian.mods.rhino.VMBridge"))
-                return reject(mixin, "native callback bridge unavailable");
+                    && (!allows("KubeNativeHandler", "dev.latvian.mods.kubejs.event.IEventHandler")
+                    || !allows("RhinoNativeCallbackMixin", "dev.latvian.mods.rhino.VMBridge")))
+                return reject(mixin, "native callback dependencies unavailable");
             if (mixin.equals("KubeListenerProfileMixin")
                     && allows("KubeNativeDispatchMixin", "dev.latvian.mods.kubejs.event.EventHandlerContainer"))
                 return reject(mixin, "profiling provided by automatic dispatch");

@@ -14,6 +14,7 @@ public final class NativeEventDispatch {
     public static IEventHandler prepare(IEventHandler original, String source, int line) {
         IEventHandler direct = original;
         if (original != null && Proxy.isProxyClass(original.getClass())
+                && standardInterface(original.getClass())
                 && Proxy.getInvocationHandler(original) instanceof NativeCallbackHandler callback) {
             direct = event -> {
                 try { return callback.call(original, "onEvent", Object.class, new Object[]{event}); }
@@ -36,5 +37,10 @@ public final class NativeEventDispatch {
                         line + ":" + (event == null ? "<null>" : event.getClass().getName()), 1, System.nanoTime() - start);
             }
         };
+    }
+
+    private static boolean standardInterface(Class<?> proxy) {
+        Class<?>[] interfaces = proxy.getInterfaces();
+        return interfaces.length == 1 && interfaces[0] == IEventHandler.class;
     }
 }

@@ -1,8 +1,8 @@
 # HeroClock
 
-Forge 1.20.1 timing, bounded work, and targeted Palladium compatibility by **PunctualBoat**.
+Forge 1.20.1 timing, bounded work, server scripting and targeted Palladium compatibility by **PunctualBoat**.
 
-## Development build: 2.2.20
+## Development build: 2.2.21
 
 This source tree was originally recovered from the supplied 2.2.10 JAR. The released **HeroClock 2.2.14** JAR has now also been supplied and hash-verified, so it is the release-behavior/regression reference for this branch even though its original source snapshot was not present in Git. See [recovery provenance](docs/RECOVERY.md) and the [development handoff](docs/HANDOFF.md).
 
@@ -13,10 +13,12 @@ python tools/prepare_scripting_test.py
 ./gradlew test build
 ```
 
-The reobfuscated mod is `build/libs/HeroClock-2.2.20.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
+The reobfuscated mod is `build/libs/HeroClock-2.2.21.jar`. CI uploads the built JAR and test reports. Palladium and Curios are optional; each targeted mixin requires an audited code contract, independent of version labels. Palladium, KubeJS, Rhino and Architectury dependency classes/JARs are not redistributed inside HeroClock. The preparation script fetches hash-pinned compile/test dependencies matching the supplied scripting builds.
 
 ## Changes
 
+- Compatible native Rhino callbacks and KubeJS listeners now use HeroClock execution adapters automatically, retaining original registration, ordering, wrapping and error behavior. Code changes disable the affected route before execution. See [automatic takeover](docs/AUTOMATIC_TAKEOVER.md).
+- HeroClock loads `config/heroclock/server_scripts` with Rhino alone. The standalone loader supplies the developer APIs, `Java.loadClass`, console logging and reload cleanup; datapacks can call registered events. KubeJS remains responsible for its legacy scripts, recipes, plugins, bindings and timers.
 - Opt-in HeroClock-owned server scripting adds direct Rhino callbacks, keyed events, coalesced scheduling, bounded batches and automatic reload cleanup. The embedded API supports Java addons; datapacks can emit registered events. Existing KubeJS callbacks and timers keep their behavior. See [owned scripting](docs/OWNED_SCRIPTING.md).
 - Direct mapped Minecraft timer access replaces reflective lookups that could silently report time zero in production. Deadlines retain the `HeroClockTimers` NBT layout, use the server overworld's saved game time across dimensions, and saturate on overflow. Player clones copy timers; block-entity writes mark storage dirty.
 - `HeroWorkAPI` supports cancellable, keyed, coalesced work beyond timers. Jobs execute on the server thread with a 4,096-entry capacity, 128-step limit, and 1 ms admission budget per tick. A running callback cannot be preempted; callers must keep each step small.
@@ -32,6 +34,6 @@ See [API and behavior](docs/API.md), [validation](docs/VALIDATION.md), and [hand
 
 HeroClock checks each targeted method body and required field contract before enabling its optional patch, and checks Satsu's effective tick function after reloads. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
 
-A separate `HeroClock-2.2.20-api.jar` exposes supported timer, bounded-work, deferred-function, scripting and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work`, `/heroclock script emit` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
+A separate `HeroClock-2.2.21-api.jar` exposes supported timer, bounded-work, deferred-function, scripting and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work`, `/heroclock script emit`, `/heroclock script reload/status` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
 
 KubeJS/Rhino support and the embedded scripting API are described in [docs/SCRIPTING.md](docs/SCRIPTING.md).

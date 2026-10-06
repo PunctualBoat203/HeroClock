@@ -142,7 +142,7 @@ Neither is a top-level Astra target right now. Pehkui already has its own scale-
 
 Only revisit these when profiling shows a superhero-specific repeated-call pattern that existing caches do not handle.
 
-## Current 2.2.17 scripting work
+## 2.2.17 scripting foundation
 
 HeroClock 2.2.17 already contains narrowly guarded KubeJS/Rhino work:
 
@@ -158,7 +158,9 @@ See `docs/SCRIPTING.md` for the current implementation contract and limitations.
 
 ## Measurement plan
 
-The 2.2.20 step-one implementation now provides an opt-in HeroClock-owned integration around Rhino: direct callback adapters, namespaced events, bounded work and reload cleanup, exposed through the embedded developer API and datapack event commands. It retains the 2.2.18 allocation fixes and 2.2.19 attribution hooks. See [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md). This is a foundation for migrating measured addon work explicitly; it does not replace Rhino or automatically move existing KubeJS callbacks. The target-pack comparison below remains outstanding.
+The 2.2.20 step-one implementation introduced an opt-in HeroClock-owned integration around Rhino: direct callback adapters, namespaced events, bounded work and reload cleanup, exposed through the embedded developer API and datapack event commands. It retains the 2.2.18 allocation fixes and 2.2.19 attribution hooks. See [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md). This is a foundation for migrating measured addon work explicitly; it did not replace Rhino or automatically move existing KubeJS callbacks.
+
+The 2.2.21 checkpoint adds automatic native callback routing and direct KubeJS listener adapters, plus a HeroClock-owned loader that works with Rhino alone. It removes repeated callback method classification and Proxy/InterfaceAdapter dispatch from matching listener paths while retaining native wrapping, synchronization, live property lookup and exception behavior. These changes address boundary work identified above; they do not remove downstream gameplay cost or implement the remaining KubeJS feature stack. See [AUTOMATIC_TAKEOVER.md](AUTOMATIC_TAKEOVER.md). The target-pack comparison below remains outstanding.
 
 Use the 2.2.16 release artifact as the clean pre-universal-KubeJS/Rhino baseline and compare one isolated Astra optimization at a time.
 

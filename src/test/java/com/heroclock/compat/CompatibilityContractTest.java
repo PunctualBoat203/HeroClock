@@ -41,6 +41,17 @@ class CompatibilityContractTest {
         assertEquals("method body changed: read", expected.mismatch(node, MethodFingerprint.IDENTITY));
     }
 
+    @Test void exceptionDeclarationsRemainPartOfProxyContracts() {
+        ClassNode node = target();
+        node.methods.get(0).exceptions.add("java/io/IOException");
+        var expected = contract(node);
+        assertNull(expected.mismatch(node, MethodFingerprint.IDENTITY));
+        node.methods.get(0).exceptions.set(0, "java/lang/Exception");
+        assertEquals("method body changed: read", expected.mismatch(node, MethodFingerprint.IDENTITY));
+        node.methods.get(0).exceptions.clear();
+        assertEquals("method body changed: read", expected.mismatch(node, MethodFingerprint.IDENTITY));
+    }
+
     @Test void missingMethodsAndChangedFieldsAreRejected() {
         ClassNode node = target();
         var expected = contract(node);

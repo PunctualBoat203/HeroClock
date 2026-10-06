@@ -63,6 +63,7 @@ public final class GenerateContracts {
             contract(args[3], "RhinoNativeCallbackMixin", "rhino", "dev.latvian.mods.rhino.VMBridge", Set.of(), Set.of("newInterfaceProxy", "lambda$newInterfaceProxy$0", "getInterfaceProxyHelper")),
             contract(args[3], "RhinoNativeInterface", "rhino", "dev.latvian.mods.rhino.InterfaceAdapter", Set.of("proxyHelper"), Set.of("create", "invoke")),
             contract(args[2], "KubeNativeDispatchMixin", "kubejs", "dev.latvian.mods.kubejs.event.EventHandlerContainer", Set.of("handler", "source", "line", "child"), Set.of("<init>", "handle")),
+            contract(args[2], "KubeNativeHandler", "kubejs", "dev.latvian.mods.kubejs.event.IEventHandler", Set.of(), Set.of("*")),
             contract(args[2], "KubeRuntimeMixin", "kubejs", "dev.latvian.mods.kubejs.script.ScriptManager", Set.of("scriptType", "context", "topLevelScope", "javaClassCache"), Set.of("load", "unload")),
             contract(args[3], "RhinoRuntimeContext", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("callSync", "getWrapFactory", "addToScope")),
             contract(args[3], "RhinoStandaloneContext", "rhino", "dev.latvian.mods.rhino.Context", Set.of("lock"), Set.of("enter", "initStandardObjects", "newObject", "evaluateString", "callSync", "getWrapFactory", "addToScope")),
