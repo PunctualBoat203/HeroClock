@@ -1,28 +1,31 @@
 package com.heroclock.scripting;
 
 import com.heroclock.api.HeroScriptRuntime;
+import com.heroclock.runtime.ScriptRuntimes;
 import dev.latvian.mods.rhino.Callable;
 import dev.latvian.mods.rhino.Context;
 import dev.latvian.mods.rhino.Scriptable;
 import java.util.Iterator;
+import java.util.function.BooleanSupplier;
 
 public final class RhinoRuntimeBinding {
     private final Context context;
     private final Scriptable scope;
-    private final HeroScriptRuntime runtime;
+    private final ScriptRuntimes.Session runtime;
 
-    RhinoRuntimeBinding(Context context, Scriptable scope, HeroScriptRuntime runtime) {
+    RhinoRuntimeBinding(Context context, Scriptable scope, ScriptRuntimes.Session runtime) {
         this.context = context; this.scope = scope; this.runtime = runtime;
     }
 
     private HeroScriptRuntime.Callback callback(Object function) {
-        return adapt(context, scope, function);
+        return adapt(context, scope, function, runtime::isActive);
     }
 
-    static HeroScriptRuntime.Callback adapt(Context context, Scriptable scope, Object function) {
+    static HeroScriptRuntime.Callback adapt(Context context, Scriptable scope, Object function, BooleanSupplier active) {
         if (!(function instanceof Callable callable)) throw new IllegalArgumentException("Expected a JavaScript function");
         return arguments -> {
             synchronized (context.lock) {
+                if (!active.getAsBoolean()) return;
                 var wrappers = context.getWrapFactory();
                 for (int i = 0; i < arguments.length; i++) {
                     Object value = arguments[i];

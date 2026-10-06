@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import net.minecraft.server.MinecraftServer;
 
 public final class ScriptRuntimes {
+    private static final String TICK_EVENT = "heroclock:server_tick";
     private static final Object JAVA_OWNER = new Object();
     private static final Map<MinecraftServer, ServerState> SERVERS = new IdentityHashMap<>();
     private record SetupKey(Object owner, String namespace) {}
@@ -28,8 +29,8 @@ public final class ScriptRuntimes {
     private ScriptRuntimes() {}
 
     public static synchronized boolean prepare(Object owner, String namespace, Consumer<MinecraftServer> action) {
-        ScriptListeners.name(namespace);
-        SetupKey key = new SetupKey(owner, namespace);
+        namespace(namespace); Objects.requireNonNull(action, "action");
+        SetupKey key = new SetupKey(Objects.requireNonNull(owner, "owner"), namespace);
         if (SETUPS.size() == 128 && !SETUPS.containsKey(key)) return false;
         SETUPS.put(key, action);
         return true;
@@ -47,8 +48,8 @@ public final class ScriptRuntimes {
     }
 
     public static Session open(MinecraftServer server, String namespace, Object owner, Runnable closed) {
-        thread(server); ScriptListeners.name(namespace);
-        if (namespace.indexOf(':') >= 0 || namespace.indexOf('/') >= 0) throw new IllegalArgumentException("Use an addon namespace");
+        thread(server); namespace(namespace);
+        Objects.requireNonNull(owner, "owner"); Objects.requireNonNull(closed, "closed");
         ServerState state = SERVERS.computeIfAbsent(server, ignored -> new ServerState());
         Session existing = state.sessions.get(namespace);
         if (existing != null) {
@@ -77,8 +78,8 @@ public final class ScriptRuntimes {
         ServerState state = SERVERS.get(server);
         if (state == null) return;
         for (Session session : state.snapshot) {
-            if (!session.active.get()) continue;
-            try { session.emit("heroclock:server_tick", server); }
+            if (!session.active.get() || !session.listeners.has(TICK_EVENT)) continue;
+            try { session.emit(TICK_EVENT, server); }
             catch (RuntimeException failure) { HeroClock.LOGGER.error("HeroClock script tick failed in {}", session.namespace, failure); }
         }
     }
@@ -94,6 +95,11 @@ public final class ScriptRuntimes {
     private static void thread(MinecraftServer server) {
         Objects.requireNonNull(server, "server");
         if (!server.isSameThread()) throw new IllegalStateException("Use HeroClock script runtimes on the server thread");
+    }
+
+    private static void namespace(String namespace) {
+        ScriptListeners.name(namespace);
+        if (namespace.indexOf(':') >= 0 || namespace.indexOf('/') >= 0) throw new IllegalArgumentException("Use an addon namespace");
     }
 
     public static final class Session implements HeroScriptRuntime {

@@ -23,9 +23,12 @@ public final class RhinoRuntimeScope {
 
     public synchronized boolean onServer(String namespace, Object function) {
         if (!active) throw new IllegalStateException("HeroClock script scope has been unloaded");
-        var callback = RhinoRuntimeBinding.adapt(context, scope, function);
+        var callback = RhinoRuntimeBinding.adapt(context, scope, function, () -> active);
         return ScriptRuntimes.prepare(this, namespace, server -> {
-            if (active) callback.call(new Object[]{forServer(server, namespace), server});
+            if (!active) return;
+            var binding = forServer(server, namespace);
+            try { callback.call(new Object[]{binding, server}); }
+            catch (RuntimeException | Error failure) { binding.close(); throw failure; }
         });
     }
 

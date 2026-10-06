@@ -58,6 +58,7 @@ public final class ScriptListeners {
         } finally { depth--; }
     }
 
+    public boolean has(String event) { return channels.containsKey(event); }
     public int size() { return size; }
     public void clear() {
         for (Channel channel : channels.values()) channel.keyed.clear();
