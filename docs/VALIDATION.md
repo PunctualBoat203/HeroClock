@@ -1,8 +1,8 @@
 # Validation
 
-Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
+Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement. Owned listener tests additionally cover registration/removal during dispatch, argument isolation, listener bounds and recursion limits.
 
-A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit twelve-test completion message because Forge can return exit code zero after a startup failure.
+A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit fourteen-test completion message because Forge can return exit code zero after a startup failure.
 
 CI runs seven environments:
 
@@ -12,6 +12,8 @@ CI runs seven environments:
 - Palladium with the private PowerHandler backing field renamed throughout its class; that optimization must stay disabled while other matching patches still work and the server completes its tests.
 
 Three additional scripting environments exercise the exact supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels and deliberately incompatible scripting targets. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. Rhino wrapper checks also cover all three cache-allocation constructor paths, live field reads, independent receivers/caches, zero/one-argument overloads, single-method storage, concurrent first-use publication and mutable scopes/prototypes. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
+
+Owned-runtime checks also cover Java registration without scripting mods, datapack command-source forwarding, direct Rhino arguments/this, tick events, coalesced jobs, batch cancellation, setup failure cleanup and unload/reload. A separate lock-wait regression verifies that an invalidated scope cannot start a waiting JavaScript callback. Checks requiring an optional mod skip in environments without that mod.
 
 Test classes, structures and modified dependency fixtures are excluded from the production artifacts. Palladium's nested libraries are extracted only for separate ForgeGradle development remapping. CI also checks that the compile-only API JAR contains only public facades/value records, while the runtime contains the implementation, contracts and refmap.
 

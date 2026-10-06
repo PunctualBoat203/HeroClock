@@ -1,29 +1,31 @@
 # HeroClock scripting development handoff
 
-Author: PunctualBoat. Development version: **2.2.19** on `improve-clock-runtime`.
+Author: PunctualBoat. Development version: **2.2.20** on `improve-clock-runtime`.
 
-This pass starts from the pushed 2.2.16 embedded-API baseline (`20a3411`, with runtime packaging introduced in `bd8a777`). The previous release artifact and real-pack findings remain in [the archived handoff](archive/2.2.16-HANDOFF.md). This pass changes only KubeJS/Rhino integration and its shared compatibility/API/test infrastructure.
+## Current checkpoint
 
-## Implemented
+Step one of the HeroClock-owned scripting integration is implemented. HeroClock owns namespaced event dispatch, direct Rhino callback adapters, scheduling/batches and lifecycle cleanup. Rhino remains the JavaScript engine; KubeJS remains the script loader. Existing native KubeJS callbacks and timers are not migrated.
 
-- Individually guarded KubeJS listener append and Rhino map-enumeration optimizations.
-- Optional, guarded measurements around Rhino calls and KubeJS handler chains; disabled by default, with original locking and exception propagation retained.
-- Embedded `HeroScriptAPI` for bounded iterator batches, namespace cancellation and immutable profiling snapshots. The API remains byte-identical to the standalone compile-only artifact and inert inside the runtime JAR.
-- Hash-pinned scripting fixtures from the exact supplied KubeJS/Rhino artifacts, including relabeled and incompatible-code variants.
+- Matching KubeJS server scopes receive `HeroRuntime.onServer/forServer`. Direct callbacks use the original context lock, wrap factory and top-level scope without Java functional-interface proxies.
+- Listener snapshots rebuild only on registration changes. Namespaces without a tick listener skip tick dispatch. Registrations and shared queued work have explicit capacity limits.
+- Load/unload closes old runtimes, cancels pending setup/work and releases listeners. Failed setup closes its partial namespace without replaying callbacks. A callback waiting on Rhino's lock rechecks validity before entering JavaScript; already executing code is not preempted.
+- The embedded `HeroScriptRuntime` and `HeroScriptAPI.openRuntime/emit` APIs expose owned systems to mod developers without Rhino/KubeJS types. Java registration also works without those mods installed. Datapack functions can emit registered events with `/heroclock script emit` and retain their command source.
+- The binding requires matching ScriptManager and Rhino context/wrapping contracts. Unchanged code with different version metadata remains enabled; incompatible code omits the adapter and retains native execution. The Java API remains available.
 
-Read [SCRIPTING.md](SCRIPTING.md) for behavior, profile evidence and limitations. The latest Astra performance priorities and safety gates are tracked in [ASTRA_OPTIMIZATION_TARGETS.md](ASTRA_OPTIMIZATION_TARGETS.md). The supplied Spark capture identifies wrapping, interpreter and callback work; it does not establish an improvement from this development build. Arbitrary callback suppression, global wrapper reuse and native-scheduler replacement remain inappropriate without preserving their observable semantics.
+Read [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for examples, limits, ordering, exception behavior, ownership and fallback. The embedded API is a supported developer surface, not a copy-protection mechanism. It remains an inert resource, byte-identical to the standalone compile-only artifact, and excludes implementation classes.
 
-## Validation
+## Validation and prior work
 
-CI builds the runtime and embedded API, then tests base Forge, existing Palladium/Curios cases, the supplied scripting stack, unchanged scripting code with altered version labels and intentionally incompatible scripting targets. Scripting checks cover listener order, descendant appends, clearing/re-registration, map enumeration, nested calls, original exceptions/locking, API access from Rhino and bounded batches. Confirm the final CI result before using an artifact.
+The initial 2.2.20 checkpoint at `97a55d40` passed CI run `36291086554`: build/unit/API checks and fourteen runtime tests in each of seven environments. The subsequent cleanup checkpoint closes partial failed setups, rejects invalid setup namespaces immediately and prevents unloaded callbacks waiting for the context lock. See [VALIDATION.md](VALIDATION.md) for its final CI evidence and downloadable artifacts.
 
-Keep the 2.2.16 baseline for a matched real-pack comparison. Client gameplay, reload behavior in actual addon scripts and TPS/FPS improvement require a representative pack run; the repository tests do not replace that evidence.
+The matrix covers base Forge, supplied Palladium/Curios, relabeled and incompatible Palladium, and supplied/relabeled/incompatible KubeJS/Rhino. Owned-runtime checks cover event order, argument isolation, capacity/recursion limits, coalesced/cancelled jobs, datapack source forwarding, direct Rhino calls, server tick events and unload/reload. Cleanup regression checks cover failed setup, pending setup cancellation and invalidation while waiting for the Rhino lock. Optional-mod checks skip where their dependencies are absent.
 
-The supplied 2026-09-24 capture has now been cross-referenced at [SCRIPTING_PROFILE_2026-09-24.md](SCRIPTING_PROFILE_2026-09-24.md). It prioritizes wrapper/member initialization and source-attributed callbacks for the requested scripting-first pass, with RAM tuning outside scope.
+The 2.2.18 lazy overload-cache allocation and member-map sizing fixes remain active behind their independent guards. The 2.2.19 bounded hotspot attribution remains startup-opt-in and retains labels/counters rather than world objects. Those checkpoints and their CI evidence are retained in [SCRIPTING.md](SCRIPTING.md) and [VALIDATION.md](VALIDATION.md). Earlier release/real-pack findings remain in [the archived handoff](archive/2.2.16-HANDOFF.md).
 
-The 2.2.18 follow-up defers unused Rhino overload caches and pre-sizes receiver-bound member maps. It preserves per-receiver wrappers and stock resolution, with independent guards and stricter full-method-set checks for the private-cache transformation. See the 2.2.18 section of [SCRIPTING.md](SCRIPTING.md).
+## Next performance work
 
-The completed 2.2.18 candidate passed CI run `35982475439` at `bcb3b713` across all seven environments. See [VALIDATION.md](VALIDATION.md) for evidence and artifacts. Subsequent checkpoint documentation does not change the tested runtime.
+Use [the supplied Spark analysis](SCRIPTING_PROFILE_2026-09-24.md) and [Astra priorities](ASTRA_OPTIMIZATION_TARGETS.md) to select a concrete addon workload. Obtain a source-attributed capture, move that workload explicitly onto the owned integration, then compare matched gameplay against the 2.2.16 baseline and stock behavior. No target-pack TPS/FPS gain is established by this checkpoint.
 
+Preserve Java coercion/wrappers, mutable state, event order, errors, reload and client/server boundaries. Do not add global receiver/property caches, automatic native scheduler migration, blanket throttling or callback failure retries. The 1 ms budget limits admission of additional queued steps; it cannot bound arbitrary callbacks. Client scripting and an independent JavaScript engine remain outside this step.
 
-The 2.2.19 follow-up adds bounded, startup-opt-in receiver/member and KubeJS listener attribution through the embedded API. Normal startup omits these detail hooks; the existing 2.2.18 optimizations remain the performance baseline. See SCRIPTING.md for capture instructions and the HeroClock-owned integration direction. This pass does not introduce a replacement engine or claim a new speedup. CI run `36290064908` passed at `62727337`: build/unit/API checks and twelve runtime tests in each of seven environments. Target-pack profiling remains required before selecting a broader replacement.
+Continue committing and pushing checkpoints to `improve-clock-runtime`. Keep the draft PR unmerged until the target-pack gameplay/reload and matched performance comparison have been reviewed.

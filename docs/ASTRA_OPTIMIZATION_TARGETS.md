@@ -158,6 +158,8 @@ See `docs/SCRIPTING.md` for the current implementation contract and limitations.
 
 ## Measurement plan
 
+The 2.2.20 step-one implementation now provides an opt-in HeroClock-owned integration around Rhino: direct callback adapters, namespaced events, bounded work and reload cleanup, exposed through the embedded developer API and datapack event commands. It retains the 2.2.18 allocation fixes and 2.2.19 attribution hooks. See [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md). This is a foundation for migrating measured addon work explicitly; it does not replace Rhino or automatically move existing KubeJS callbacks. The target-pack comparison below remains outstanding.
+
 Use the 2.2.16 release artifact as the clean pre-universal-KubeJS/Rhino baseline and compare one isolated Astra optimization at a time.
 
 For each candidate:
