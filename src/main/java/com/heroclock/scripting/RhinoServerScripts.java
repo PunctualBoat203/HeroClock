@@ -9,6 +9,8 @@ import com.heroclock.api.HeroWorkAPI;
 import com.heroclock.runtime.ServerScripts;
 import dev.latvian.mods.rhino.Context;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -49,13 +51,14 @@ public final class RhinoServerScripts implements ServerScripts.Engine {
         for (Path file : files) {
             RhinoRuntimeScope binding = null;
             try {
-                if (Files.size(file) > 1_048_576) throw new IOException("Standalone script exceeds 1 MiB");
-                String source = Files.readString(file);
+                String source = read(file);
+                String name = "heroclock/" + directory.relativize(file).toString().replace('\\', '/');
                 var scope = context.newObject(root);
                 scope.setParentScope(root);
                 binding = new RhinoRuntimeScope(context, scope);
                 context.addToScope(scope, "HeroRuntime", binding);
-                context.evaluateString(scope, source, "heroclock/" + directory.relativize(file).toString().replace('\\', '/'), 1, null);
+                context.addToScope(scope, "console", new ScriptConsole(name));
+                context.evaluateString(scope, source, name, 1, null);
                 scopes.add(binding);
                 loaded++;
             } catch (IOException | RuntimeException failure) {
@@ -68,6 +71,14 @@ public final class RhinoServerScripts implements ServerScripts.Engine {
             }
         }
         return new HeroScriptAPI.ScriptLoadStatus("rhino", loaded, failed);
+    }
+
+    private static String read(Path file) throws IOException {
+        try (var input = Files.newInputStream(file)) {
+            byte[] bytes = input.readNBytes(1_048_577);
+            if (bytes.length > 1_048_576) throw new IOException("Standalone script exceeds 1 MiB");
+            return StandardCharsets.UTF_8.newDecoder().decode(ByteBuffer.wrap(bytes)).toString();
+        }
     }
 
     @Override public void close() {

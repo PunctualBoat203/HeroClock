@@ -1,11 +1,14 @@
 package com.heroclock.gametest;
 
 import com.heroclock.api.HeroScriptAPI;
+import com.heroclock.api.HeroClockAPI;
 import com.heroclock.runtime.ServerScripts;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.fml.ModList;
 
 public final class StandaloneScriptChecks {
@@ -25,9 +28,14 @@ public final class StandaloneScriptChecks {
                 var total = 0;
                 var runtime = HeroRuntime.forServer(server, 'standalone_test');
                 runtime.on('test:add', 'add', value => { total += Number(value); });
-                runtime.on('test:verify', 'verify', () => { if (total !== 7) throw new Error('wrong total'); });
+                runtime.on('test:verify', 'verify', () => { if (total !== 8) throw new Error('wrong total'); });
+                runtime.on('test:command', 'command', source => HeroClock.set(HeroScript.executor(source), 'test:standalone', 20));
                 runtime.schedule('initial', 0, () => { total += 3; });
                 runtime.schedule('stale', 100, () => { throw new Error('old file ran'); });
+                var values = new java.util.ArrayList();
+                values.add(1);
+                HeroScript.batch(server, 'standalone_batch', 'sum', values.iterator(), 1, value => { total += Number(value); });
+                console.info('Standalone script loaded');
                 """);
         Files.writeString(broken, """
                 var runtime = HeroRuntime.forServer(server, 'standalone_broken');
@@ -39,11 +47,16 @@ public final class StandaloneScriptChecks {
         helper.assertTrue(status.engine().equals("rhino") && status.loaded() == 1 && status.failed() == 1,
                 "Standalone load did not isolate the failed file");
         helper.runAfterDelay(5, () -> {
+            var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(1, 2, 1));
             try {
                 helper.assertTrue(HeroScriptAPI.emit(server, "standalone_broken", "test:leak") == 0
                         && HeroScriptAPI.emit(server, "standalone_abandoned", "test:leak") == 0, "Failed file retained callbacks or setup");
                 helper.assertTrue(HeroScriptAPI.emit(server, "standalone_test", "test:add", 4) == 1, "Standalone event missing");
                 helper.assertTrue(HeroScriptAPI.emit(server, "standalone_test", "test:verify") == 1, "Standalone scheduled callback failed");
+                int result = server.getCommands().performPrefixedCommand(entity.createCommandSourceStack().withPermission(2),
+                        "heroclock script emit standalone_test test:command");
+                helper.assertTrue(result == 1 && HeroClockAPI.remaining(entity, "test:standalone") == 20,
+                        "Standalone datapack hook did not update gameplay state");
                 Files.delete(broken);
                 Files.writeString(script, """
                         var runtime = HeroRuntime.forServer(server, 'standalone_test');
@@ -57,6 +70,7 @@ public final class StandaloneScriptChecks {
                 helper.succeed();
             } catch (Exception failure) { throw new AssertionError(failure); }
             finally {
+                entity.discard();
                 ServerScripts.close(server);
                 try (var paths = Files.walk(directory)) {
                     for (Path path : paths.sorted(Comparator.reverseOrder()).toList()) Files.deleteIfExists(path);

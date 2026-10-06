@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.world.entity.Entity;
 
 public final class HeroScriptAPI {
     public record TakeoverStats(long nativeProxiesCreated, long directListenersCreated) {}
@@ -23,6 +25,7 @@ public final class HeroScriptAPI {
     public static TakeoverStats takeover() { return ScriptTakeover.snapshot(); }
     public static ScriptLoadStatus reloadServerScripts(MinecraftServer server) { return ServerScripts.reload(server); }
     public static ScriptLoadStatus serverScripts(MinecraftServer server) { return ServerScripts.status(server); }
+    public static Entity executor(CommandSourceStack source) { return source.getEntity(); }
 
     public static HeroScriptRuntime openRuntime(MinecraftServer server, String namespace) { return ScriptRuntimes.open(server, namespace); }
     public static int emit(MinecraftServer server, String namespace, String event, Object... arguments) {
