@@ -16,7 +16,7 @@ Read [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for examples, limits, ordering, ex
 
 ## Validation and prior work
 
-The initial 2.2.20 checkpoint at `97a55d40` passed CI run `36291086554`: build/unit/API checks and fourteen runtime tests in each of seven environments. The subsequent cleanup checkpoint closes partial failed setups, rejects invalid setup namespaces immediately and prevents unloaded callbacks waiting for the context lock. See [VALIDATION.md](VALIDATION.md) for its final CI evidence and downloadable artifacts.
+The initial 2.2.20 checkpoint at `97a55d40` passed CI run `36291086554`. The final cleanup checkpoint at `147e26c37` passed CI run `37526895955` on 2026-10-06: build/unit/API checks and fourteen runtime tests in each of seven environments. It closes partial failed setups, rejects invalid setup namespaces immediately and prevents unloaded callbacks waiting for the context lock. Subsequent commits are documentation-only. See [VALIDATION.md](VALIDATION.md) for evidence and downloadable artifacts.
 
 The matrix covers base Forge, supplied Palladium/Curios, relabeled and incompatible Palladium, and supplied/relabeled/incompatible KubeJS/Rhino. Owned-runtime checks cover event order, argument isolation, capacity/recursion limits, coalesced/cancelled jobs, datapack source forwarding, direct Rhino calls, server tick events and unload/reload. Cleanup regression checks cover failed setup, pending setup cancellation and invalidation while waiting for the Rhino lock. Optional-mod checks skip where their dependencies are absent.
 

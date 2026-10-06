@@ -55,3 +55,13 @@ An earlier candidate failed its constructor injection count; explicit audited co
 [CI run 36290064908](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908) passed at `62727337bc14065667587afe41ff7b0f500f7ff9`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Detail hooks enabled on matching and relabeled scripting code, rejected the incompatible fixtures, and were omitted without the startup switch.
 
 Tests cover receiver/collision counts, property labels, listener source attribution, original handled exceptions and event exits, disabled collection, immutable snapshots, bounded label cardinality/length and concurrent updates. [Runtime and API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908/artifacts/10921954054). This is a diagnostic checkpoint retaining the 2.2.18 optimizations, not evidence of additional performance gains.
+
+## 2.2.20 owned-runtime checkpoint
+
+[CI run 37526895955](https://github.com/PunctualBoat203/HeroClock/actions/runs/37526895955) passed on 2026-10-06 at `147e26c37ab59a193485cbfab224b3b73485e107`: build/unit checks, byte-identical standalone/embedded API verification and all fourteen required GameTests in each of seven environments. Subsequent commits update documentation only.
+
+The owned Rhino binding enabled with supplied and relabeled scripting code. Its incompatible ScriptManager fixture rejected the binding and retained native KubeJS behavior. The Java runtime also passed without KubeJS/Rhino installed. Tests exercised setup failure cleanup without retries, immediate namespace validation, cancelled pending setup, callbacks invalidated while waiting for the context lock, unload/reload, direct callback arguments/this, tick events, coalesced scheduling and cancelled batches. Optional-mod tests skip when their dependencies are absent.
+
+[Download the 2.2.20 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37526895955/artifacts/11443945071). Install only `HeroClock-2.2.20.jar` as a mod; the API JAR is compile-only and is also embedded as an inert resource. Artifact ZIP SHA-256: `8ebb63da780674545f90fd3f97e2a50c909f2045359752d1b5863d4849479b8d`.
+
+This validates the integration and conservative fallback in the test fixtures. It does not establish target-pack TPS/FPS gains or compatibility with every custom loader/plugin. Use [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for developer integration and the target-pack checks above before release.
