@@ -24,47 +24,47 @@ jobs:
         run: |
           set -o pipefail
           timeout --signal=QUIT --kill-after=15s 300s gradle --no-daemon -PwithScripting runGameTestServer | tee gametest-scripting.log
-          grep -F 'All 13 required tests passed' gametest-scripting.log
+          grep -F 'All 14 required tests passed' gametest-scripting.log
       - name: Test unchanged scripting code with different versions
         run: |
           set -o pipefail
           gradle --no-daemon -PwithScripting -PrelabeledScripts runGameTestServer | tee gametest-scripting-version.log
-          grep -F 'All 13 required tests passed' gametest-scripting-version.log
+          grep -F 'All 14 required tests passed' gametest-scripting-version.log
       - name: Test changed scripting targets retain stock behavior
         run: |
           set -o pipefail
           gradle --no-daemon -PwithScripting -PchangedScripts runGameTestServer | tee gametest-scripting-fallback.log
-          grep -F 'All 13 required tests passed' gametest-scripting-fallback.log
+          grep -F 'All 14 required tests passed' gametest-scripting-fallback.log
       - name: Test Forge runtime
         run: |
           set -o pipefail
           gradle --no-daemon runGameTestServer | tee gametest-base.log
-          grep -F 'All 13 required tests passed' gametest-base.log
+          grep -F 'All 14 required tests passed' gametest-base.log
       - name: Prepare audited Palladium test dependencies
         run: python tools/prepare_palladium_test.py
       - name: Test Palladium with Architectury
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PwithArchitectury -PwithCurios runGameTestServer | tee gametest-palladium.log
-          grep -F 'All 13 required tests passed' gametest-palladium.log
+          grep -F 'All 14 required tests passed' gametest-palladium.log
       - name: Test unchanged code with a different version label
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PwithArchitectury -PalternateVersion runGameTestServer | tee gametest-new-version.log
-          grep -F 'All 13 required tests passed' gametest-new-version.log
+          grep -F 'All 14 required tests passed' gametest-new-version.log
       - name: Test incompatible target falls back without crashing
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium -PwithArchitectury -PchangedTarget runGameTestServer | tee gametest-changed-target.log
-          grep -F 'All 13 required tests passed' gametest-changed-target.log
+          grep -F 'All 14 required tests passed' gametest-changed-target.log
       - name: Test Palladium without Architectury
         run: |
           set -o pipefail
           gradle --no-daemon -PwithPalladium runGameTestServer | tee gametest-palladium-no-architectury.log
-          grep -F 'All 13 required tests passed' gametest-palladium-no-architectury.log
+          grep -F 'All 14 required tests passed' gametest-palladium-no-architectury.log
       - uses: actions/upload-artifact@v4
         with:
-          name: HeroClock-2.2.24
+          name: HeroClock-2.2.25
           path: build/libs/*.jar
       - uses: actions/upload-artifact@v4
         if: always()

@@ -20,7 +20,7 @@ final class VersionGuard {
             Map.entry("rhino", "2001.2.3-build.10"),
             Map.entry("curios", "5.14.1+1.20.1"),
             Map.entry("pehkui", "3.8.2+1.20.1-forge"),
-            Map.entry("omnioptimizer", "1.8.0"));
+            Map.entry("omnioptimizer", "1.8.2"));
 
     private VersionGuard() {}
 
