@@ -26,7 +26,7 @@ See [INTEGRATION.md](INTEGRATION.md), [SCRIPTING.md](SCRIPTING.md) and [COMPATIB
 
 The retained runtime is based on the pre-replacement 2.2.19 checkpoint, plus declared-exception fingerprinting. CI again requires twelve GameTests in seven environments: base Forge, supplied Palladium/Curios, relabeled Palladium, changed Palladium, supplied scripting, relabeled scripting and changed scripting targets. Packaging checks also reject the removed runtime/API/mixin classes.
 
-The 2.2.22 removal checkpoint is awaiting its full build/runtime matrix. Update [VALIDATION.md](VALIDATION.md) with the resulting commit and artifact before describing this candidate as validated. The prior 2.2.18/2.2.19 evidence and target-pack checks remain recorded there. Target-pack TPS/FPS gains have not been measured.
+The 2.2.22 removal checkpoint passed [CI run 37563048110](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110) at `629507e1da658a480bac2d4184cad9904d4c2979`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Optional-mod tests skip where dependencies are absent. [Runtime and developer API download](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110/artifacts/11458136177). Subsequent checkpoint changes are documentation-only. See [VALIDATION.md](VALIDATION.md) for artifact details and target-pack checks. Target-pack TPS/FPS gains have not been measured.
 
 ## Next work
 

@@ -53,3 +53,13 @@ An earlier candidate failed its constructor injection count; explicit audited co
 [CI run 36290064908](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908) passed at `62727337bc14065667587afe41ff7b0f500f7ff9`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Detail hooks enabled on matching and relabeled scripting code, rejected the incompatible fixtures, and were omitted without the startup switch.
 
 Tests cover receiver/collision counts, property labels, listener source attribution, original handled exceptions and event exits, disabled collection, immutable snapshots, bounded label cardinality/length and concurrent updates. [Runtime and API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908/artifacts/10921954054). This is a diagnostic checkpoint retaining the 2.2.18 optimizations, not evidence of additional performance gains.
+
+## 2.2.22: HeroClock/Mantis split
+
+[CI run 37563048110](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110) passed at `629507e1da658a480bac2d4184cad9904d4c2979`: build/unit checks, byte-identical standalone/embedded API verification and all twelve required GameTests in each of seven environments. Optional-mod checks skip when their dependencies are absent. Subsequent checkpoint changes are documentation-only.
+
+The custom owned runtime, standalone loader, automatic callback takeover and associated APIs/commands are removed. Packaging checks reject the removed scripting implementation, runtime, mixin and public runtime API classes. The retained clock/work/optimization implementation matches the pre-replacement 2.2.19 baseline, with the later declared-exception fingerprint fix and regenerated contracts. Supplied/relabeled scripting and Palladium targets remain supported; changed targets retain stock behavior, and base Forge works without optional mods.
+
+[Download the 2.2.22 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110/artifacts/11458136177). Install only `HeroClock-2.2.22.jar` as a mod; the API JAR is compile-only and also embedded as an inert resource. Artifact ZIP SHA-256: `29d26a9cd7fb5630fe6e54420ad4e432d820ca0c9e26ee88e4acb38b6173c72b`.
+
+Mantis is a separate scripting replacement project, not part of this build. Existing experimental standalone script files are left untouched and no longer loaded. Target-pack behavior and performance still require the checks above.
