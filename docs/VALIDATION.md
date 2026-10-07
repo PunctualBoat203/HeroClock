@@ -2,14 +2,15 @@
 
 Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
 
-A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, synchronous Satsu execution and changed function bodies, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit twelve-test completion message because Forge can return exit code zero after a startup failure.
+A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, synchronous Satsu execution and changed function bodies, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI now requires the explicit thirteen-test completion message because Forge can return exit code zero after a startup failure.
 
-CI runs seven environments:
+CI runs eight environments:
 
 - HeroClock without optional mods.
-- Hash-pinned Palladium 4.5.9 and Curios 5.14.1.
-- The same Palladium code with only its version metadata changed to a synthetic `99.0.0`; matching optimizations must remain enabled. This is not a claim about an actual future release.
-- Palladium with the private PowerHandler backing field renamed throughout its class; that optimization must stay disabled while other matching patches still work and the server completes its tests.
+- Hash-pinned Palladium 4.5.9 and Curios 5.14.1 with Architectury 9.2.14.
+- Palladium without Architectury, preserving the separate Forge registry path.
+- The same Palladium and PalladiumCore code with only their version metadata changed to a synthetic `99.0.0`; matching optimizations must remain enabled. This is not a claim about an actual future release.
+- Palladium with the private PowerHandler backing field and PalladiumCore registrar field renamed throughout their classes; that optimization must stay disabled while other matching patches still work and the server completes its tests.
 
 Three additional scripting environments exercise the exact supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels and deliberately incompatible scripting targets. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. Rhino wrapper checks also cover all three cache-allocation constructor paths, live field reads, independent receivers/caches, zero/one-argument overloads, single-method storage, concurrent first-use publication and mutable scopes/prototypes. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
 
@@ -71,3 +72,11 @@ Mantis is a separate scripting replacement project, not part of this build. Exis
 The former Satsu shape-only check is replaced by actual function execution: an exact matching function must kill synchronously and return one executed command; a changed function must retain both commands, source and followup. The broad cancellation and deferred sentinel scheduling are removed. See [the profile and optimization audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the defect, current priorities and remaining validation limits.
 
 [Download the 2.2.23 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37681532074/artifacts/11509496450). Install only `HeroClock-2.2.23.jar` as a mod. Artifact ZIP SHA-256: `d83bde266166069cdc5c4d3339111646a377a82d4acb751364a18578269dae63`. The attached profile does not list HeroClock; no before/after TPS or FPS gain is claimed.
+
+## 2.2.24: bounded registry capacity hints
+
+[CI run 37695224729](https://github.com/PunctualBoat203/HeroClock/actions/runs/37695224729) passed at `ac7ba57279fecf30a89eda4bf7bb01137450e817`: unit/build/API packaging checks and all thirteen required GameTests in each of eight environments. Optional-mod tests skip where their dependencies are absent. Subsequent checkpoint edits are documentation-only.
+
+The new registry test verifies live reads, independent mutable snapshots, order, size growth/shrinkage, equal-size replacement and exception propagation. The new contract enables unchanged/relabelled PalladiumCore and declines a changed registrar field. Palladium also completes its runtime tests without Architectury. [Supplied-mod findings and scope](MOD_AUDIT_2026-10-07.md).
+
+[Download 2.2.24 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37695224729/artifacts/11515826153). Install only `HeroClock-2.2.24.jar` as a mod. Artifact ZIP SHA-256: `74fa01c8ce2ecc3173527a8bb95f91db4c4d7b37e7df160961842be9662e5a3c`. This is an allocation reduction with tested semantics, not a measured target-pack TPS/FPS result.

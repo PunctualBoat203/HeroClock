@@ -30,7 +30,7 @@ The new profile and retained-patch review are recorded in [OPTIMIZATION_AUDIT_20
 
 The 23-JAR `Needed Mods.zip` is inventoried in [MOD_AUDIT_2026-10-07.md](MOD_AUDIT_2026-10-07.md). Ninjago and FSang resources provide concrete command/selector leads. OmniOptimizer 1.8.2 has no bytecode patch overlapping the new target, but seven AlienEvo power resources differ between the mods and still require effective-pack verification.
 
-Version 2.2.24 adds guarded capacity hints for fresh PalladiumCore Architectury registry snapshots. It retains live traversal and original gameplay behavior. No suit/selector/gameplay result cache is introduced. The new eight-environment CI matrix requires thirteen GameTests and includes relabeled/changed PalladiumCore fixtures and Palladium without Architectury. This checkpoint is awaiting CI.
+Version 2.2.24 adds guarded capacity hints for fresh PalladiumCore Architectury registry snapshots. It retains live traversal and original gameplay behavior. No suit/selector/gameplay result cache is introduced. The new eight-environment CI matrix requires thirteen GameTests and includes relabeled/changed PalladiumCore fixtures and Palladium without Architectury. This checkpoint passed [CI run 37695224729](https://github.com/PunctualBoat203/HeroClock/actions/runs/37695224729) at `ac7ba57279fecf30a89eda4bf7bb01137450e817`; [2.2.24 runtime and API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37695224729/artifacts/11515826153). Subsequent checkpoint edits are documentation-only.
 
 ## Validation
 
