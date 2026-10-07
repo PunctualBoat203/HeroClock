@@ -1,6 +1,6 @@
 # HeroClock development handoff
 
-Author: PunctualBoat. Development version: **2.2.23** on `improve-clock-runtime`.
+Author: PunctualBoat. Development version: **2.2.24** on `improve-clock-runtime`.
 
 ## Current direction
 
@@ -26,9 +26,15 @@ See [INTEGRATION.md](INTEGRATION.md), [SCRIPTING.md](SCRIPTING.md) and [COMPATIB
 
 The new profile and retained-patch review are recorded in [OPTIMIZATION_AUDIT_2026-10-07.md](OPTIMIZATION_AUDIT_2026-10-07.md). The capture does not list HeroClock, so it cannot validate HeroClock performance. Commands/selectors and suit-set enumeration now take priority over the earlier phasing target. The Satsu sentinel redirect has been removed after finding observable execution differences; its old shape-only test is replaced with an actual command-execution regression.
 
+## Supplied-mod follow-up
+
+The 23-JAR `Needed Mods.zip` is inventoried in [MOD_AUDIT_2026-10-07.md](MOD_AUDIT_2026-10-07.md). Ninjago and FSang resources provide concrete command/selector leads. OmniOptimizer 1.8.2 has no bytecode patch overlapping the new target, but seven AlienEvo power resources differ between the mods and still require effective-pack verification.
+
+Version 2.2.24 adds guarded capacity hints for fresh PalladiumCore Architectury registry snapshots. It retains live traversal and original gameplay behavior. No suit/selector/gameplay result cache is introduced. The new eight-environment CI matrix requires thirteen GameTests and includes relabeled/changed PalladiumCore fixtures and Palladium without Architectury. This checkpoint is awaiting CI.
+
 ## Validation
 
-The retained runtime is based on the pre-replacement 2.2.19 checkpoint, plus declared-exception fingerprinting. CI again requires twelve GameTests in seven environments: base Forge, supplied Palladium/Curios, relabeled Palladium, changed Palladium, supplied scripting, relabeled scripting and changed scripting targets. Packaging checks also reject the removed runtime/API/mixin classes.
+The retained runtime is based on the pre-replacement 2.2.19 checkpoint, plus declared-exception fingerprinting. The preceding 2.2.22–2.2.23 matrix required twelve GameTests in seven environments: base Forge, supplied Palladium/Curios, relabeled Palladium, changed Palladium, supplied scripting, relabeled scripting and changed scripting targets. Packaging checks also reject the removed runtime/API/mixin classes.
 
 The 2.2.22 removal checkpoint passed [CI run 37563048110](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110) at `629507e1da658a480bac2d4184cad9904d4c2979`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Optional-mod tests skip where dependencies are absent. [Runtime and developer API download](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110/artifacts/11458136177). The 2.2.23 Satsu safety correction passed [CI run 37681532074](https://github.com/PunctualBoat203/HeroClock/actions/runs/37681532074) at `a43b5276b454c157b52ad781e5e16af3581c09b3`: unit/build/API checks and all twelve required GameTests in each of seven environments. [Download 2.2.23](https://github.com/PunctualBoat203/HeroClock/actions/runs/37681532074/artifacts/11509496450). See [VALIDATION.md](VALIDATION.md) for artifact details and target-pack checks. Target-pack TPS/FPS gains have not been measured.
 

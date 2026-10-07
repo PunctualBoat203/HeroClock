@@ -1,5 +1,27 @@
 [
   {
+    "mixin": "ArchRegistryValuesMixin",
+    "mod": "palladiumcore",
+    "target": "net.threetag.palladiumcore.compat.architectury.ArchRegistryWrapper",
+    "parent": "net/threetag/palladiumcore/registry/PalladiumRegistry",
+    "fields": [
+      {
+        "name": "registrar",
+        "descriptor": "Ldev/architectury/registry/registries/Registrar;",
+        "access": 18
+      }
+    ],
+    "methods": [
+      {
+        "name": "getValues",
+        "descriptor": "()Ljava/util/Collection;",
+        "fingerprint": "51d026fbc38f02aa147e255ccf1d2fdda50144eb50096a0eeb1d59e43cca9e3a"
+      }
+    ],
+    "minecraftMembers": [],
+    "exhaustiveMethods": false
+  },
+  {
     "mixin": "EntityPropertyHandlerMixin",
     "mod": "palladium",
     "target": "net.threetag.palladium.util.property.EntityPropertyHandler",

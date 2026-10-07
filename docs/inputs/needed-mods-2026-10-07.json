@@ -1,0 +1,144 @@
+{
+  "archive": "Needed Mods.zip",
+  "archive_sha256": "8f4af75ccab554e1e4da5f1a8a5b3c5e88b71b0c5e632cca8ac72a3bdc5b2054",
+  "mods": [
+    {
+      "file": "AlienEvo-1.1.3-forge.jar",
+      "mod_id": "alienevo",
+      "version": "1.1.2",
+      "sha256": "115a9b6526c8ea93ed22dda90e171a3a0bb88b1a3af69667224aea75df22dae0"
+    },
+    {
+      "file": "arrzenhanced-2.0.2.jar",
+      "mod_id": "arrzenhanced",
+      "version": "2.0.2",
+      "sha256": "9e67a4c9e7be26fbe3d1ed117ade0e66f90016d4f681c484bd23c10fca811c22"
+    },
+    {
+      "file": "dragonmounts-1.20.1-1.2.3-beta.jar",
+      "mod_id": "dragonmounts",
+      "version": "1.2.3-beta",
+      "sha256": "23aa1ba94bcf1e00766c4fab54d2e6491927e9106bfff2c2fd4db048f90ce524"
+    },
+    {
+      "file": "foi1ys_lanterns-0.5.2-forge.jar",
+      "mod_id": "foi1ys_lanterns",
+      "version": "0.5.2",
+      "sha256": "c12b4ba6cd500ddc00288bb13a16f66f69321cf1611b6e9c92703aab524b2389"
+    },
+    {
+      "file": "Fsang Plus V9.jar",
+      "mod_id": "fsang_improvements",
+      "version": "1.35.12",
+      "sha256": "f748312a6f5d73b6c376ffb099b722169409d3580cfda94e55c222b1e8a1384a"
+    },
+    {
+      "file": "FSang-DNA-Combination-V1.jar",
+      "mod_id": "fsang_dna_combination",
+      "version": "2.11.8",
+      "sha256": "dfd57ff17eec4da26edbd1394a557ff370f081cf3a24d60d7c6383fb75ae8342"
+    },
+    {
+      "file": "FSang18's Heroes v12.5.6.jar",
+      "mod_id": "fsang",
+      "version": "12.5.6",
+      "sha256": "3b728a9e043e6dd6b4853a996d199b8c945d84a220d5e90ba4743af251ef0742"
+    },
+    {
+      "file": "FSang18's Mighty Morphin' v1.6.1.jar",
+      "mod_id": "fsang_rangers",
+      "version": "1.6.1",
+      "sha256": "306215e309c044870dd9a6caa47a592de139e7385f387bfd484286f510eafa99"
+    },
+    {
+      "file": "FSang18's Power from Wisdom v1.0.1.jar",
+      "mod_id": "fsang_age",
+      "version": "1.0.1",
+      "sha256": "3b37bf48a75e0d0748b312c119b5436dd54e0e6ac1ffb06bf506fc3b9464e07b"
+    },
+    {
+      "file": "genshinv.jar",
+      "mod_id": "genshinv",
+      "version": "1.0.0",
+      "sha256": "b5709fb6cfb5652ca3423ff8fe53f7dc956c4dc97f6dd3508840a90b83f8a92d"
+    },
+    {
+      "file": "hulk-power-4.5.jar",
+      "mod_id": "hulkpower",
+      "version": "5.0",
+      "sha256": "48f94497bf3bb09644b69295dbf45cac91f0825a523faf39d02638e304bc0f44"
+    },
+    {
+      "file": "lantern_evo_compat-1.2.0.jar",
+      "mod_id": "lantern_evo_compat",
+      "version": "1.2.0",
+      "sha256": "1140de611308547bdf45b34b5e01ad0d0108c1ae9cb9dadc3084675a79ec98bf"
+    },
+    {
+      "file": "Neruina-2.1.2-forge+1.20.1.jar",
+      "mod_id": "neruina",
+      "version": "2.1.2",
+      "sha256": "668f473decda11ae55facd47248476bfbaac428fd90661a28b48b7c262d1ab36"
+    },
+    {
+      "file": "ninjagoanotherfix.jar",
+      "mod_id": "ninjago_palladium",
+      "version": "1.0.0",
+      "sha256": "7acf4a94b0dd9586148768cd2f10563e8d70958c12ebe2d120de040f30506d9e"
+    },
+    {
+      "file": "OmniOptimizer-1.8.2.jar",
+      "mod_id": "omnioptimizer",
+      "version": "1.8.2",
+      "sha256": "b60b0b29d5e9995e8d7c1dd37140d179694b2a1435f522c4b191631f14b6e768"
+    },
+    {
+      "file": "palladium-4.5.9+1.20.1-forge.jar",
+      "mod_id": "palladium",
+      "version": "4.5.9",
+      "sha256": "af99a7ba746404c9774cd737dcc1db2d1f6fb7963fdbfa1bbee6b5b9832e29c9"
+    },
+    {
+      "file": "pantheonsent-1.1.1+1.20.1-forge.jar",
+      "mod_id": "pantheonsent",
+      "version": "1.1.1",
+      "sha256": "3a323241a3bfe91afc0151c98779bef818d127f4816d71e9c15e630ff1639a02"
+    },
+    {
+      "file": "public_build_6_hotfix.jar",
+      "mod_id": "ionstrike",
+      "version": "1.0.0",
+      "sha256": "826e0fd28dc932ec5923d80162ad0e97fb7d044a53a7793672b8eb8be95fe2b0"
+    },
+    {
+      "file": "rangers-legacy-forge-1.20.1-public+beta1.jar",
+      "mod_id": "rangers_legacy",
+      "version": "0.1.0.0",
+      "sha256": "fde9e4d031fa00be127541f704b548cfaefb9a06341a24ebb00458ba5387f936"
+    },
+    {
+      "file": "Stand-Bound V1.1.3.jar",
+      "mod_id": "norfs_jojos",
+      "version": "1.1.2",
+      "sha256": "127fca3832420cbfbc5a4d412ea79509b6108e9a01f7544910668ac0b2a8fb4f"
+    },
+    {
+      "file": "strangearts-1.0.2.jar",
+      "mod_id": "strangearts",
+      "version": "1.0.2",
+      "sha256": "b0d0565b6fd15dcf1347ac41adf90c07306f65e5c34f832a4ca6d4169e243854"
+    },
+    {
+      "file": "stretchakln-tokustar.jar",
+      "mod_id": "stretchakln",
+      "version": "1.1.1",
+      "sha256": "a2e741c3f4471030f8dcd147d86de5db8fbdb8215f3a6de96912bc47575efe67"
+    },
+    {
+      "file": "True Symbioses V14.jar",
+      "mod_id": "symbioses",
+      "version": "5.19.2",
+      "sha256": "793f1119845ee86786981dadd880cc4789e7e58f5cec3e3f1922d59a186bf073"
+    }
+  ]
+}

@@ -7,6 +7,8 @@ This note records optimization targets for the Astra pass. It is a profiling roa
 
 ## Current priority update — October 7
 
+The supplied 23-JAR follow-up is recorded in [MOD_AUDIT_2026-10-07.md](MOD_AUDIT_2026-10-07.md), including concrete Ninjago/FSang resource paths and the narrow 2.2.24 allocation fix.
+
 Use [the new profile and retained-patch audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the next pass: command/selector work (including entity NBT and display-name predicates) comes first, followed by suit-set enumeration and serialization callers. The new capture does not list HeroClock and cannot measure its effect. The September figures below remain historical; their percentages use a different denominator. The former Satsu redirect was removed in 2.2.23 after an execution-semantics defect was found. Replacement scripting remains in Mantis.
 
 ## Profile context

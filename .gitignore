@@ -4,3 +4,4 @@ run/
 libs/
 *.log
 run-gametest/
+__pycache__/

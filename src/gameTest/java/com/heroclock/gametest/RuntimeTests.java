@@ -170,6 +170,60 @@ public final class RuntimeTests {
         helper.succeed();
     }
 
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void registryValuesRemainFreshAndIndependent(GameTestHelper helper) throws Exception {
+        var mods = net.minecraftforge.fml.ModList.get();
+        if (!mods.isLoaded("palladium") || !mods.isLoaded("architectury")) {
+            helper.assertTrue(!(Boolean.getBoolean("heroclock.testPalladium")
+                    && Boolean.getBoolean("heroclock.testArchitectury")), "Expected registry dependencies were not loaded");
+            helper.succeed(); return;
+        }
+        Object registry = Class.forName("net.threetag.palladium.item.SuitSet").getField("REGISTRY").get(null);
+        Class<?> type = registry.getClass();
+        helper.assertTrue(type.getName().equals("net.threetag.palladiumcore.compat.architectury.ArchRegistryWrapper"),
+                "Architectury registry path was not selected");
+        boolean changed = Boolean.getBoolean("heroclock.testChangedTarget");
+        String decision = com.heroclock.api.HeroIntegrationAPI.compatibility().get("ArchRegistryValuesMixin");
+        helper.assertTrue(decision != null && decision.startsWith(changed ? "disabled:" : "enabled:"),
+                "Registry code contract made the wrong decision");
+        var registrar = type.getDeclaredField(changed ? "heroclock_fixture_registrar" : "registrar");
+        registrar.setAccessible(true);
+        Object original = registrar.get(registry);
+        var values = new java.util.ArrayList<Object>();
+        var failure = new java.util.concurrent.atomic.AtomicReference<RuntimeException>();
+        Object fixture = java.lang.reflect.Proxy.newProxyInstance(type.getClassLoader(), new Class<?>[]{registrar.getType()},
+                (proxy, method, args) -> {
+                    if (!method.getName().equals("forEach")) throw new AssertionError("Unexpected registry query: " + method);
+                    if (failure.get() != null) throw failure.get();
+                    @SuppressWarnings("unchecked") var consumer = (java.util.function.Consumer<Object>) args[0];
+                    values.forEach(consumer);
+                    return null;
+                });
+        var getter = type.getMethod("getValues");
+        try {
+            registrar.set(registry, fixture);
+            java.util.Collection<?> previous = null;
+            for (int count : new int[]{0, 32, 70_000, 2, 2, 0}) {
+                values.clear();
+                for (int i = 0; i < count; i++) values.add(new Object());
+                var snapshot = (java.util.Collection<?>) getter.invoke(registry);
+                helper.assertTrue(snapshot instanceof java.util.ArrayList<?> && snapshot.equals(values),
+                        "Registry contents or iteration order changed");
+                helper.assertTrue(snapshot != previous, "Registry snapshots were reused");
+                snapshot.clear();
+                helper.assertTrue(values.size() == count, "Mutating the result changed the registry");
+                previous = snapshot;
+            }
+            var expected = new IllegalStateException("registry fixture failure");
+            failure.set(expected);
+            boolean propagated = false;
+            try { getter.invoke(registry); }
+            catch (java.lang.reflect.InvocationTargetException exception) { propagated = exception.getCause() == expected; }
+            helper.assertTrue(propagated, "Registry iteration failure was swallowed or replaced");
+        } finally { registrar.set(registry, original); }
+        helper.succeed();
+    }
+
     @GameTest(template = "empty", timeoutTicks = 60)
     public static void deferredFunctionsCoalesce(GameTestHelper helper) {
         var entity = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));

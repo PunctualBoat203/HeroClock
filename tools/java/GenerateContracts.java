@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -16,7 +17,21 @@ public final class GenerateContracts {
                                                    Set<String> fields, Set<String> methods) throws Exception {
         ClassNode node = new ClassNode();
         try (ZipFile zip = new ZipFile(jar)) {
-            new ClassReader(zip.getInputStream(zip.getEntry(target.replace('.', '/') + ".class"))).accept(node, 0);
+            String entry = target.replace('.', '/') + ".class";
+            if (target.startsWith("net.threetag.palladiumcore.")) {
+                try (var nested = new ZipInputStream(zip.getInputStream(zip.getEntry(
+                        "META-INF/jars/palladiumcore-forge-1.0.1+1.20.1-forge.jar")))) {
+                    boolean found = false;
+                    for (var member = nested.getNextEntry(); member != null; member = nested.getNextEntry()) {
+                        if (member.getName().equals(entry)) {
+                            new ClassReader(nested.readAllBytes()).accept(node, 0);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) throw new IllegalStateException("Missing nested target " + target);
+                }
+            } else new ClassReader(zip.getInputStream(zip.getEntry(entry))).accept(node, 0);
         }
         boolean exhaustive = methods.contains("*");
         if (exhaustive) {
@@ -47,6 +62,7 @@ public final class GenerateContracts {
 
     public static void main(String[] args) throws Exception {
         List<CompatibilityContract> contracts = List.of(
+            contract(args[0], "ArchRegistryValuesMixin", "palladiumcore", "net.threetag.palladiumcore.compat.architectury.ArchRegistryWrapper", Set.of("registrar"), Set.of("getValues")),
             contract(args[0], "EntityPropertyHandlerMixin", "palladium", "net.threetag.palladium.util.property.EntityPropertyHandler", Set.of(), Set.of("onChanged")),
             contract(args[0], "PowerHandlerMixin", "palladium", "net.threetag.palladium.power.PowerHandler", Set.of("powers"), Set.of("getPowerHolders")),
             contract(args[0], "CommandFunctionMixin", "palladium", "net.threetag.palladium.util.property.CommandFunctionProperty$CommandFunctionParsing", Set.of("commandFunction", "error"), Set.of("getCommandFunction")),

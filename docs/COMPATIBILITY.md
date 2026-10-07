@@ -18,3 +18,5 @@ Audited code inputs for the initial contracts:
 Static historical resource overrides are not made automatically compatible with arbitrary addon versions by these Java guards. Their validation boundaries remain documented separately.
 
 KubeJS and Rhino targets use the same independent contracts and have separate `heroclock.disableKubeJSOptimizations` and `heroclock.disableRhinoOptimizations` switches. These also disable their optional telemetry redirects. The embedded scripting API remains available even when an optional patch is rejected. See [SCRIPTING.md](SCRIPTING.md) for exact inputs.
+
+PalladiumCore's Architectury registry snapshot allocation is also independently code-guarded in 2.2.24. The patch retains a bounded numeric capacity hint, not registry values. It uses the existing Palladium disable switch. See [the supplied-mod audit](MOD_AUDIT_2026-10-07.md) for the exact nested JAR and behavior boundary.

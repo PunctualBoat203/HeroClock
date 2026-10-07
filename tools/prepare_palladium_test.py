@@ -23,6 +23,18 @@ def prepare(data):
     with zipfile.ZipFile(io.BytesIO(data)) as original:
         for filename, entry in NESTED.items():
             (TARGET / filename).write_bytes(original.read(entry))
+        core = original.read(NESTED["palladiumcore-1.0.1.jar"])
+        for variant in ("relabeled", "changed"):
+            with zipfile.ZipFile(io.BytesIO(core)) as source, zipfile.ZipFile(
+                    TARGET / f"palladiumcore-{variant}-1.0.1.jar", "w", zipfile.ZIP_DEFLATED) as fixture:
+                for entry in source.infolist():
+                    content = source.read(entry)
+                    if variant == "relabeled" and entry.filename == "META-INF/mods.toml":
+                        assert b'version = "1.0.1"' in content
+                        content = content.replace(b'version = "1.0.1"', b'version = "99.0.0"', 1)
+                    if variant == "changed" and entry.filename == "net/threetag/palladiumcore/compat/architectury/ArchRegistryWrapper.class":
+                        content = rename_constant(content, b"registrar", b"heroclock_fixture_registrar")
+                    fixture.writestr(copy.copy(entry), content)
         for variant in ("palladium", "palladium-relabeled", "palladium-changed"):
             with zipfile.ZipFile(TARGET / (variant + "-4.5.9.jar"), "w", zipfile.ZIP_DEFLATED) as development:
                 for entry in original.infolist():
