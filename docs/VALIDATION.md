@@ -2,7 +2,7 @@
 
 Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
 
-A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit twelve-test completion message because Forge can return exit code zero after a startup failure.
+A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, synchronous Satsu execution and changed function bodies, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit twelve-test completion message because Forge can return exit code zero after a startup failure.
 
 CI runs seven environments:
 
@@ -35,7 +35,7 @@ A production release still needs the real target pack to verify:
 6. Datapack reload and world reconnect rebuild command caches correctly.
 7. Exercise AlienEvo, Infinity, Infintrix, Satsu, Omni Evo, IntoTheOmniverse, CelestialSapien/MyPowers, Powerborne Heroes, Saiyan and PantheonSent gameplay paths that are actually present in target-pack. Watch for changed cadence, missing helper entities, stale effects, duplicate ability registration, command-function errors, and persistence differences.
 8. Run the same representative workload before/after HeroClock and compare server tick-time percentiles, packet counts, helper-entity counts, and client frame-time behavior.
-9. Verify OmniOptimizer 1.8.0 coexistence: overlapping work should not be duplicated, companion registration should succeed, and HeroClock's deadlines/bounded-work/Palladium optimizations should remain available.
+9. Verify coexistence with the installed OmniOptimizer version (the new capture uses 1.8.2; only 1.8.0 was previously inspected): overlapping work should not be duplicated, companion registration should succeed, and HeroClock's deadlines/bounded-work/Palladium optimizations should remain available.
 10. Only after the runtime pass, promote any newly discovered mod-specific redirect from experimental/contract-gated to supported.
 
 No live target-pack benchmark or in-game validation is claimed by the repository tests. The 1 ms work budget limits starting additional steps; it cannot bound an individual callback's execution time.
@@ -63,3 +63,11 @@ The custom owned runtime, standalone loader, automatic callback takeover and ass
 [Download the 2.2.22 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37563048110/artifacts/11458136177). Install only `HeroClock-2.2.22.jar` as a mod; the API JAR is compile-only and also embedded as an inert resource. Artifact ZIP SHA-256: `29d26a9cd7fb5630fe6e54420ad4e432d820ca0c9e26ee88e4acb38b6173c72b`.
 
 Mantis is a separate scripting replacement project, not part of this build. Existing experimental standalone script files are left untouched and no longer loaded. Target-pack behavior and performance still require the checks above.
+
+## 2.2.23: profile audit and Satsu execution correction
+
+[CI run 37681532074](https://github.com/PunctualBoat203/HeroClock/actions/runs/37681532074) passed at `a43b5276b454c157b52ad781e5e16af3581c09b3` on 2026-10-07: unit/build/API packaging checks and all twelve required GameTests in each of seven environments. This includes supplied, relabeled and changed scripting/Palladium targets and base Forge. Optional-mod checks skip when dependencies are absent. Subsequent checkpoint changes are documentation-only.
+
+The former Satsu shape-only check is replaced by actual function execution: an exact matching function must kill synchronously and return one executed command; a changed function must retain both commands, source and followup. The broad cancellation and deferred sentinel scheduling are removed. See [the profile and optimization audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the defect, current priorities and remaining validation limits.
+
+[Download the 2.2.23 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37681532074/artifacts/11509496450). Install only `HeroClock-2.2.23.jar` as a mod. Artifact ZIP SHA-256: `d83bde266166069cdc5c4d3339111646a377a82d4acb751364a18578269dae63`. The attached profile does not list HeroClock; no before/after TPS or FPS gain is claimed.
