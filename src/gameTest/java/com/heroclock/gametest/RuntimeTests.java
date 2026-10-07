@@ -16,6 +16,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @PrefixGameTestTemplate(false)
 public final class RuntimeTests {
     @GameTest(template = "empty", timeoutTicks = 60)
+    public static void iceSelectorsKeepCommandBehavior(GameTestHelper helper) throws Exception {
+        CommandResourceChecks.verify(helper);
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 60)
     public static void companionPowersPreserveResourcePriority(GameTestHelper helper) throws Exception {
         com.heroclock.resources.CompanionResourceChecks.verify(helper);
         helper.succeed();

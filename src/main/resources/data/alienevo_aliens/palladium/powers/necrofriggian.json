@@ -34,10 +34,10 @@
         "tag @s remove afomni.freeze_immunity"
       ],
       "commands": [
-        "execute if entity @e[tag=a.iceberg,distance=..128,limit=1] as @e[tag=a.iceberg,distance=..128] at @s run function afomni:iceberg/projectile_tick",
-        "execute if entity @a[scores={afomni.use_iceberg=1..},limit=1] as @a[scores={afomni.use_iceberg=1..}] at @s run function afomni:iceberg/tick",
+        "execute as @e[tag=a.iceberg,distance=..128] at @s run function afomni:iceberg/projectile_tick",
+        "execute as @a[scores={afomni.use_iceberg=1..}] at @s run function afomni:iceberg/tick",
         "execute if entity @e[type=armor_stand,tag=IceSpikes,distance=..128,limit=1] run scoreboard players add @e[type=armor_stand,tag=IceSpikes,distance=..128] afomni.IceSpikesStart 1",
-        "execute if entity @e[type=armor_stand,scores={afomni.IceSpikesStart=100..},distance=..128,limit=1] as @e[type=armor_stand,scores={afomni.IceSpikesStart=100..},distance=..128] run kill @s",
+        "execute as @e[type=armor_stand,scores={afomni.IceSpikesStart=100..},distance=..128] run kill @s",
         "execute if entity @e[tag=IceSpikeRay,distance=..128,limit=1] run function afomni:aliens/necrofriggian/ice_spike_raycast",
         "execute if entity @e[type=armor_stand,tag=ice_spike,distance=..128,limit=1] run function afomni:aliens/necrofriggian/ice_spikes"
       ]

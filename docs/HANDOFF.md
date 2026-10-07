@@ -34,7 +34,7 @@ Version 2.2.24 adds guarded capacity hints for fresh PalladiumCore Architectury 
 
 ## 2.2.25 resource compatibility
 
-HeroClock yields each of the seven overlapping power files only when OmniOptimizer supplies the exact audited resource bytes. It filters its own existing pack in place, preserving standalone definitions, client assets, other resources, the mergeable load tag and user datapack priority. Files are checked independently at pack creation, without a tick-time check or version allowlist. Missing, unreadable or changed companion resources retain the normal fallback. The new runtime regression exercises direct lookup, resource discovery, both companion/hero orders, higher-priority datapacks and partial fallback. CI validation is pending for this checkpoint.
+HeroClock yields each of the seven overlapping power files only when OmniOptimizer supplies the exact audited resource bytes. It filters its own existing pack in place, preserving standalone definitions, client assets, other resources, the mergeable load tag and user datapack priority. Files are checked independently at pack creation, without a tick-time check or version allowlist. Missing, unreadable or changed companion resources retain the normal fallback. The new runtime regression exercises direct lookup, resource discovery, both companion/hero orders, higher-priority datapacks and partial fallback. Three redundant existence pre-scans in the standalone Necrofriggian loop are also removed; the downstream selectors, command source and ability cadence are unchanged. The executable command regression checks empty, single and multiple matches, distance filtering, function executors, return values and permissions. CI validation is pending for this checkpoint.
 
 ## Validation
 
