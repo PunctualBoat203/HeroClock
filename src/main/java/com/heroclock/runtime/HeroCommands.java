@@ -4,8 +4,6 @@ import com.heroclock.HeroClock;
 import com.heroclock.api.HeroClockAPI;
 import com.heroclock.api.HeroFunctionAPI;
 import com.heroclock.api.HeroIntegrationAPI;
-import com.heroclock.api.HeroScriptAPI;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -59,27 +57,6 @@ public final class HeroCommands {
                         })))))
                     .then(literal("cancel").then(argument("key", ResourceLocationArgument.id())
                         .executes(context -> HeroFunctionAPI.cancel(context.getSource(), key(context)) ? 1 : 0))))
-                .then(literal("script")
-                    .then(literal("reload").executes(context -> {
-                        var status = HeroScriptAPI.reloadServerScripts(context.getSource().getServer());
-                        context.getSource().sendSuccess(() -> Component.literal("HeroClock scripts | engine "
-                                + status.engine() + " | loaded " + status.loaded() + " | failed " + status.failed()), false);
-                        return status.loaded();
-                    }))
-                    .then(literal("status").executes(context -> {
-                        var status = HeroScriptAPI.serverScripts(context.getSource().getServer());
-                        var takeover = HeroScriptAPI.takeover();
-                        context.getSource().sendSuccess(() -> Component.literal("HeroClock scripts | engine "
-                                + status.engine() + " | loaded " + status.loaded() + " | failed " + status.failed()
-                                + " | native proxies created " + takeover.nativeProxiesCreated()
-                                + " | direct listeners created " + takeover.directListenersCreated()), false);
-                        return status.loaded();
-                    }))
-                    .then(literal("emit")
-                    .then(argument("namespace", StringArgumentType.word())
-                    .then(argument("event", ResourceLocationArgument.id()).executes(context ->
-                        HeroScriptAPI.emit(context.getSource().getServer(), StringArgumentType.getString(context, "namespace"),
-                                ResourceLocationArgument.getId(context, "event").toString(), context.getSource()))))))
                 .then(literal("status").executes(context -> {
                     var source = context.getSource();
                     var status = HeroIntegrationAPI.workStatus(source.getServer());

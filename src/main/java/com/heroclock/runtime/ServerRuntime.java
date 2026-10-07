@@ -38,13 +38,11 @@ public final class ServerRuntime {
         if (server != null && work != null && current == server && work.size() != 0) {
             work.drain(HeroClockAPI.now(server), 128, 1_000_000);
         }
-        if (server != null) ScriptRuntimes.tick(server);
     }
 
     @SubscribeEvent
     public static void stop(ServerStoppedEvent event) {
         com.heroclock.SatsuAdapter.clear();
-        ScriptRuntimes.stop(event.getServer());
         if (current == event.getServer()) {
             work.clear();
             work = null;

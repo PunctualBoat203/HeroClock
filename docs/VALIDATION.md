@@ -1,19 +1,17 @@
 # Validation
 
-Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement. Owned listener tests additionally cover registration/removal during dispatch, argument isolation, listener bounds and recursion limits.
+Local pure-Java regression tests cover deadline arithmetic, legacy key normalization, unchanged immutable values versus mutable values, queue ordering, capacity, coalescing, cooperative time budgets, exceptions, cancellation, continuations and thread confinement.
 
-A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit sixteen-test completion message because Forge can return exit code zero after a startup failure.
+A separate GameTest source set exercises actual timers, NBT save/load, expiry, deferred steps, late helper tags, targeted block cleanup, datapack command permissions, cancelled/coalesced functions, Satsu function changes, Palladium caches and Curios backing-map replacement in headless Forge worlds. CI requires the explicit twelve-test completion message because Forge can return exit code zero after a startup failure.
 
-CI runs ten environments:
+CI runs seven environments:
 
 - HeroClock without optional mods.
 - Hash-pinned Palladium 4.5.9 and Curios 5.14.1.
 - The same Palladium code with only its version metadata changed to a synthetic `99.0.0`; matching optimizations must remain enabled. This is not a claim about an actual future release.
 - Palladium with the private PowerHandler backing field renamed throughout its class; that optimization must stay disabled while other matching patches still work and the server completes its tests.
 
-Six scripting environments exercise the supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels, deliberately incompatible combined targets, takeover explicitly disabled, a changed Rhino callback bridge with unchanged KubeJS, and Rhino alone with no KubeJS or Architectury. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. Rhino wrapper checks also cover all three cache-allocation constructor paths, live field reads, independent receivers/caches, zero/one-argument overloads, single-method storage, concurrent first-use publication and mutable scopes/prototypes. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
-
-Owned-runtime checks also cover Java registration without scripting mods, datapack command-source forwarding, direct Rhino arguments/this, tick events, coalesced jobs, batch cancellation, setup failure cleanup and unload/reload. A separate lock-wait regression verifies that an invalidated scope cannot start a waiting JavaScript callback. Automatic takeover checks compare original proxy identity, Object/default methods (including addon listener subinterfaces), return conversion, fresh receivers, custom wrap ordering, live object-member changes, checked exceptions/event exits, context locking and listener appends during dispatch. Standalone checks cover failed-file cleanup, pending setup cancellation, Java class loading, native Consumer batches, datapack-driven timer changes, reload and stop. Checks requiring an optional mod skip in environments without that mod.
+Three additional scripting environments exercise the exact supplied KubeJS/Rhino stack, unchanged code under synthetic new version labels and deliberately incompatible scripting targets. They check listener ordering/registration, live map IDs, original locking and exceptions, optional boundary measurements, JavaScript access to the embedded API and bounded callbacks across ticks. Rhino wrapper checks also cover all three cache-allocation constructor paths, live field reads, independent receivers/caches, zero/one-argument overloads, single-method storage, concurrent first-use publication and mutable scopes/prototypes. See [SCRIPTING.md](SCRIPTING.md) for the profile interpretation and supported developer hooks.
 
 Test classes, structures and modified dependency fixtures are excluded from the production artifacts. Palladium's nested libraries are extracted only for separate ForgeGradle development remapping. CI also checks that the compile-only API JAR contains only public facades/value records, while the runtime contains the implementation, contracts and refmap.
 
@@ -55,13 +53,3 @@ An earlier candidate failed its constructor injection count; explicit audited co
 [CI run 36290064908](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908) passed at `62727337bc14065667587afe41ff7b0f500f7ff9`: build/unit/API packaging checks and all twelve required GameTests in each of seven environments. Detail hooks enabled on matching and relabeled scripting code, rejected the incompatible fixtures, and were omitted without the startup switch.
 
 Tests cover receiver/collision counts, property labels, listener source attribution, original handled exceptions and event exits, disabled collection, immutable snapshots, bounded label cardinality/length and concurrent updates. [Runtime and API artifacts](https://github.com/PunctualBoat203/HeroClock/actions/runs/36290064908/artifacts/10921954054). This is a diagnostic checkpoint retaining the 2.2.18 optimizations, not evidence of additional performance gains.
-
-## 2.2.20 owned-runtime checkpoint
-
-[CI run 37526895955](https://github.com/PunctualBoat203/HeroClock/actions/runs/37526895955) passed on 2026-10-06 at `147e26c37ab59a193485cbfab224b3b73485e107`: build/unit checks, byte-identical standalone/embedded API verification and all fourteen required GameTests in each of seven environments. The final 2.2.20 evidence was recorded in a documentation-only follow-up.
-
-The owned Rhino binding enabled with supplied and relabeled scripting code. Its incompatible ScriptManager fixture rejected the binding and retained native KubeJS behavior. The Java runtime also passed without KubeJS/Rhino installed. Tests exercised setup failure cleanup without retries, immediate namespace validation, cancelled pending setup, callbacks invalidated while waiting for the context lock, unload/reload, direct callback arguments/this, tick events, coalesced scheduling and cancelled batches. Optional-mod tests skip when their dependencies are absent.
-
-[Download the 2.2.20 runtime and developer API](https://github.com/PunctualBoat203/HeroClock/actions/runs/37526895955/artifacts/11443945071). Install only `HeroClock-2.2.20.jar` as a mod; the API JAR is compile-only and is also embedded as an inert resource. Artifact ZIP SHA-256: `8ebb63da780674545f90fd3f97e2a50c909f2045359752d1b5863d4849479b8d`.
-
-This validates the integration and conservative fallback in the test fixtures. It does not establish target-pack TPS/FPS gains or compatibility with every custom loader/plugin. Use [OWNED_SCRIPTING.md](OWNED_SCRIPTING.md) for developer integration and the target-pack checks above before release.

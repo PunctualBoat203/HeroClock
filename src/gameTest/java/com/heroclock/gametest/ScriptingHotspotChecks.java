@@ -16,13 +16,10 @@ public final class ScriptingHotspotChecks {
     private ScriptingHotspotChecks() {}
 
     public static void run(GameTestHelper helper, boolean changed) throws Exception {
-        for (String patch : List.of("RhinoHotspotMixin")) {
+        for (String patch : List.of("RhinoHotspotMixin", "KubeListenerProfileMixin")) {
             helper.assertTrue(HeroIntegrationAPI.compatibility().getOrDefault(patch, "missing")
                     .startsWith(changed ? "disabled:" : "enabled:"), "Wrong detailed profiling gate: " + patch);
         }
-        boolean direct = HeroIntegrationAPI.compatibility().getOrDefault("KubeNativeDispatchMixin", "missing").startsWith("enabled:");
-        helper.assertTrue(HeroIntegrationAPI.compatibility().getOrDefault("KubeListenerProfileMixin", "missing")
-                .startsWith(changed || direct ? "disabled:" : "enabled:"), "Listener profiling route was not selected exclusively");
         HeroScriptAPI.resetHotspots();
         HeroScriptAPI.setHotspotProfilingEnabled(true);
         try {

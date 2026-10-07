@@ -15,9 +15,17 @@ def check():
         classes = {name for name in names if name.endswith(".class")}
         assert classes and all(name.startswith("com/heroclock/api/") for name in classes)
         assert names == classes | {"META-INF/MANIFEST.MF"}, "Implementation or mod resources leaked into API artifact"
-        for name in ("HeroClockAPI", "HeroWorkAPI", "HeroFunctionAPI", "HeroIntegrationAPI", "HeroScriptAPI", "HeroScriptRuntime"):
+        for name in ("HeroClockAPI", "HeroWorkAPI", "HeroFunctionAPI", "HeroIntegrationAPI", "HeroScriptAPI"):
             assert f"com/heroclock/api/{name}.class" in classes
         runtime_names = set(runtime.namelist())
+        removed = (
+            "com/heroclock/scripting/", "com/heroclock/api/HeroScriptRuntime",
+            "com/heroclock/runtime/ServerScripts", "com/heroclock/runtime/ScriptRuntimes",
+            "com/heroclock/runtime/ScriptListeners", "com/heroclock/runtime/ScriptTakeover",
+            "com/heroclock/mixin/KubeRuntimeMixin", "com/heroclock/mixin/KubeNativeDispatchMixin",
+            "com/heroclock/mixin/RhinoNativeCallbackMixin",
+        )
+        assert not any(name.startswith(removed) for name in runtime_names), "Removed scripting stack remains in runtime"
         assert classes <= runtime_names, "Runtime does not provide the advertised API"
         assert embedded_api in runtime_names, "Runtime does not contain the extractable API artifact"
         assert runtime.read(embedded_api) == api_path.read_bytes(), "Embedded API differs from standalone API artifact"
