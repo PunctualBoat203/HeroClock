@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = '2.2.22'
+version = '2.2.23'
 group = 'com.heroclock'
 base { archivesName = 'HeroClock' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)

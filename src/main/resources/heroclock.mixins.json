@@ -18,7 +18,6 @@
     "PropertyManagerMixin",
     "PowerHandlerMixin",
     "CommandFunctionMixin",
-    "ServerFunctionManagerMixin",
     "EntityLifecycleMixin"
   ],
   "injectors": {

@@ -1,6 +1,5 @@
 package com.heroclock.mixin;
 
-import com.heroclock.SatsuAdapter;
 import com.heroclock.runtime.TemporaryEntities;
 import com.heroclock.api.HeroClockAPI;
 import net.minecraft.world.entity.Entity;
@@ -19,20 +18,17 @@ abstract class EntityLifecycleMixin {
     private void heroclock$checkTemporaryEntity(CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (!entity.level().isClientSide && entity.level().getGameTime() >= heroclock$checkAt) {
-            heroclock$checkAt = Math.min(TemporaryEntities.check(entity), SatsuAdapter.check(entity));
+            heroclock$checkAt = TemporaryEntities.check(entity);
         }
     }
 
     @Inject(method = {"addTag", "removeTag"}, at = @At("RETURN"))
     private void heroclock$tagsChanged(String tag, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ() && (TemporaryEntities.handles(tag) || SatsuAdapter.handles(tag))) {
+        if (cir.getReturnValueZ() && TemporaryEntities.handles(tag)) {
             heroclock$checkAt = Long.MIN_VALUE;
             Entity entity = (Entity) (Object) this;
             if (!entity.level().isClientSide) {
-                if (SatsuAdapter.handles(tag) && entity.getTags().contains(tag)) {
-                    SatsuAdapter.check(entity);
-                }
-                if (TemporaryEntities.handles(tag) && !entity.getTags().contains(tag)) {
+                if (!entity.getTags().contains(tag)) {
                     HeroClockAPI.clear(entity, "cleanup." + tag);
                 }
             }

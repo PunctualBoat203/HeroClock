@@ -6,7 +6,7 @@ HeroClock authorizes each optional code optimization separately by the method bo
 
 Checks run before optional mixins are selected. Missing mods, missing contracts, changed methods/fields, inspection errors and explicit disable switches leave the original target behavior in place. Each decision is available through `/heroclock status` and `HeroIntegrationAPI.compatibility()`. A changed target does not disable unrelated optimizations. These are conservative compatibility checks, not proof that every interaction with other mods is safe; materially changed code needs review and a new audited contract.
 
-Satsu uses a runtime resource contract: the effective loaded `satsu_iron_man_addon:tick` must contain exactly one vanilla command entry, `kill @e[tag=sentinel_kill]`. Function object changes after reload are rechecked. Added/replaced commands retain the stock function. Already queued sentinel cleanup rechecks the current function before acting. Queue pressure also retains stock execution.
+The former Satsu sentinel redirect is removed in 2.2.23. Matching the function body did not preserve synchronous execution, executed-command counts or direct mutations of the exposed entity tag set. Satsu functions now execute through Minecraft unchanged; no deferred sentinel kills are scheduled. Historical resource overrides remain a separate concern.
 
 Audited code inputs for the initial contracts:
 

@@ -189,17 +189,27 @@ public final class RuntimeTests {
     }
 
     @GameTest(template = "empty", timeoutTicks = 40)
-    public static void satsuFunctionChangesRetainStockBehavior(GameTestHelper helper) {
+    public static void satsuFunctionsKeepSynchronousExecution(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
-        var source = server.createCommandSourceStack().withPermission(2);
+        var victim = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(2, 2, 2));
+        victim.setNoGravity(true);
+        var source = victim.createCommandSourceStack().withPermission(2).withSuppressedOutput();
         var id = new net.minecraft.resources.ResourceLocation("satsu_iron_man_addon", "tick");
         var original = net.minecraft.commands.CommandFunction.fromLines(id, server.getCommands().getDispatcher(), source,
                 java.util.List.of("kill @e[tag=sentinel_kill]"));
+        victim.getTags().add("sentinel_kill");
+        int originalResult = server.getFunctions().execute(original, source);
+        helper.assertTrue(originalResult == 1, "Matching function lost its executed-command count");
+        helper.assertTrue(!victim.isAlive(), "Matching function deferred or skipped the kill");
+        var survivor = helper.spawn(EntityType.ARMOR_STAND, new BlockPos(3, 2, 2));
+        survivor.setNoGravity(true);
+        source = survivor.createCommandSourceStack().withPermission(2).withSuppressedOutput();
         var changed = net.minecraft.commands.CommandFunction.fromLines(id, server.getCommands().getDispatcher(), source,
-                java.util.List.of("kill @e[tag=sentinel_kill]", "say additional gameplay"));
-        helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Matching function rejected");
-        helper.assertTrue(!com.heroclock.SatsuAdapter.matches(changed), "Changed function was suppressed");
-        helper.assertTrue(com.heroclock.SatsuAdapter.matches(original), "Function reload was not rechecked");
+                java.util.List.of("kill @e[tag=sentinel_kill]", "tag @s add heroclock_test_followup"));
+        helper.assertTrue(server.getFunctions().execute(changed, source) == 2, "Changed function lost command execution");
+        helper.assertTrue(survivor.getTags().contains("heroclock_test_followup"), "Changed function lost its executor or followup");
+        victim.discard();
+        survivor.discard();
         helper.succeed();
     }
 

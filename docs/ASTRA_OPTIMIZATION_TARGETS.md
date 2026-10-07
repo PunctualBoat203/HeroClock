@@ -5,6 +5,10 @@ Profile checkpoint: `profile-2026-09-24_01.16.05.sparkprofile` (single-player in
 
 This note records optimization targets for the Astra pass. It is a profiling roadmap, not a claim that every target can be safely patched.
 
+## Current priority update — October 7
+
+Use [the new profile and retained-patch audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the next pass: command/selector work (including entity NBT and display-name predicates) comes first, followed by suit-set enumeration and serialization callers. The new capture does not list HeroClock and cannot measure its effect. The September figures below remain historical; their percentages use a different denominator. The former Satsu redirect was removed in 2.2.23 after an execution-semantics defect was found. Replacement scripting remains in Mantis.
+
 ## Profile context
 
 The capture ran for about 31m50s in a very large pack (Spark reported 339 mod/library sources). The integrated server was genuinely overloaded, but the machine was also under severe memory pressure: roughly 99.4% physical RAM utilization and about 88% swap utilization with Minecraft launched around a 7.5 GiB max heap.
