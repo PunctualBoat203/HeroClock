@@ -1,0 +1,2801 @@
+{
+  "name": {
+    "text": "oxidite"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "#alienevo:alien_sel"
+  },
+  "energy_bars": {
+    "electric_meter": {
+      "max": 20000,
+      "color": "#ECAD00"
+    },
+    "electric_meter_charged": {
+      "max": 20000,
+      "color": "#005AEC"
+    }
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "alienevo:textures/gui/power_screen/power_screen.png",
+  "primary_color": "#8ed721",
+  "secondary_color": "#332e27",
+  "allow_bar_shrinking": false,
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/interface.png",
+  "abilities": {
+    "oxidite_loop": {
+      "type": "palladium:command",
+      "hidden": false,
+      "title": {
+        "translate": "species.alienevo_aliens.281"
+      },
+      "icon": "#alienevo:alien_sel",
+      "gui_position": [
+        0,
+        0
+      ],
+      "first_tick_commands": [
+        "scoreboard objectives add Oxidite.XP dummy",
+        "scoreboard objectives add Oxidite.Level dummy",
+        "scoreboard objectives add Oxidite.SkillPoint dummy",
+        "scale set pehkui:eye_height 0.47",
+        "scale set pehkui:hitbox_height 0.8",
+        "scale set pehkui:hitbox_width 1",
+        "scoreboard objectives add Oxide dummy",
+        "scoreboard players set @s Oxide 0",
+        "scoreboard objectives add copper_sword dummy",
+        "scoreboard objectives add copper_pickaxe dummy",
+        "scoreboard objectives add copper_axe dummy",
+        "scoreboard objectives add copper_shovel dummy",
+        "scoreboard objectives add copper_hoe dummy",
+        "scoreboard objectives add copper_catalyst dummy",
+        "scoreboard objectives add lightning_cd dummy",
+        "scoreboard objectives add copper_fe dummy",
+        "scoreboard objectives add tempOxide dummy",
+        "scoreboard objectives add damage minecraft.custom:minecraft.damage_taken",
+        "scoreboard players set @s copper_fe 0",
+        "scoreboard players set @s lightning_cd 0",
+        "scoreboard players add @s copper_fe 1",
+        "tag @s add oxidite",
+        "scoreboard objectives add Stormtimer dummy"
+      ],
+      "last_tick_commands": [
+        "scale reset pehkui:eye_height",
+        "scale reset pehkui:hitbox_height",
+        "scale reset pehkui:hitbox_width",
+        "scoreboard players set @s copper_fe 0",
+        "tag @s remove oxidite"
+      ],
+      "commands": [
+        "execute if entity @s[tag=oxidite] if predicate minecraft_mobs_pack:is_thundering run tag @s add Storm_copper",
+        "execute if entity @s[tag=oxidite] unless predicate minecraft_mobs_pack:is_thundering run tag @s remove Storm_copper",
+        "scoreboard players add @s[palladium.power=selfdestruct:prototype_omnitrix_sdm] AlienEvo.SelfDestruct 1",
+        "execute if score @s lightning_cd matches 1.. run scoreboard players remove @s lightning_cd 1"
+      ]
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "right_arm",
+        "left_arm",
+        "chest",
+        "chest_overlay",
+        "right_arm_overlay",
+        "left_arm_overlay",
+        "right_leg",
+        "left_leg",
+        "cape",
+        "right_leg_overlay",
+        "left_leg_overlay",
+        "head",
+        "head_overlay"
+      ],
+      "affects_first_person": true
+    },
+    "render_layer": {
+      "type": "palladium:render_layer",
+      "hidden": true,
+      "render_layer": "minecraft_mobs:aliens/alien_281/oxidite"
+    },
+    "size_change": {
+      "type": "palladium:size",
+      "title": "Size Change",
+      "hidden": true,
+      "scale": 1.1
+    },
+    "base_form": {
+      "type": "alienevo:omnitrix_detransform",
+      "icon": "#alienevo:detransform",
+      "title": {
+        "translate": "ability.alienevo.omnitrix.base_form"
+      },
+      "hidden": true,
+      "list_index": 4,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.BaseForm"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.MasterControl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "timeout_function": {
+      "type": "alienevo:omnitrix_timer",
+      "hidden": true
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": {
+        "translate": "species.alienevo_aliens.281"
+      },
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "alienevo:current_alien_nickname",
+                "value": "species.alienevo_aliens.281"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nickname": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": [
+        {
+          "nbt": "KubeJSPersistentData.alienevo_281",
+          "entity": "@s"
+        }
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "alienevo:current_alien_nickname",
+                    "value": "species.alienevo_aliens.281"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "slot_restriction": {
+      "type": "palladium:restrict_slots",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "slots": [
+        "head",
+        "chest",
+        "legs",
+        "feet",
+        "trinkets:head/hat",
+        "trinkets:head/face",
+        "trinkets:chest/back",
+        "trinkets:chest/necklace",
+        "trinkets:chest/cape",
+        "trinkets:hand/ring",
+        "trinkets:hand/glove",
+        "trinkets:offhand/glove",
+        "trinkets:offhand/ring",
+        "curios:hands"
+      ]
+    },
+    "copper_hurt_sound": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute at @s run playsound minecraft_mobs:copper_hurt player @a[distance=..6] ~ ~ ~",
+        "scoreboard players set @s damage 0"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "damage",
+            "min_score": 1
+          }
+        ]
+      }
+    },
+    "oxidation1_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -4,
+      "operation": 0,
+      "uuid": "d68db416-ca0b-4e94-be3d-5eac859b3d9e",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation"
+        }
+      }
+    },
+    "oxidation2_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -8,
+      "operation": 0,
+      "uuid": "0fe947c2-6036-48f6-a977-e2b205d7b675",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation2"
+        }
+      }
+    },
+    "oxidation1_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 5,
+      "operation": 0,
+      "uuid": "789515ca-2a56-4996-aab1-0f510ada30fa",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation"
+        }
+      }
+    },
+    "oxidation2_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 10,
+      "operation": 0,
+      "uuid": "861c0118-91ff-43da-8a05-04acf402f597",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation2"
+        }
+      }
+    },
+    "oxidation1_speed": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.movement_speed",
+      "amount": -0.03,
+      "operation": 0,
+      "uuid": "716edaee-137e-461c-995d-c1d59a009a7d",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation"
+        }
+      }
+    },
+    "oxidation2_speed": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.movement_speed",
+      "amount": -0.06,
+      "operation": 0,
+      "uuid": "a75d9c35-2b7a-43d6-ab39-1b55c97b8405",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation2"
+        }
+      }
+    },
+    "jump_oxidation": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "forge:entity_gravity",
+      "amount": 0.5,
+      "operation": 0,
+      "uuid": "19112c75-e5ae-48de-b649-d2762ff5fcad",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation"
+        }
+      }
+    },
+    "jump_oxidation2": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "forge:entity_gravity",
+      "amount": 1,
+      "operation": 0,
+      "uuid": "1a60f5cc-484f-44dc-a9b4-34cf1ea8f461",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "oxidation2"
+        }
+      }
+    },
+    "detectors_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Oxidite.Level=..10}] Oxidite.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "chest_detector"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "redstone_detector"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "metal_detector"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "crafting_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Oxidite.Level=..10}] Oxidite.XP 4"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_sword"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_axe"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_pickaxe"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_shovel"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_hoe"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_catalyst"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "storm1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "electric_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Oxidite.Level=..10}] Oxidite.XP 3"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "copper_telekinesis"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "telekinesis_throw"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "electric_shield_command"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "detectors_sound": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "playsound minecraft:block.beacon.power_select player @s ~ ~ ~ 1 2"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "chest_detector"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "redstone_detector"
+              },
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "metal_detector"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "chest_detector": {
+      "type": "palladium:command",
+      "icon": "minecraft:chest",
+      "title": "Chest detector",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add ChestDetector"
+      ],
+      "last_tick_commands": [
+        "tag @s remove ChestDetector"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 100,
+            "ticks": 400,
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_on_cooldown",
+                "power": "null",
+                "ability": "chest_detector"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "redstone_detector": {
+      "type": "palladium:command",
+      "icon": "minecraft:redstone",
+      "title": "Redstone detector",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add RedstoneDetector"
+      ],
+      "last_tick_commands": [
+        "tag @s remove RedstoneDetector"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 400,
+            "ticks": 200,
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_on_cooldown",
+                "power": "null",
+                "ability": "redstone_detector"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "redstone_unlock"
+          }
+        ]
+      }
+    },
+    "redstone_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:redstone",
+      "title": "\u00a7aRedstone detector",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -1.2,
+        2.4
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to locate redstone near you",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_health_unlock1"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "metal_detector": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/metal.png",
+      "title": "Metal detector",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add MetalDetector"
+      ],
+      "last_tick_commands": [
+        "tag @s remove MetalDetector"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 600,
+            "ticks": 100,
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_on_cooldown",
+                "power": "null",
+                "ability": "metal_detector"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "metal_unlock"
+          }
+        ]
+      }
+    },
+    "metal_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/metal.png",
+      "title": "\u00a7aMetal detector",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -2.4,
+        3.6
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to locate Iron, Gold and Copper near you for a brief time",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_health_unlock2"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "chest_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:chest",
+      "title": "\u00a7aChest detector",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        -0.6
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to locate Chests, Ender Chests, Barrels or Shulker Boxes near you",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxidite_loop"
+          }
+        ]
+      }
+    },
+    "oxide_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/oxidize.png",
+      "title": "\u00a7cOxidize",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        0
+      ],
+      "description": "\u00a7cYou oxidize over time, each state of oxidation will lock abilities, reduce health and speed, \u00a7abut it will give you more armor",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxidite_loop"
+          }
+        ]
+      }
+    },
+    "lightning_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/lightning.png",
+      "title": "\u00a7aCopper creature",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -1.2,
+        0
+      ],
+      "description": "\u00a7a(Passive) \u00a7fYou attract lightning when it's thundering, you get health regeneration and getting struck by \u00a73lightning \u00a7fwill charge your energy meter",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxide_tree"
+          }
+        ]
+      }
+    },
+    "energy_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:copper_ingot",
+      "title": "\u00a7aGenerate energy",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0.6,
+        0
+      ],
+      "description": "You generate \u00a76Forge Energy \u00a7apassively \u00a7fup to 20k, get strucked by \u00a73lightning \u00a7fto be able to generate 20k more",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxidite_loop"
+          }
+        ]
+      }
+    },
+    "energy_tree2": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:copper_ingot",
+      "title": "\u00a7aCharge energy",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1.2,
+        0
+      ],
+      "description": "\u00a7a(Right click) \u00a7fGain the ability to charge compatible blocks with \u00a76Forge Energy \u00a7a(This is for use with other mods, not having other mods doesn't affect the use of this alien)",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxidite_loop"
+          }
+        ]
+      }
+    },
+    "wheel_sensor": {
+      "type": "palladium:ability_wheel",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/detectors.png",
+      "title": "Detectors",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 0,
+      "gui_position": "null",
+      "description": "null",
+      "abilities": [
+        "chest_detector",
+        "redstone_detector",
+        "metal_detector"
+      ],
+      "texture": "null",
+      "disable_mouse_scrolling": false,
+      "disable_center_icon": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:crouching"
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lightning_damage_heal": {
+      "type": "palladium:healing",
+      "icon": "minecraft:apple",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "frequency": 20,
+      "amount": 3,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Storm_copper"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "fire_storm_immunity": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:is_fire"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "Storm_copper"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "fire_immunity": {
+      "type": "alienevo:fire_immunity",
+      "icon": "minecraft:air",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "lightning_ray": {
+      "type": "palladium:energy_beam",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/ray.png",
+      "title": "Lightning ray",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "null",
+      "energy_beam": "minecraft_mobs:lightning_beam",
+      "damage_type": "minecraft:lightning_bolt",
+      "damage": 5,
+      "max_distance": 30,
+      "speed": 0.5,
+      "set_on_fire_seconds": 0,
+      "cause_fire": true,
+      "smelt_blocks": true,
+      "commands_on_block_hit": [],
+      "commands_on_entity_hit": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false
+          },
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 1000
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:crouching"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "ray_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ray_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/ray.png",
+      "title": "\u00a7aLightning ray",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0.6,
+        1.8
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to use energy to use a powerful lightning ray",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "deoxidize_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "electric_shield_command": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/field.png",
+      "title": "Electric field",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "cws-particles @s main sparkle spark scream ECAD00 10 1 2"
+      ],
+      "last_tick_commands": [
+        "cws-particles-clear @s main"
+      ],
+      "commands": [
+        "execute as @e[tag=!oxidite,distance=..4] at @s run damage @s 5 minecraft:generic",
+        "execute as @e[tag=!oxidite,distance=..4] at @s facing entity @p feet if block ^ ^0.3 ^-1.5 minecraft:air run tp @s ^ ^0.3 ^-1.5",
+        "execute as @a at @s run effect give @e[type=!player,distance=..4] corewithstuff:electrocuted 5 0 true",
+        "execute if score @s copper_fe matches 20000.. run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter_charged 50",
+        "execute if score @s copper_fe matches ..19999 run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter 50",
+        "scoreboard players remove @s copper_fe 50"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          },
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 100,
+            "max_score": 2147483647
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:crouching"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_shield_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation"
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_shield_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/field.png",
+      "title": "\u00a7aEnergy field",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1.2,
+        2.4
+      ],
+      "description": "\u00a7a(Crouch) \u00a7fGain the ability to create an energy field around you which hurst anything that gets close",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "ray_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "ray_Commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute if score @s copper_fe matches 20000.. run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter_charged 20",
+        "execute if score @s copper_fe matches ..19999 run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter 20",
+        "scoreboard players remove @s copper_fe 20"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "lightning_ray"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "oxidation_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "scoreboard players add @s Oxide 1"
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "oxidation": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:ice",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:copper_golem",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "Oxide",
+            "min_score": 2000,
+            "max_score": 4000
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "oxidation2": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:ice",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:copper_golem2",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "Oxide",
+            "min_score": 4000,
+            "max_score": 2147483647
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "oxidation_removal": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:copper_axe",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "scoreboard players operation @s tempOxide = @s Oxide",
+        "execute if score @s tempOxide matches 4001.. run scoreboard players set @s Oxide 2000",
+        "execute if score @s tempOxide matches ..4000 run scoreboard players set @s Oxide 0"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:item_in_slot",
+            "item": {
+              "item": "minecraft_mobs:copper_axe"
+            },
+            "slot": "mainhand"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "deoxidize_unlock"
+          }
+        ]
+      }
+    },
+    "deoxidize_sound": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "execute at @s run playsound minecraft:item.axe.scrape player @a[distance=..6] ~ ~ ~"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "oxidation_removal"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "deoxidize_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:copper_axe",
+      "title": "\u00a7aDeoxidize",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        1.2
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to deoxidize using a copper axe",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "crafting_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "crafting_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/crafting.png",
+      "title": "\u00a7aCopper tinkerer",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        0.6
+      ],
+      "description": "\u00a7a(Keybind-hold) \u00a7fGain the ability to craft copper items",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "oxidite_loop"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "WHEEL": {
+      "type": "palladium:ability_wheel",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/crafting.png",
+      "title": "Copper tinkerer",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "null",
+      "abilities": [
+        "select_copper_sword",
+        "select_copper_pickaxe",
+        "select_copper_axe",
+        "select_copper_shovel",
+        "select_copper_hoe",
+        "select_copper_catalyst"
+      ],
+      "texture": "null",
+      "disable_mouse_scrolling": false,
+      "disable_center_icon": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:held",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:item_in_slot",
+                "item": {
+                  "item": "minecraft_mobs:copper_axe"
+                },
+                "slot": "mainhand"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "crafting_unlock"
+          }
+        ]
+      }
+    },
+    "copper_sword": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:copper_sword 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "copper_sword",
+      "icon": "minecraft_mobs:copper_sword",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_sword",
+            "min_score": 1
+          }
+        ]
+      }
+    },
+    "select_copper_sword": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft copper sword",
+      "icon": "minecraft_mobs:copper_sword",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_sword"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_sword": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_sword",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_sword"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_sword"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_pickaxe": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:copper_pickaxe 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "copper_pickaxe",
+      "icon": "minecraft_mobs:copper_pickaxe",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_pickaxe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "alienevo:is_crafted",
+            "craft_type": "crafted_copper_pickaxe"
+          }
+        ]
+      }
+    },
+    "select_copper_pickaxe": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft copper pickaxe",
+      "icon": "minecraft_mobs:copper_pickaxe",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_pickaxe"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_pickaxe": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_pickaxe",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_pickaxe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_pickaxe"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_axe": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:copper_axe 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "copper_axe",
+      "icon": "minecraft_mobs:copper_axe",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_axe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "alienevo:is_crafted",
+            "craft_type": "crafted_copper_axe"
+          }
+        ]
+      }
+    },
+    "select_copper_axe": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft copper axe",
+      "icon": "minecraft_mobs:copper_axe",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_axe"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_axe": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_axe",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_axe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_axe"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_shovel": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:copper_shovel 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "copper_shovel",
+      "icon": "minecraft_mobs:copper_shovel",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_shovel"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "alienevo:is_crafted",
+            "craft_type": "crafted_copper_shovel"
+          }
+        ]
+      }
+    },
+    "select_copper_shovel": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft copper shovel",
+      "icon": "minecraft_mobs:copper_shovel",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_shovel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_shovel": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_shovel",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_shovel"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_shovel"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_hoe": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:copper_hoe 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "copper_hoe",
+      "icon": "minecraft_mobs:copper_hoe",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_hoe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "alienevo:is_crafted",
+            "craft_type": "crafted_copper_hoe"
+          }
+        ]
+      }
+    },
+    "select_copper_hoe": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft copper hoe",
+      "icon": "minecraft_mobs:copper_hoe",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_hoe"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_hoe": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_hoe",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_hoe"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_hoe"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "copper_catalyst": {
+      "type": "palladium:command",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "first_tick_commands": [
+        "give @s minecraft_mobs:lightning_catalyst 1",
+        "playsound minecraft:entity.villager.work_shepherd master @a ~ ~ ~",
+        "playsound minecraft:entity.villager.work_toolsmith master @a ~ ~ ~",
+        "particle minecraft:crit ~ ~ ~ 0.5 0.8 0.5 0 100"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "title": "lightning_catalyst",
+      "icon": "minecraft_mobs:lightning_catalyst",
+      "bar_color": "orange",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_catalyst",
+            "min_score": 1
+          }
+        ]
+      }
+    },
+    "select_copper_catalyst": {
+      "type": "palladium:dummy",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Craft lightning catalyst",
+      "icon": "minecraft_mobs:lightning_catalyst",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "needs_empty_hand": false
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:or",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "craftFail"
+                  },
+                  {
+                    "type": "palladium:ability_enabled",
+                    "power": "null",
+                    "ability": "select_copper_catalyst"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "craft_copper_catalyst": {
+      "type": "minecraft_mobs:craft_blueprint",
+      "craft_type": "copper_catalyst",
+      "hidden": true,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "select_copper_catalyst"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "craftFail"
+              },
+              {
+                "type": "alienevo:is_crafted",
+                "craft_type": "crafted_copper_catalyst"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "storm_animation": {
+      "type": "geckolib:render_layer_animation",
+      "icon": "minecraft:lightning_rod",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "title": "Summon a storm",
+      "list_index": 1,
+      "render_layer": "minecraft_mobs:aliens/alien_281/oxidite",
+      "controller": "copper_move",
+      "animation_trigger": "copper_storm",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "storm1"
+          }
+        ]
+      }
+    },
+    "animation_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/storm.png",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "cws-particles @s main glitch electric_spark shield ECAD00 10 1 1",
+        "execute at @s run playsound minecraft_mobs:spin player @a[distance=..6] ~ ~ ~"
+      ],
+      "last_tick_commands": [
+        "cws-particles-clear @s main"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "storm_animation"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "storm1": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/storm.png",
+      "title": "Summon a storm",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "weather thunder",
+        "playsound minecraft_mobs:electric player @s ~ ~ ~ 0.2 0.7",
+        "playsound minecraft:block.beacon.power_select player @s ~ ~ ~ 1 2"
+      ],
+      "last_tick_commands": [
+        "weather clear"
+      ],
+      "commands": [
+        "execute if entity @s[tag=Storm_copper] run scoreboard players add @s Stormtimer 1",
+        "execute if entity @s[tag=Storm_copper,scores={Stormtimer=100..}] at @s run summon lightning_bolt ~ ~ ~",
+        "execute if entity @s[tag=Storm_copper,scores={Stormtimer=100..}] run scoreboard players set @s Stormtimer 0"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "cooldown": 600,
+            "ticks": 600,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:is_in_rain"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "storm1"
+              }
+            ]
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "storm_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation"
+              }
+            ]
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "storm_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/storm.png",
+      "title": "\u00a7aLiving conductor",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        2.4,
+        3.6
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to summon severe weather. While this ability is active, you will attract twice as much lightning as during a normal storm",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "telekinesis_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "storm2": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute if entity @s[tag=Storm_copper] run scoreboard players add @s Stormtimer 1",
+        "execute if entity @s[tag=Storm_copper,scores={Stormtimer=100..}] at @s run summon lightning_bolt ~ ~ ~",
+        "execute if entity @s[tag=Storm_copper,scores={Stormtimer=100..}] run scoreboard players set @s Stormtimer 0"
+      ]
+    },
+    "charge_energy": {
+      "type": "corewithstuff:charge_energy",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 4,
+      "directions": "look",
+      "objective": "copper_fe",
+      "item_fe": true,
+      "dropped_items_fe": true,
+      "block_fe": true,
+      "particles": "null",
+      "reset_on_finish": false,
+      "play_sound": true,
+      "sound_event": "minecraft:block.fire.extinguish",
+      "show_particles": false,
+      "aura_id": "charge_aura",
+      "particle_type": "smoke",
+      "particle_shape": "circle",
+      "aura_type": "aura",
+      "start_hex": "#FFFFFF",
+      "count": 10,
+      "particle_size": 1,
+      "visibility": 1,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:action",
+          "cooldown": 30,
+          "key_type": "right_click",
+          "needs_empty_hand": false,
+          "allow_scrolling_when_crouching": true
+        }
+      }
+    },
+    "energy_bar": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter 5000"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "charge_energy"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 0,
+            "max_score": 20000
+          }
+        ]
+      }
+    },
+    "energy_bar2": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter_charged 5000"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "charge_energy"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 20000,
+            "max_score": 40000
+          }
+        ]
+      }
+    },
+    "energy_command": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "energybar value add @s minecraft_mobs_pack:oxidite electric_meter 5",
+        "scoreboard players add @s copper_fe 5",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run scoreboard players set @s lightning_cd 30",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run energybar value add @s minecraft_mobs_pack:oxidite electric_meter 10000",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run scoreboard players add @s copper_fe 10000"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 0,
+            "max_score": 19999
+          }
+        ]
+      }
+    },
+    "energy_command2": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run scoreboard players set @s lightning_cd 30",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run energybar value add @s minecraft_mobs_pack:oxidite electric_meter_charged 10000",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] if score @s lightning_cd matches 0 run scoreboard players add @s copper_fe 10000"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 20000,
+            "max_score": 39999
+          }
+        ]
+      }
+    },
+    "copper_telekinesis": {
+      "type": "corewithstuff:telekinesis",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/telekinetic.png",
+      "title": "Telekinetic energy",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 0,
+      "gui_position": "null",
+      "description": "null",
+      "range": 7,
+      "strength": 0.8,
+      "damage": 2,
+      "reset": false,
+      "affect_players": true,
+      "affect_blocks": true,
+      "whitelist_enabled": false,
+      "whitelist": "value",
+      "blacklist_enabled": true,
+      "blacklist": "minecraft:bedrock,minecraft:barrier,minecraft:obsidian",
+      "particle": "minecraft:electric_spark",
+      "other_rgbs": "null",
+      "other_count": 1,
+      "other_speed": 1,
+      "dust": true,
+      "dust_rgbs": "1 1 0 1",
+      "dust_count": 10,
+      "dust_speed": 1,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:toggle",
+            "cooldown": 0,
+            "key_type": "key_bind",
+            "needs_empty_hand": false,
+            "allow_scrolling_when_crouching": true
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "telekinesis_throw"
+              }
+            ]
+          },
+          {
+            "type": "palladium:objective_score",
+            "objective": "copper_fe",
+            "min_score": 1000
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:crouching"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "telekinesis_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "oxidation2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "telekinesis_commands": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "execute if score @s copper_fe matches 20000.. run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter_charged 70",
+        "execute if score @s copper_fe matches ..19999 run energybar value subtract @s minecraft_mobs_pack:oxidite electric_meter 70",
+        "scoreboard players remove @s copper_fe 70"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "copper_telekinesis"
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "telekinesis_throw": {
+      "type": "corewithstuff:telekinesis_throw",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "throw_strength": 2,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:action",
+          "cooldown": 0,
+          "key_type": "right_click",
+          "needs_empty_hand": false,
+          "allow_scrolling_when_crouching": true
+        },
+        "unlocking": {
+          "type": "palladium:ability_unlocked",
+          "power": "null",
+          "ability": "telekinesis_unlock"
+        }
+      }
+    },
+    "throw_sound": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "playsound minecraft_mobs:throw player @a[distance=..10] ~ ~ ~ 0.5 1"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_first_tick",
+                "power": "null",
+                "ability": "telekinesis_throw"
+              },
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "copper_telekinesis"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "telekinesis_ray": {
+      "type": "palladium:energy_beam",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/telekinetic.png",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "null",
+      "energy_beam": "minecraft_mobs:telekinesis_beam",
+      "damage_type": "null",
+      "damage": 0,
+      "max_distance": 7,
+      "speed": 0.1,
+      "set_on_fire_seconds": 0,
+      "cause_fire": false,
+      "smelt_blocks": false,
+      "commands_on_block_hit": [],
+      "commands_on_entity_hit": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "copper_telekinesis"
+          }
+        ]
+      }
+    },
+    "telekinesis_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_281/telekinetic.png",
+      "title": "\u00a7aTelekinetic energy",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        1.8,
+        3
+      ],
+      "description": "\u00a7a(Crouch) \u00a7fGain the ability to make blocks or mobs levitate using energy, use \u00a7aright click \u00a7fto throw them",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_shield_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "default_health": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:feather",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.max_health",
+      "amount": -4,
+      "operation": 0,
+      "uuid": "1eda4bc4-b498-40c5-8735-c9bde05ccb20",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "default_armor": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:feather",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor",
+      "amount": 10,
+      "operation": 0,
+      "uuid": "0ab05b3b-6e9d-4fe0-a549-831f24ba5da3",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "default_tough": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:feather",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.armor_toughness",
+      "amount": 9,
+      "operation": 0,
+      "uuid": "76fd5e1e-9b72-4388-939d-5a5302d6b907",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "default_attack": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:feather",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.attack_damage",
+      "amount": 4,
+      "operation": 0,
+      "uuid": "e8076ddc-2c64-46b5-8db6-6e9e2758a785",
+      "conditions": {
+        "enabling": [],
+        "unlocking": []
+      }
+    },
+    "copper_health1": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.max_health",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 3,
+      "hidden": true,
+      "uuid": "a9b6d40f-f57f-4d13-a742-31052515d781",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_health_unlock1"
+          }
+        ]
+      }
+    },
+    "copper_health_unlock1": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:golden_apple",
+      "title": "\u00a7aHealth +3",
+      "description": "null",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -0.6,
+        1.8
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "deoxidize_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    },
+    "copper_health2": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.max_health",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 3,
+      "hidden": true,
+      "uuid": "bd26dd59-81f3-48e3-a4d0-5d2be56222e6",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "copper_health_unlock2"
+          }
+        ]
+      }
+    },
+    "copper_health_unlock2": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:golden_apple",
+      "title": "\u00a7aHealth +3",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -1.8,
+        3
+      ],
+      "description": "null",
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "redstone_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Oxidite.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eOxidite Skill Point"
+          }
+        ]
+      }
+    }
+  }
+}

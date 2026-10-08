@@ -1,0 +1,1 @@
+schedule function minecraft_mobs_pack:heroclock/tag_advancements 1s replace

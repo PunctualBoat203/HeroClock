@@ -1,0 +1,1716 @@
+{
+  "name": {
+    "text": "explosasapien"
+  },
+  "icon": {
+    "type": "palladium:texture",
+    "texture": "#alienevo:alien_sel"
+  },
+  "energy_bars": {
+    "charged_meter": {
+      "max": 1200,
+      "auto_increase_per_tick": 0,
+      "color": "#009dff"
+    }
+  },
+  "persistent_data": true,
+  "hidden": false,
+  "background": "alienevo:textures/gui/power_screen/power_screen.png",
+  "primary_color": "#8ed721",
+  "secondary_color": "#332e27",
+  "allow_bar_shrinking": false,
+  "ability_bar_texture": "alienevo:textures/gui/ability_bar/interface.png",
+  "abilities": {
+    "explosasapien_loop": {
+      "type": "palladium:command",
+      "hidden": false,
+      "title": {
+        "translate": "species.alienevo_aliens.296"
+      },
+      "icon": "#alienevo:alien_sel",
+      "gui_position": [
+        0,
+        0
+      ],
+      "first_tick_commands": [
+        "scoreboard objectives add Explosasapien.XP dummy",
+        "scoreboard objectives add Explosasapien.Level dummy",
+        "scoreboard objectives add Explosasapien.SkillPoint dummy",
+        "scale set pehkui:eye_height 0.82",
+        "scale set pehkui:hitbox_height 0.85",
+        "scale set pehkui:hitbox_width 1",
+        "scoreboard objectives add FireTimer dummy",
+        "scoreboard objectives add charged_timer dummy",
+        "scoreboard objectives add damage minecraft.custom:minecraft.damage_taken",
+        "tag @s remove force_explosion",
+        "tag @s remove dying",
+        "tag @s add explosasapien"
+      ],
+      "last_tick_commands": [
+        "scale reset pehkui:eye_height",
+        "scale reset pehkui:hitbox_height",
+        "scale reset pehkui:hitbox_width",
+        "tag @s remove charged",
+        "tag @s remove dying",
+        "scoreboard players set @s charged_timer 0",
+        "tag @s remove force_explosion",
+        "scoreboard objectives remove damage",
+        "tag @s remove explosasapien"
+      ],
+      "commands": [
+        "scoreboard players add @s[palladium.power=selfdestruct:prototype_omnitrix_sdm] AlienEvo.SelfDestruct 1"
+      ]
+    },
+    "hide_body": {
+      "type": "palladium:hide_body_part",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "body_parts": [
+        "right_arm",
+        "left_arm",
+        "chest",
+        "chest_overlay",
+        "right_arm_overlay",
+        "left_arm_overlay",
+        "right_leg",
+        "left_leg",
+        "cape",
+        "right_leg_overlay",
+        "left_leg_overlay",
+        "head",
+        "head_overlay"
+      ],
+      "affects_first_person": true
+    },
+    "render_layer": {
+      "type": "palladium:render_layer",
+      "hidden": true,
+      "render_layer": "minecraft_mobs:aliens/alien_296/explosasapien"
+    },
+    "size_change": {
+      "type": "palladium:size",
+      "title": "Size Change",
+      "hidden": true,
+      "scale": 1.08
+    },
+    "base_form": {
+      "type": "alienevo:omnitrix_detransform",
+      "icon": "#alienevo:detransform",
+      "title": {
+        "translate": "ability.alienevo.omnitrix.base_form"
+      },
+      "hidden": true,
+      "list_index": 4,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:action",
+            "key_type": "key_bind"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.BaseForm"
+              },
+              {
+                "type": "palladium:has_tag",
+                "tag": "AlienEvo.MasterControl"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "timeout_function": {
+      "type": "alienevo:omnitrix_timer",
+      "hidden": true
+    },
+    "name_change": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": {
+        "translate": "species.alienevo_aliens.296"
+      },
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "alienevo:current_alien_nickname",
+                "value": "species.alienevo_aliens.296"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "nickname": {
+      "type": "palladium:name_change",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "name": [
+        {
+          "nbt": "KubeJSPersistentData.alienevo_296",
+          "entity": "@s"
+        }
+      ],
+      "conditions": {
+        "enabling": [],
+        "unlocking": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "alienevo:current_alien_nickname",
+                    "value": "species.alienevo_aliens.296"
+                  }
+                ]
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:has_tag",
+                    "tag": "alienevo.nickname"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "slot_restriction": {
+      "type": "palladium:restrict_slots",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "slots": [
+        "head",
+        "chest",
+        "legs",
+        "feet",
+        "trinkets:head/hat",
+        "trinkets:head/face",
+        "trinkets:chest/back",
+        "trinkets:chest/necklace",
+        "trinkets:chest/cape",
+        "trinkets:hand/ring",
+        "trinkets:hand/glove",
+        "trinkets:offhand/glove",
+        "trinkets:offhand/ring",
+        "curios:hands"
+      ]
+    },
+    "lightning_inmunity": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:is_lightning",
+        "minecraft:is_fire"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:has_tag",
+          "tag": "charged"
+        }
+      }
+    },
+    "fire_tag": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add InFire",
+        "scoreboard players set @s FireTimer 0"
+      ],
+      "last_tick_commands": [
+        "tag @s remove InFire",
+        "scoreboard players set @s FireTimer 0"
+      ],
+      "commands": [
+        "scoreboard players add @s FireTimer 1"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:is_on_fire"
+        }
+      }
+    },
+    "creeper_hurt_sound": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute at @s run playsound minecraft:entity.creeper.hurt player @a[distance=..6] ~ ~ ~",
+        "scoreboard players set @s damage 0"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:objective_score",
+            "objective": "damage",
+            "min_score": 1
+          }
+        ]
+      }
+    },
+    "creeper_fire_explosion": {
+      "type": "alienevo:explosion",
+      "icon": "minecraft:tnt",
+      "title": "Creeper Explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": [
+        0,
+        1
+      ],
+      "description": "Explode",
+      "strength": 5,
+      "causes_fire": true,
+      "random_x_range": 0,
+      "random_y_range": 0,
+      "random_z_range": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "InFire"
+              },
+              {
+                "type": "palladium:command_result",
+                "command": "execute if score @s FireTimer matches 50.. run scoreboard players set @s FireTimer 0",
+                "comparison": "==",
+                "compare_to": 1,
+                "log": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "creeper_inmunity": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:player_explosion",
+        "minecraft:is_explosion"
+      ]
+    },
+    "renderLayer_lightning": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:explosasapien_charged",
+      "conditions": {
+        "unlocking": {
+          "type": "palladium:has_tag",
+          "tag": "charged"
+        }
+      }
+    },
+    "lightning_tag": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] unless entity @s[tag=charged] run tag @s add charged",
+        "execute at @s if entity @e[type=minecraft:lightning_bolt,distance=..2] unless entity @s[tag=charged] run scoreboard players set @s charged_timer 0"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:not",
+          "conditions": [
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "creeper_charged_lightning"
+            }
+          ]
+        }
+      }
+    },
+    "charged_timer_tick": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute if entity @s[tag=charged] run scoreboard players add @s charged_timer 1"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:not",
+          "conditions": [
+            {
+              "type": "palladium:ability_enabled",
+              "power": "null",
+              "ability": "creeper_charged_lightning"
+            }
+          ]
+        }
+      }
+    },
+    "lightning_remove": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute if score @s charged_timer matches 1200.. run tag @s remove charged",
+        "execute if score @s charged_timer matches 1200.. run scoreboard players set @s charged_timer 0"
+      ]
+    },
+    "lightning_bar": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "energybar value set @s minecraft_mobs_pack:explosasapien charged_meter 1200"
+      ],
+      "last_tick_commands": [],
+      "commands": [
+        "energybar value subtract @s minecraft_mobs_pack:explosasapien charged_meter 1"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:has_tag",
+          "tag": "charged"
+        }
+      }
+    },
+    "cat_detection": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "execute if entity @e[type=minecraft:cat,distance=..10] run tag @s add near_cat",
+        "execute if entity @e[type=minecraft:ocelot,distance=..10] run tag @s add near_cat",
+        "execute unless entity @e[type=minecraft:cat,distance=..10] unless entity @e[type=minecraft:ocelot,distance=..10] run tag @s remove near_cat"
+      ]
+    },
+    "cat_debuf": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [
+        "effect clear @s"
+      ],
+      "commands": [
+        "effect give @s minecraft:slowness infinite 2",
+        "effect give @s minecraft:nausea infinite",
+        "effect give @s minecraft:weakness infinite",
+        "effect give @s minecraft:darkness infinite"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:has_tag",
+          "tag": "near_cat"
+        }
+      }
+    },
+    "cat_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/cat.png",
+      "title": "\u00a7cAilurofobia",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        1.6,
+        -0.5
+      ],
+      "description": "\u00a7cWhen close to a cat, you will feel scared and won't be able to explode",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "bait_tree"
+          }
+        ]
+      }
+    },
+    "fire_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:flint_and_steel",
+      "title": "\u00a7cStrange anatomy",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.6,
+        -0.5
+      ],
+      "description": "\u00a7cWhen you are set on fire, you will explode uncontrollably until you burn out. You will also explode when touched by a flint and steel",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "lightning_unlock"
+          }
+        ]
+      }
+    },
+    "charged_speed": {
+      "type": "palladium:attribute_modifier",
+      "icon": "minecraft:iron_chestplate",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "attribute": "minecraft:generic.movement_speed",
+      "amount": 0.2,
+      "operation": 0,
+      "uuid": "40bcde4d-23ff-4ccb-b213-512615557555",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_charged_healing"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_speed_unlock"
+          }
+        ]
+      }
+    },
+    "charged_speed_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/speed.png",
+      "title": "\u00a7aCharged speed",
+      "description": "\u00a7a(Passive) \u00a7fGain the ability to run at great speed while charged",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        2.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_healing_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "trail": {
+      "type": "palladium:trail",
+      "list_index": 3,
+      "hidden": true,
+      "trail": "alienevo:xlr8_gradient",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "charged_speed"
+        }
+      }
+    },
+    "creeper_explosion": {
+      "type": "alienevo:explosion",
+      "icon": "minecraft:tnt",
+      "title": "Creeper explosion",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": 0,
+      "gui_position": [
+        0,
+        1
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fExplode",
+      "strength": 5,
+      "causes_fire": false,
+      "random_x_range": 0,
+      "random_y_range": 0,
+      "random_z_range": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 1,
+            "key_type": "key_bind",
+            "cooldown": 30
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "near_cat"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "explosasapien_loop"
+          }
+        ]
+      }
+    },
+    "creeper_explosion_flint": {
+      "type": "alienevo:explosion",
+      "icon": "minecraft:tnt",
+      "title": "Creeper Explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": [
+        0,
+        1
+      ],
+      "description": "Explode",
+      "strength": 5,
+      "causes_fire": false,
+      "random_x_range": 0,
+      "random_y_range": 0,
+      "random_z_range": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "force_explosion"
+          }
+        ]
+      }
+    },
+    "creeper_healing": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/heal.png",
+      "title": "Heal with Gunpowder",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "Heal with Gunpowder",
+      "first_tick_commands": [],
+      "last_tick_commands": [],
+      "commands": [
+        "clear @s minecraft:gunpowder 1",
+        "effect give @a minecraft:instant_health 1 1"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:activation",
+          "ticks": 1,
+          "cooldown": 500,
+          "key_type": "key_bind",
+          "needs_empty_hand": false
+        },
+        "unlocking": [
+          {
+            "type": "palladium:item_in_slot",
+            "item": {
+              "item": "minecraft:gunpowder"
+            },
+            "slot": "mainhand"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "healing_unlock"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "charged"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "healing_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/heal.png",
+      "title": "\u00a7aHeal using gunpowder",
+      "description": "\u00a7a(Keybind with gunpowder in hand) \u00a7fGain the ability to heal using gunpowder",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        2.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "generating_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "creeper_last_explosion": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s add dying"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:or",
+            "conditions": [
+              {
+                "type": "palladium:health",
+                "min_health": 0,
+                "max_health": 3
+              },
+              {
+                "type": "corewithstuff:is_dying"
+              }
+            ]
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "explosasapien_loop"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "last_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "fall_last_explosion": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:is_fall"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "creeper_last_explosion",
+            "min": 1,
+            "max": 100
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "last_explosion_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/last.png",
+      "title": "\u00a7aLast explosion",
+      "description": "\u00a7a(Passive) \u00a7fGain the ability to create a big explosion when you are about to die",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        -0.6
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "explosasapien_loop"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 2,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "creeper_not_dying": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [
+        "tag @s remove dying"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:health",
+          "min_health": 3,
+          "max_health": 20
+        }
+      }
+    },
+    "creeper_dying_explosion": {
+      "type": "alienevo:explosion",
+      "icon": "minecraft:tnt",
+      "title": "Creeper Explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": 0,
+      "gui_position": [
+        0,
+        1
+      ],
+      "description": "Explode",
+      "strength": 10,
+      "causes_fire": false,
+      "random_x_range": 0,
+      "random_y_range": 0,
+      "random_z_range": 0,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "dying"
+          },
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "creeper_last_explosion",
+            "min": 0,
+            "max": 1
+          }
+        ]
+      }
+    },
+    "creeper_bait": {
+      "type": "palladium:play_sound",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/sound.png",
+      "title": "Bait",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": [
+        1,
+        0
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fDo a bait",
+      "sound": "minecraft:entity.creeper.primed",
+      "volume": 2,
+      "pitch": 1,
+      "looping": true,
+      "play_self": false,
+      "play_others": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:activation",
+          "ticks": "20",
+          "cooldown": 100,
+          "key_type": "key_bind",
+          "needs_empty_hand": false
+        },
+        "unlocking": [
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "charged"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "bait_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/sound.png",
+      "title": "Bait",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        1,
+        0
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fDo a sound bait",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "explosasapien_loop"
+          }
+        ]
+      }
+    },
+    "creeper_generating": {
+      "type": "palladium:command",
+      "icon": "minecraft:gunpowder",
+      "title": "Generate Gunpowder",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": "null",
+      "description": "\u00a7a(Keybind) \u00a7fGenerate Gunpowder",
+      "first_tick_commands": [
+        "give @s minecraft:gunpowder 1"
+      ],
+      "last_tick_commands": [],
+      "commands": [],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:activation",
+          "cooldown": 1000,
+          "key_type": "key_bind",
+          "needs_empty_hand": false
+        },
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "charged"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "generating_unlock": {
+      "type": "palladium:dummy",
+      "title": "\u00a7aGenerate gunpowder",
+      "icon": "minecraft:gunpowder",
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to generate gunpowder",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        1.8
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Explosasapien.Level=..10}] Explosasapien.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "creeper_explosion"
+          }
+        ]
+      }
+    },
+    "gunpowder_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Explosasapien.Level=..10}] Explosasapien.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "creeper_generating"
+          }
+        ]
+      }
+    },
+    "charged_explosion_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Explosasapien.Level=..10}] Explosasapien.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "creeper_charged_explosion"
+          }
+        ]
+      }
+    },
+    "charged_headbutt_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Explosasapien.Level=..10}] Explosasapien.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "charged_headbutt"
+          }
+        ]
+      }
+    },
+    "charged_lightning_exp": {
+      "type": "palladium:command",
+      "hidden": true,
+      "commands": [
+        "scoreboard players add @s[scores={Explosasapien.Level=..10}] Explosasapien.XP 2"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_first_tick",
+            "power": "null",
+            "ability": "creeper_charged_lightning"
+          }
+        ]
+      }
+    },
+    "explosion_fall": {
+      "type": "palladium:damage_immunity",
+      "icon": "minecraft:potion",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "damage_sources": [
+        "minecraft:is_fall"
+      ],
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_on_cooldown",
+          "power": "null",
+          "ability": "creeper_explosion"
+        }
+      }
+    },
+    "armor_atri": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 6,
+      "hidden": true,
+      "uuid": "6c0d6b36-cdfc-48ce-bd2b-f1c194f87c78"
+    },
+    "more_armor": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.armor",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 3,
+      "hidden": true,
+      "uuid": "1616ae16-8182-4abe-8453-57e57d0d1079",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "more_armor_unlock"
+          }
+        ]
+      }
+    },
+    "more_armor_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:iron_chestplate",
+      "title": "\u00a7aDefense +3",
+      "description": "null",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1,
+        1
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "more_health": {
+      "type": "palladium:attribute_modifier",
+      "attribute": "minecraft:generic.max_health",
+      "icon": "minecraft:textures/item/iron_sword.png",
+      "amount": 3,
+      "hidden": true,
+      "uuid": "381c061e-e429-4655-84cc-3dccdaf0998a",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "more_health_unlock"
+          }
+        ]
+      }
+    },
+    "more_health_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:golden_apple",
+      "title": "\u00a7aHealth +3",
+      "description": "null",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1,
+        1
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "creeper_explosion"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "charged_explosion_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/explo.png",
+      "title": "\u00a7aCharged explosion",
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to do a charged explosion when charged",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        1.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "more_armor_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "charged_healing_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/heart.png",
+      "title": "\u00a7aCharged healing",
+      "description": "\u00a7a(Passive) \u00a7fGain the ability to heal very fast while charged",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        1.5,
+        1.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "more_health_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "charged_headbutt": {
+      "type": "alienevo:sonic_clap",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/head.png",
+      "title": "Charged headbutt",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 2,
+      "gui_position": "null",
+      "description": "null",
+      "radius": 10,
+      "damage": 3,
+      "fire_seconds": 0,
+      "tag_ex": "exclusion_tag",
+      "damage_type": "minecraft:player_attack",
+      "knockback": 4,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:activation",
+          "ticks": 1,
+          "key_type": "key_bind",
+          "cooldown": 30
+        },
+        "unlocking": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "charged"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_headbutt_unlock"
+          }
+        ]
+      }
+    },
+    "charged_headbutt_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/head.png",
+      "title": "\u00a7aCharged headbutt",
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to do a powerfull headbutt while charged",
+      "hidden_in_bar": true,
+      "hidden": false,
+      "list_index": -1,
+      "gui_position": [
+        -1.5,
+        2.5
+      ],
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_explosion_unlock"
+          },
+          {
+            "type": "palladium:scoreboard_score_buyable",
+            "objective": "Explosasapien.SkillPoint",
+            "score": 1,
+            "icon": "#alienevo:alien_sel",
+            "description": "\u00a7eExplosasapien Skill Point"
+          }
+        ]
+      }
+    },
+    "headbutt_particle": {
+      "type": "alienevo:particle_bridge",
+      "icon": "minecraft:end_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "particle_id": "explosion_emitter",
+      "search_radius": 20,
+      "max_targets": 1,
+      "density": 1,
+      "y_offset": -0.5,
+      "debug_mode": true,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "charged_headbutt"
+        }
+      }
+    },
+    "headbutt_sound": {
+      "type": "palladium:play_sound",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "sound": "minecraft:entity.generic.explode",
+      "volume": 1,
+      "pitch": 1,
+      "looping": false,
+      "play_self": false,
+      "play_others": false,
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_enabled",
+            "power": "null",
+            "ability": "charged_headbutt"
+          }
+        ]
+      }
+    },
+    "creeper_charged_lightning": {
+      "type": "palladium:command",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/lightning.png",
+      "title": "Charged lightning",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 3,
+      "gui_position": [
+        -1,
+        0
+      ],
+      "description": "Gain the ability to summon lightning around you while charged, it will uncharge you on use",
+      "first_tick_commands": [],
+      "last_tick_commands": [
+        "tag @s remove charged",
+        "scoreboard players set @s charged_timer 1200",
+        "energybar value set @s minecraft_mobs_pack:explosasapien charged_meter 0"
+      ],
+      "commands": [
+        "summon minecraft:lightning_bolt ~3 ~ ~3",
+        "summon minecraft:lightning_bolt ~2 ~ ~4",
+        "summon minecraft:lightning_bolt ~1 ~ ~5",
+        "summon minecraft:lightning_bolt ~0 ~ ~6",
+        "summon minecraft:lightning_bolt ~-1 ~ ~5",
+        "summon minecraft:lightning_bolt ~-2 ~ ~6",
+        "summon minecraft:lightning_bolt ~-3 ~ ~-3",
+        "summon minecraft:lightning_bolt ~-2 ~ ~-4",
+        "summon minecraft:lightning_bolt ~-1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~0 ~ ~-6",
+        "summon minecraft:lightning_bolt ~1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~2 ~ ~-6",
+        "summon minecraft:lightning_bolt ~3 ~ ~-3",
+        "summon minecraft:lightning_bolt ~2 ~ ~-4",
+        "summon minecraft:lightning_bolt ~1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~0 ~ ~-6",
+        "summon minecraft:lightning_bolt ~-1 ~ ~-5",
+        "summon minecraft:lightning_bolt ~-2 ~ ~-6",
+        "summon minecraft:lightning_bolt ~-3 ~ ~3",
+        "summon minecraft:lightning_bolt ~-2 ~ ~4",
+        "summon minecraft:lightning_bolt ~-1 ~ ~5",
+        "summon minecraft:lightning_bolt ~-0 ~ ~6",
+        "summon minecraft:lightning_bolt ~1 ~ ~5",
+        "summon minecraft:lightning_bolt ~2 ~ ~6",
+        "summon minecraft:lightning_bolt ~4 ~ ~0",
+        "summon minecraft:lightning_bolt ~-4 ~ ~0"
+      ],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:activation",
+            "ticks": 1,
+            "key_type": "key_bind",
+            "cooldown": 0
+          },
+          {
+            "type": "palladium:has_tag",
+            "tag": "charged"
+          }
+        ],
+        "unlocking": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "charged"
+          }
+        ]
+      }
+    },
+    "creeper_charged_lightning_remove": {
+      "type": "palladium:command",
+      "icon": "minecraft:command_block",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "first_tick_commands": [],
+      "last_tick_commands": [
+        "tag @s remove charged",
+        "scoreboard players set @s charged_timer 1200",
+        "energybar value set @s minecraft_mobs_pack:explosasapien charged_meter 0"
+      ],
+      "commands": [],
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:ability_ticks",
+            "power": "null",
+            "ability": "creeper_charged_lightning",
+            "min": 1,
+            "max": 60
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "lightning_unlock": {
+      "type": "palladium:dummy",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/lightning.png",
+      "title": "Charged lightning",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": [
+        -1,
+        0
+      ],
+      "description": "\u00a7a(Keybind) \u00a7fGain the ability to summon lightning around you while charged, it will uncharge you on use",
+      "conditions": {
+        "unlocking": {
+          "type": "palladium:ability_unlocked",
+          "power": "null",
+          "ability": "explosasapien_loop"
+        }
+      }
+    },
+    "creeper_charged_explosion": {
+      "type": "alienevo:explosion",
+      "icon": "minecraft_mobs:textures/gui/aliens/alien_296/explo.png",
+      "title": "Creeper charged Explosion",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": 1,
+      "gui_position": "null",
+      "description": "null",
+      "strength": 10,
+      "causes_fire": false,
+      "random_x_range": 0,
+      "random_y_range": 0,
+      "random_z_range": 0,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:activation",
+          "ticks": 1,
+          "key_type": "key_bind",
+          "cooldown": 30
+        },
+        "unlocking": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "charged"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_explosion_unlock"
+          }
+        ]
+      }
+    },
+    "creeper_charged_healing": {
+      "type": "palladium:healing",
+      "icon": "minecraft:apple",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "frequency": 20,
+      "amount": 3,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:has_tag",
+            "tag": "charged"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "more_health_unlock"
+          },
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "charged_healing_unlock"
+          }
+        ]
+      }
+    },
+    "camo_tree": {
+      "type": "palladium:dummy",
+      "icon": "minecraft:acacia_leaves",
+      "title": "\u00a7aCamo mode",
+      "bar_color": "light_gray",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": [
+        0,
+        0.5
+      ],
+      "description": "\u00a7a(Crouch) \u00a7fGain the ability to enter camo mode, mobs won't see you and you can walk through leaves. \u00a7cIf you move, mobs will detect you",
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_unlocked",
+            "power": "null",
+            "ability": "explosasapien_loop"
+          }
+        ]
+      }
+    },
+    "camo_leaves": {
+      "type": "palladium:intangibility",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "vertical": true,
+      "whitelist": "minecraft_mobs_pack:camo",
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_enabled",
+          "power": "null",
+          "ability": "creeper_camo"
+        }
+      }
+    },
+    "camo_invisibility": {
+      "type": "alienevo:invulnerable",
+      "icon": "minecraft:golden_apple",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": false,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:and",
+            "conditions": [
+              {
+                "type": "palladium:ability_enabled",
+                "power": "null",
+                "ability": "creeper_camo"
+              },
+              {
+                "type": "palladium:not",
+                "conditions": [
+                  {
+                    "type": "palladium:is_moving"
+                  },
+                  {
+                    "type": "palladium:has_movement_input"
+                  },
+                  {
+                    "type": "palladium:is_on_fire"
+                  },
+                  {
+                    "type": "palladium:is_under_water"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    },
+    "creeper_camo": {
+      "type": "palladium:render_layer",
+      "icon": "minecraft:blaze_rod",
+      "title": "null",
+      "bar_color": "light_gray",
+      "hidden": true,
+      "hidden_in_bar": true,
+      "list_index": -1,
+      "gui_position": "null",
+      "description": "null",
+      "render_layer": "minecraft_mobs:creeper_camo",
+      "conditions": {
+        "enabling": [
+          {
+            "type": "palladium:crouching"
+          },
+          {
+            "type": "palladium:not",
+            "conditions": [
+              {
+                "type": "palladium:has_tag",
+                "tag": "charged"
+              }
+            ]
+          }
+        ],
+        "unlocking": []
+      }
+    }
+  }
+}
