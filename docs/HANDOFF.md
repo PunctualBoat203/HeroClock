@@ -44,6 +44,8 @@ The 2.2.22 removal checkpoint passed [CI run 37563048110](https://github.com/Pun
 
 ## Next work
 
+The [October 8 server profile with HeroClock 2.2.25](PROFILE_2026-10-08.md) confirms sustained roughly 10 TPS over a three-minute capture. Command execution is 43.39% inclusive, selectors 29.75%, and suit provision 13.42%; these overlap. Existing registry allocation and property lookup hooks are visibly executing. This is a new diagnostic checkpoint, not a controlled before/after result. The unvalidated name-selector work remains isolated on `wip/name-selector-2.2.26`; see [its resumption note](NAME_SELECTOR_WIP.md). Prioritize owning function/NBT queries and broader suit traversal alongside that narrow prototype.
+
 The known seven HeroClock/OmniOptimizer resource conflicts are addressed. The large Ninjago/FSang NBT and name-selector workloads, broader suit enumeration and full target-pack performance measurement remain open. Do not describe this pass as covering every hotspot.
 
 Continue safe clock/optimization work in HeroClock. Keep replacement scripting work in Mantis and integrate through the existing public API once its concrete requirements exist. Use [the supplied Spark analysis](SCRIPTING_PROFILE_2026-09-24.md) and [Astra priorities](ASTRA_OPTIMIZATION_TARGETS.md) for measured hotspots. Preserve callback cadence, mutable state, synchronization and errors. Commit/push checkpoints and keep the current PR draft pending target-pack validation.

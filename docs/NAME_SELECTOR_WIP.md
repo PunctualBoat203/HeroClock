@@ -2,6 +2,8 @@
 
 This branch is a checkpoint, not a validated release. The user requested a safe pause on 2026-10-08. Do not merge or distribute this prototype until the checks below pass. The version remains 2.2.25; no new runtime build has been validated.
 
+The subsequent [server capture with 2.2.25](PROFILE_2026-10-08.md) confirms the existing registry/property hooks are executing and that command, NBT, suit and name-selector costs remain. It supports continued investigation of this prototype but does not validate it or establish its performance gain.
+
 The current tested release is HeroClock 2.2.25, validated by [CI run 37698770315](https://github.com/PunctualBoat203/HeroClock/actions/runs/37698770315). Its artifact is [HeroClock-2.2.25](https://github.com/PunctualBoat203/HeroClock/actions/runs/37698770315/artifacts/11516489394). The runtime implementation was committed as `b3af6fe206c5e72e288bd879bbd4ee322246cb64`; final handoff documentation followed in `db7b4a43df17eb0137d4b0a3b9f4a036445b356d`.
 
 The `improve-clock-runtime` branch was left at audit-only commit `32364fe7b567ccab712c0867b53fc76995553818`. [CI run 37724599626](https://github.com/PunctualBoat203/HeroClock/actions/runs/37724599626) passed for that audit checkpoint. This WIP branch contains the subsequent, uncompiled production changes.
