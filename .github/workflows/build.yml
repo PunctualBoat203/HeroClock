@@ -18,7 +18,7 @@ jobs:
         with:
           gradle-version: '8.8'
       - run: python tools/prepare_scripting_test.py
-      - run: gradle --no-daemon test build
+      - run: gradle --no-daemon -PauditSelectorCode test build
       - run: python tools/check_artifacts.py
       - name: Test supplied KubeJS and Rhino
         run: |

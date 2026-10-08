@@ -81,7 +81,13 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-tasks.named('test', Test) { useJUnitPlatform() }
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    if (project.hasProperty('auditSelectorCode')) {
+        systemProperty 'heroclock.auditSelectorCode', 'true'
+        testLogging.showStandardStreams = true
+    }
+}
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 tasks.named('processResources', ProcessResources) {
     exclude 'patches/**', 'HEROCLOCK_PATCH_NOTES.txt'
