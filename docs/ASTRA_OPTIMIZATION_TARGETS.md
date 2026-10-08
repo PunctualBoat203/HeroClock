@@ -9,7 +9,7 @@ This note records optimization targets for the Astra pass. It is a profiling roa
 
 The supplied 23-JAR follow-up is recorded in [MOD_AUDIT_2026-10-07.md](MOD_AUDIT_2026-10-07.md), including concrete Ninjago/FSang resource paths and the narrow 2.2.24 allocation fix.
 
-Use [the new profile and retained-patch audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the next pass: command/selector work (including entity NBT and display-name predicates) comes first, followed by suit-set enumeration and serialization callers. The new capture does not list HeroClock and cannot measure its effect. The September figures below remain historical; their percentages use a different denominator. The former Satsu redirect was removed in 2.2.23 after an execution-semantics defect was found. Replacement scripting remains in Mantis.
+Use [the new profile and retained-patch audit](OPTIMIZATION_AUDIT_2026-10-07.md) for the next pass: command/selector work (including entity NBT and display-name predicates) comes first, followed by suit-set enumeration and serialization callers. The new capture does not list HeroClock and cannot measure its effect. The September figures below remain historical; their percentages use a different denominator. The former Satsu redirect was removed in 2.2.23 after an execution-semantics defect was found. Replacement scripting remains in Mantis. The 2.2.24–2.2.25 follow-up reduces registry list growth, resolves seven audited OmniOptimizer resource conflicts and removes three redundant ice-ability selector pre-scans. The large Ninjago/FSang NBT/name-selector workloads and broader suit enumeration remain open; see [the supplied-mod follow-up](MOD_AUDIT_2026-10-07.md).
 
 ## Profile context
 

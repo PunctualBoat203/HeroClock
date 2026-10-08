@@ -17,6 +17,9 @@ The reobfuscated mod is `build/libs/HeroClock-2.2.25.jar`. CI uploads the built 
 
 ## Changes
 
+- Seven overlapping AlienEvo power definitions yield to OmniOptimizer only when its resource bytes match the audited files. Standalone fallbacks, user datapack priority and both load tags are preserved; changed files fall back independently.
+- Three redundant selector pre-scans are removed from the standalone Necrofriggian loop. The target selectors, function executors and tick cadence are retained.
+
 - PalladiumCore registry snapshots reuse a bounded previous-size hint to avoid repeated array growth. Each call still reads the live registry into a fresh mutable list; suit state, order and callback timing are unchanged. See [the supplied-mod follow-up](docs/MOD_AUDIT_2026-10-07.md).
 
 - The 2.2.23 audit restores stock Satsu function execution: the previous selector redirect could skip explicit calls, change return values and miss direct tag-set mutations. See [the new profile and audit](docs/OPTIMIZATION_AUDIT_2026-10-07.md).
@@ -35,7 +38,7 @@ See [API and behavior](docs/API.md), [validation](docs/VALIDATION.md), and [hand
 
 ## Integration and safeguards
 
-HeroClock checks each targeted method body and required field contract before enabling its optional patch. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
+HeroClock checks each optional code-optimization target's method body and required field contract before enabling that optimization. Changed or unknown targets keep original behavior. See [compatibility contracts](docs/COMPATIBILITY.md).
 
 A separate `HeroClock-2.2.25-api.jar` exposes supported timer, bounded-work, deferred-function and diagnostic facades for addon mods. Datapacks and addonpacks can use `/heroclock timer`, `/heroclock work` and `/heroclock status`. See [integration API v1](docs/INTEGRATION.md). The API artifact excludes implementation classes and is compile-only.
 

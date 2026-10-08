@@ -59,11 +59,9 @@ The Satsu regression test executes the original one-command function against a t
 
 Already available: Palladium **4.5.9**, KubeJS **2001.6.5-build.26**, Rhino **2001.2.3-build.10**, and audited Curios **5.14.1+1.20.1**. Their version labels match this capture. No need to resend those unless the installed binaries differ from the audited inputs in the compatibility/scripting docs.
 
-Please supply:
+The later supplied **23-JAR `Needed Mods.zip`**, including OmniOptimizer 1.8.2 and the Ninjago/FSang resources, is now audited in [MOD_AUDIT_2026-10-07.md](MOD_AUDIT_2026-10-07.md). Those JARs do not need resending.
 
-1. **OmniOptimizer 1.8.2 JAR**, the version in this capture. Earlier 1.8.0 inspection does not establish its current mixin/resource behavior.
-2. The active **datapacks, Palladium addonpacks, `kubejs/server_scripts` and `kubejs/startup_scripts`**, including locally changed resources. These are necessary to identify actual function IDs, selector strings, tick tags and script callers; Spark's Java stacks do not identify them reliably here. Include relevant addon JARs when they are the only container for those resources.
-3. A current **`/heroclock status` output and startup compatibility lines** once HeroClock is installed, followed by a comparable capture with the same scene/actions. This confirms which guards enabled before attempting a performance comparison.
+Loose world datapacks, Palladium addonpacks, `kubejs/server_scripts` and `kubejs/startup_scripts`, if installed outside those JARs, are not included in the archive. They can change the effective resources. A current `/heroclock status` output, startup compatibility lines and a comparable capture with the same scene/actions remain needed to measure the result once HeroClock is installed.
 
 Further addon-specific JAR requests should follow resource attribution, rather than asking for every installed mod. In particular, do not replace an entire entity query, power scan or serialization path based only on a large inclusive percentage.
 

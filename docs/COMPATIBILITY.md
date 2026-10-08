@@ -20,3 +20,9 @@ Static historical resource overrides are not made automatically compatible with 
 KubeJS and Rhino targets use the same independent contracts and have separate `heroclock.disableKubeJSOptimizations` and `heroclock.disableRhinoOptimizations` switches. These also disable their optional telemetry redirects. The embedded scripting API remains available even when an optional patch is rejected. See [SCRIPTING.md](SCRIPTING.md) for exact inputs.
 
 PalladiumCore's Architectury registry snapshot allocation is also independently code-guarded in 2.2.24. The patch retains a bounded numeric capacity hint, not registry values. It uses the existing Palladium disable switch. See [the supplied-mod audit](MOD_AUDIT_2026-10-07.md) for the exact nested JAR and behavior boundary.
+
+## Companion power resources
+
+In 2.2.25, the seven audited OmniOptimizer 1.8.2 AlienEvo power files have independent whole-file SHA-256 contracts in `OmniPowerResources`. Matching bytes work regardless of the companion version label. HeroClock yields only its own matching paths, leaving the companion and user datapacks untouched. Changed formatting also fails this conservative byte check; missing, unreadable or larger-than-1-MiB files retain normal resource selection. No installed resource is automatically learned as trusted.
+
+The optional Forge factory hook matches the exact supported method signature and filters the existing pack without changing its position. It leaves unmodified factory results untouched. Checks happen at pack creation and are reported in the startup/resource-loading log; they are separate from the Java optimization decisions exposed by `HeroIntegrationAPI`. Client assets, unrelated server data, pack metadata and the mergeable `minecraft:load` tag are preserved. Other historical resource overrides are not covered by these seven contracts.
