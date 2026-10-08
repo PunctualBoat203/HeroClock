@@ -22,8 +22,12 @@ public final class MethodFingerprint {
     private MethodFingerprint() {}
 
     public static String hash(MethodNode method, Names names) {
+        return hash(method, method.name, names);
+    }
+
+    public static String hash(MethodNode method, String canonicalName, Names names) {
         StringBuilder out = new StringBuilder();
-        append(out, method.access, method.name, method.desc);
+        append(out, method.access, canonicalName, method.desc);
         if (method.exceptions != null) {
             for (String exception : method.exceptions) append(out, "throws", exception);
         }

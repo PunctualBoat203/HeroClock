@@ -20,6 +20,7 @@ public final class CompatibilityGate {
     private CompatibilityGate() {}
 
     public static boolean allows(String mixin, String target) {
+        if (mixin.equals("NameSelectorMixin")) return allowsNameSelector(target);
         CompatibilityContract contract = CONTRACTS.get(mixin);
         if (contract == null || !contract.target().equals(target)) return reject(mixin, "no audited contract");
         if (Boolean.getBoolean("heroclock.disable" + (switch (contract.mod()) {
@@ -46,6 +47,27 @@ public final class CompatibilityGate {
             }
             String mismatch = contract.mismatch(node, (method, owner, name, descriptor) ->
                     aliases.getOrDefault(key(method, owner, name, descriptor), name));
+            if (mismatch != null) return reject(mixin, mismatch);
+            DECISIONS.put(mixin, "enabled: audited code contract matches");
+            LogUtils.getLogger().info("HeroClock {} enabled: audited code contract matches", mixin);
+            return true;
+        } catch (Exception | LinkageError failure) {
+            return reject(mixin, "inspection unavailable: " + failure.getClass().getSimpleName());
+        }
+    }
+
+    private static boolean allowsNameSelector(String target) {
+        String mixin = "NameSelectorMixin";
+        if (!target.equals(NameSelectorContract.SELECTOR.replace('/', '.'))) return reject(mixin, "unexpected target");
+        if (Boolean.getBoolean("heroclock.disableSelectorOptimizations")) return reject(mixin, "disabled by configuration");
+        try {
+            String mismatch = NameSelectorContract.mismatch(name -> {
+                try {
+                    return MixinService.getService().getBytecodeProvider().getClassNode(name.replace('/', '.'));
+                } catch (Exception | LinkageError unavailable) {
+                    return null;
+                }
+            });
             if (mismatch != null) return reject(mixin, mismatch);
             DECISIONS.put(mixin, "enabled: audited code contract matches");
             LogUtils.getLogger().info("HeroClock {} enabled: audited code contract matches", mixin);

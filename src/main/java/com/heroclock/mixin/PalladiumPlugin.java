@@ -13,6 +13,7 @@ public final class PalladiumPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (mixinClassName.endsWith(".NameSelectorMixin")) return CompatibilityGate.allows("NameSelectorMixin", targetClassName);
         if (!targetClassName.startsWith("net.threetag.palladium.")
                 && !targetClassName.startsWith("net.threetag.palladiumcore.")
                 && !targetClassName.startsWith("top.theillusivec4.curios.")
